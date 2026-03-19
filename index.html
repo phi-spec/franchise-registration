@@ -6,6 +6,7 @@
 <title>Go Global Holdings — International Franchise Registration</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 :root{--navy:#1a1a1a;--gold:#2aaa2a;--gold-light:#a8e6a8;--red:#e8294a;--bg:#f4f8f4;--white:#fff;--text:#1a1a1a;--muted:#6b7280;--border:#d4e8d4;--radius:12px;--shadow:0 4px 24px rgba(42,170,42,.12);}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -50,6 +51,13 @@ label .req{color:var(--red);margin-left:2px;}
 input[type=text],input[type=email],input[type=tel],input[type=date],input[type=url],input[type=number],select,textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;color:var(--text);background:var(--white);transition:border-color .2s;}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--navy);}
 input.error,select.error,textarea.error{border-color:var(--red);}
+/* ── PHONE COMBO ── */
+.phone-wrap{display:flex;gap:0;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;background:var(--white);transition:border-color .2s;}
+.phone-wrap:focus-within{border-color:var(--navy);}
+.phone-wrap.error{border-color:var(--red);}
+.phone-wrap select{width:auto;min-width:110px;max-width:130px;border:none;border-right:1.5px solid var(--border);border-radius:0;background:var(--bg);padding:11px 8px;font-size:13px;flex-shrink:0;}
+.phone-wrap select:focus{outline:none;border-color:transparent;box-shadow:none;}
+.phone-wrap input{border:none;border-radius:0;flex:1;min-width:0;}
 textarea{resize:vertical;min-height:100px;}
 select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
 .hint{font-size:12px;color:var(--muted);margin-top:2px;}
@@ -317,8 +325,20 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
           <input type="text" id="cityOther" placeholder="Type your city name" style="display:none;margin-top:6px;">
         </div>
         <div class="form-group"><label>Email Address <span class="req">*</span></label><input type="email" id="email" placeholder="your@email.com"></div>
-        <div class="form-group"><label>Mobile / WhatsApp <span class="req">*</span></label><input type="tel" id="phone" placeholder="+1 234 567 8900"></div>
-        <div class="form-group"><label>Secondary Phone</label><input type="tel" id="phone2" placeholder="+1 234 567 8900"></div>
+        <div class="form-group">
+          <label>Mobile / WhatsApp <span class="req">*</span></label>
+          <div class="phone-wrap" id="phoneWrap">
+            <select id="phoneCode"><option value="+65">🇸🇬 +65</option><option value="+60">🇲🇾 +60</option><option value="+62">🇮🇩 +62</option><option value="+66">🇹🇭 +66</option><option value="+63">🇵🇭 +63</option><option value="+84">🇻🇳 +84</option><option value="+95">🇲🇲 +95</option><option value="+855">🇰🇭 +855</option><option value="+856">🇱🇦 +856</option><option value="+673">🇧🇳 +673</option><option value="+971">🇦🇪 +971</option><option value="+966">🇸🇦 +966</option><option value="+974">🇶🇦 +974</option><option value="+965">🇰🇼 +965</option><option value="+973">🇧🇭 +973</option><option value="+968">🇴🇲 +968</option><option value="+91">🇮🇳 +91</option><option value="+92">🇵🇰 +92</option><option value="+880">🇧🇩 +880</option><option value="+94">🇱🇰 +94</option><option value="+86">🇨🇳 +86</option><option value="+852">🇭🇰 +852</option><option value="+853">🇲🇴 +853</option><option value="+886">🇹🇼 +886</option><option value="+81">🇯🇵 +81</option><option value="+82">🇰🇷 +82</option><option value="+44">🇬🇧 +44</option><option value="+1">🇺🇸 +1</option><option value="+61">🇦🇺 +61</option><option value="+64">🇳🇿 +64</option><option value="+27">🇿🇦 +27</option><option value="+234">🇳🇬 +234</option><option value="+254">🇰🇪 +254</option><option value="+33">🇫🇷 +33</option><option value="+49">🇩🇪 +49</option><option value="+31">🇳🇱 +31</option></select>
+            <input type="tel" id="phoneNumber" placeholder="9123 4567">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Secondary Phone</label>
+          <div class="phone-wrap">
+            <select id="phone2Code"><option value="+65">🇸🇬 +65</option><option value="+60">🇲🇾 +60</option><option value="+62">🇮🇩 +62</option><option value="+66">🇹🇭 +66</option><option value="+63">🇵🇭 +63</option><option value="+84">🇻🇳 +84</option><option value="+95">🇲🇲 +95</option><option value="+855">🇰🇭 +855</option><option value="+856">🇱🇦 +856</option><option value="+673">🇧🇳 +673</option><option value="+971">🇦🇪 +971</option><option value="+966">🇸🇦 +966</option><option value="+974">🇶🇦 +974</option><option value="+965">🇰🇼 +965</option><option value="+973">🇧🇭 +973</option><option value="+968">🇴🇲 +968</option><option value="+91">🇮🇳 +91</option><option value="+92">🇵🇰 +92</option><option value="+880">🇧🇩 +880</option><option value="+94">🇱🇰 +94</option><option value="+86">🇨🇳 +86</option><option value="+852">🇭🇰 +852</option><option value="+853">🇲🇴 +853</option><option value="+886">🇹🇼 +886</option><option value="+81">🇯🇵 +81</option><option value="+82">🇰🇷 +82</option><option value="+44">🇬🇧 +44</option><option value="+1">🇺🇸 +1</option><option value="+61">🇦🇺 +61</option><option value="+64">🇳🇿 +64</option><option value="+27">🇿🇦 +27</option><option value="+234">🇳🇬 +234</option><option value="+254">🇰🇪 +254</option><option value="+33">🇫🇷 +33</option><option value="+49">🇩🇪 +49</option><option value="+31">🇳🇱 +31</option></select>
+            <input type="tel" id="phone2" placeholder="9123 4567">
+          </div>
+        </div>
         <div class="form-group"><label>LinkedIn Profile URL</label><input type="url" id="linkedin" placeholder="https://linkedin.com/in/..."></div>
       </div>
     </div>
@@ -354,7 +374,13 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
         <div class="form-group"><label>Contact Name <span class="req">*</span></label><input type="text" id="contactName" placeholder="Full name"></div>
         <div class="form-group"><label>Job Title / Designation <span class="req">*</span></label><input type="text" id="contactTitle" placeholder="e.g. CEO, Director"></div>
         <div class="form-group"><label>Contact Email <span class="req">*</span></label><input type="email" id="contactEmail" placeholder="contact@company.com"></div>
-        <div class="form-group"><label>Contact Mobile <span class="req">*</span></label><input type="tel" id="contactPhone" placeholder="+1 234 567 8900"></div>
+        <div class="form-group">
+          <label>Contact Mobile <span class="req">*</span></label>
+          <div class="phone-wrap" id="contactPhoneWrap">
+            <select id="contactPhoneCode"><option value="+65">🇸🇬 +65</option><option value="+60">🇲🇾 +60</option><option value="+62">🇮🇩 +62</option><option value="+66">🇹🇭 +66</option><option value="+63">🇵🇭 +63</option><option value="+84">🇻🇳 +84</option><option value="+95">🇲🇲 +95</option><option value="+855">🇰🇭 +855</option><option value="+856">🇱🇦 +856</option><option value="+673">🇧🇳 +673</option><option value="+971">🇦🇪 +971</option><option value="+966">🇸🇦 +966</option><option value="+974">🇶🇦 +974</option><option value="+965">🇰🇼 +965</option><option value="+973">🇧🇭 +973</option><option value="+968">🇴🇲 +968</option><option value="+91">🇮🇳 +91</option><option value="+92">🇵🇰 +92</option><option value="+880">🇧🇩 +880</option><option value="+94">🇱🇰 +94</option><option value="+86">🇨🇳 +86</option><option value="+852">🇭🇰 +852</option><option value="+853">🇲🇴 +853</option><option value="+886">🇹🇼 +886</option><option value="+81">🇯🇵 +81</option><option value="+82">🇰🇷 +82</option><option value="+44">🇬🇧 +44</option><option value="+1">🇺🇸 +1</option><option value="+61">🇦🇺 +61</option><option value="+64">🇳🇿 +64</option><option value="+27">🇿🇦 +27</option><option value="+234">🇳🇬 +234</option><option value="+254">🇰🇪 +254</option><option value="+33">🇫🇷 +33</option><option value="+49">🇩🇪 +49</option><option value="+31">🇳🇱 +31</option></select>
+            <input type="tel" id="contactPhoneNumber" placeholder="9123 4567">
+          </div>
+        </div>
         <div class="form-group"><label>LinkedIn Profile</label><input type="url" id="contactLinkedIn" placeholder="https://linkedin.com/in/..."></div>
       </div>
     </div>
@@ -922,13 +948,16 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
     </div>
     <div class="email-copy-box">
       <h4>📧 Get a Copy of Your Application</h4>
-      <p>We'll open your email client with a full summary of your submitted application.</p>
+      <p>Enter your email address and we'll send a full summary directly to your inbox.</p>
       <div class="email-copy-row">
         <input type="email" id="copyEmailInput" placeholder="Your email address">
-        <button class="btn-send" onclick="sendApplicationCopy()">Send Copy →</button>
+        <button class="btn-send" id="btnSendCopy" onclick="sendApplicationCopy()">Send Copy →</button>
       </div>
       <div class="email-sent-state" id="emailSentState">
-        <span>✅</span> Email client opened — check your drafts or sent folder.
+        <span>✅</span> Sent! Check your inbox (and spam folder if needed).
+      </div>
+      <div class="email-sent-state" id="emailErrorState" style="background:#fef2f2;border-color:#fca5a5;color:#991b1b;">
+        <span>⚠️</span> <span id="emailErrorMsg">Could not send email. Please try again.</span>
       </div>
     </div>
   </div>
@@ -1327,8 +1356,17 @@ const state = {
 
 // ═════════════════════
 // INIT
+// ═══════════════════════════════════════
+// EMAILJS CONFIG — fill in after setup at emailjs.com
+// ═══════════════════════════════════════
+const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // Account → API Keys
+const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // Email Services tab
+const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // Email Templates tab
+
 // ═════════════════════
 document.addEventListener('DOMContentLoaded', () => {
+  // Init EmailJS
+  if (typeof emailjs !== 'undefined') emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
   buildProgress();
   buildCountryDropdowns();
   buildDobSelects();
@@ -1927,7 +1965,8 @@ function validateStep(step) {
       if (!v('firstName')) { alert('Please enter your first name.'); _focusField('firstName'); return false; }
       if (!v('lastName'))  { alert('Please enter your last name.'); _focusField('lastName'); return false; }
       if (!v('email'))     { alert('Please enter your email address.'); _focusField('email'); return false; }
-      if (!v('phone'))     { alert('Please enter your phone number.'); _focusField('phone'); return false; }
+      if (!v('phoneNumber')) { alert('Please enter your phone number.'); document.getElementById('phoneWrap')?.classList.add('error'); _focusField('phoneNumber'); return false; }
+      document.getElementById('phoneWrap')?.classList.remove('error');
       if (!v('nationality'))        { alert('Please select your nationality.'); _focusField('nationality'); return false; }
       if (!v('countryOfResidence')) { alert('Please select your country of residence.'); _focusField('countryOfResidence'); return false; }
       if (!v('dobDay')||!v('dobMonth')||!v('dobYear')) { alert('Please complete your date of birth.'); _focusField('dobDay'); return false; }
@@ -1936,7 +1975,8 @@ function validateStep(step) {
       if (!v('regNumber'))     { alert('Please enter your company registration number.'); _focusField('regNumber'); return false; }
       if (!v('contactName'))   { alert('Please enter the primary contact name.'); _focusField('contactName'); return false; }
       if (!v('contactEmail'))  { alert('Please enter the contact email address.'); _focusField('contactEmail'); return false; }
-      if (!v('contactPhone'))  { alert('Please enter the contact phone number.'); _focusField('contactPhone'); return false; }
+      if (!v('contactPhoneNumber')) { alert('Please enter the contact phone number.'); document.getElementById('contactPhoneWrap')?.classList.add('error'); _focusField('contactPhoneNumber'); return false; }
+      document.getElementById('contactPhoneWrap')?.classList.remove('error');
       if (!v('countryOfIncorp')) { alert('Please select the country of incorporation.'); _focusField('countryOfIncorp'); return false; }
     }
   }
@@ -1985,6 +2025,13 @@ function v(id) {
   return el && el.value && el.value.trim() !== '';
 }
 
+// Returns full phone string: code + number (e.g. "+65 9123 4567")
+function getPhone(codeId, numId) {
+  const code = document.getElementById(codeId)?.value || '';
+  const num  = document.getElementById(numId)?.value?.trim() || '';
+  return num ? code + ' ' + num : '';
+}
+
 // ═════════════════════
 // REVIEW & SCORE
 // ═════════════════════
@@ -2007,7 +2054,7 @@ function buildReview() {
     }).join('');
   const visitedVal = document.getElementById('visitedLocations')?.value || '—';
   // Helpers for fields used in multiple places
-  const phoneVal    = document.getElementById(state.applicantType==='individual'?'phone':'contactPhone')?.value||'—';
+  const phoneVal    = state.applicantType==='individual' ? (getPhone('phoneCode','phoneNumber')||'—') : (getPhone('contactPhoneCode','contactPhoneNumber')||'—');
   const emailVal    = document.getElementById(state.applicantType==='individual'?'email':'contactEmail')?.value||'—';
   const countryVal  = document.getElementById(state.applicantType==='individual'?'countryOfResidence':'countryOfIncorp')?.value||'—';
   // Source of funds checkboxes
@@ -2109,7 +2156,7 @@ function calcTerritoryScore() {
 }
 
 function calcCompletenessScore() {
-  const fields = ['firstName','lastName','email','phone','nationality','countryOfResidence','currentRole','yearsExp','whyFranchise','businessVision'];
+  const fields = ['firstName','lastName','email','phoneNumber','nationality','countryOfResidence','currentRole','yearsExp','whyFranchise','businessVision'];
   const filled = fields.filter(id => v(id)).length;
   const hasRegions = (state.territoryMode==='region' ? state.selectedRegions.length : state.selectedCountries.length) > 0 ? 1 : 0;
   const hasBrands = state.selectedBrands.length > 0 ? 1 : 0;
@@ -2139,7 +2186,13 @@ function submitForm() {
 
 function sendApplicationCopy() {
   const emailEl = document.getElementById('copyEmailInput');
+  const btn     = document.getElementById('btnSendCopy');
   const toEmail = emailEl.value.trim();
+
+  // Reset states
+  document.getElementById('emailSentState').classList.remove('show');
+  document.getElementById('emailErrorState').classList.remove('show');
+
   if (!toEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(toEmail)) {
     emailEl.style.borderColor = '#e53e3e';
     emailEl.focus();
@@ -2147,19 +2200,17 @@ function sendApplicationCopy() {
     return;
   }
 
-  const refNum = document.getElementById('refNumber')?.textContent || '—';
-  const ftLabels = {single_unit:'Single-Unit Franchise',multi_unit:'Multi-Unit Franchise',area_developer:'Area Developer',master_franchisee:'Master Franchisee'};
-  const fname = document.getElementById('firstName')?.value
+  const refNum    = document.getElementById('refNumber')?.textContent || '—';
+  const ftLabels  = {single_unit:'Single-Unit Franchise',multi_unit:'Multi-Unit Franchise',area_developer:'Area Developer',master_franchisee:'Master Franchisee'};
+  const fname     = document.getElementById('firstName')?.value
     ? document.getElementById('firstName').value + ' ' + (document.getElementById('lastName')?.value || '')
     : (document.getElementById('companyName')?.value || '—');
+  const territory = state.selectedCountries.length > 0
+    ? state.selectedCountries.join(', ')
+    : (state.selectedRegions.map(id => REGIONS.find(r=>r.id===id)?.label).filter(Boolean).join(', ') || '—');
+  const brands    = state.selectedBrands.map(id => BRANDS.find(b=>b.id===id)?.name).filter(Boolean).join(', ') || '—';
 
-  const territory = state.territoryMode === 'region'
-    ? (state.selectedRegions.map(id => REGIONS.find(r=>r.id===id)?.label).filter(Boolean).join(', ') || '—')
-    : (state.selectedCountries.join(', ') || '—');
-  const brands = state.selectedBrands.map(id => BRANDS.find(b=>b.id===id)?.name).filter(Boolean).join(', ') || '—';
-
-  const subject = encodeURIComponent('Go Global Holdings – Franchise Application Copy [' + refNum + ']');
-  const body = encodeURIComponent([
+  const bodyText = [
     'GO GLOBAL HOLDINGS – INTERNATIONAL FRANCHISE REGISTRATION',
     '='.repeat(55),
     '',
@@ -2170,7 +2221,7 @@ function sendApplicationCopy() {
     'Name / Company:     ' + fname,
     'Applicant Type:     ' + (state.applicantType || '—'),
     'Email:              ' + (document.getElementById(state.applicantType==='individual'?'email':'contactEmail')?.value || '—'),
-    'Phone:              ' + (document.getElementById(state.applicantType==='individual'?'phone':'contactPhone')?.value || '—'),
+    'Phone:              ' + (state.applicantType==='individual' ? (getPhone('phoneCode','phoneNumber')||'—') : (getPhone('contactPhoneCode','contactPhoneNumber')||'—')),
     'Country:            ' + (document.getElementById(state.applicantType==='individual'?'countryOfResidence':'countryOfIncorp')?.value || '—'),
     '',
     '── FRANCHISE PREFERENCES ─────────────────────────────',
@@ -2209,14 +2260,33 @@ function sendApplicationCopy() {
     'Please keep this email for your records.',
     'For enquiries: franchise@goglobal.com',
     '© Go Global Holdings – International Franchise Division',
-  ].join('\n'));
+  ].join('\n');
 
-  window.location.href = 'mailto:' + toEmail + '?subject=' + subject + '&body=' + body;
+  // Loading state
+  btn.disabled    = true;
+  btn.textContent = 'Sending…';
 
-  // Show confirmation state
-  setTimeout(() => {
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    to_email:            toEmail,
+    applicant_name:      fname,
+    ref_number:          refNum,
+    subject:             'Go Global Holdings – Franchise Application Copy [' + refNum + ']',
+    application_content: bodyText,
+  })
+  .then(() => {
+    btn.disabled    = false;
+    btn.textContent = 'Send Copy →';
     document.getElementById('emailSentState').classList.add('show');
-  }, 800);
+    emailEl.value = '';
+  })
+  .catch(err => {
+    btn.disabled    = false;
+    btn.textContent = 'Send Copy →';
+    const msg = (err && err.text) ? err.text : 'Could not send email. Please try again.';
+    document.getElementById('emailErrorMsg').textContent = msg;
+    document.getElementById('emailErrorState').classList.add('show');
+    console.error('EmailJS error:', err);
+  });
 }
 
 // ═════════════════════
