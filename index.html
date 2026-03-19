@@ -2182,8 +2182,9 @@ function submitForm() {
   s.classList.add('active','show');
   s.scrollIntoView({behavior:'smooth',block:'start'});
   updateProgress(10);
-  // Save to Wix CMS
+  // Save to Wix CMS + notify admin
   saveToWix(refNum);
+  sendAdminNotification(refNum);
 }
 
 function saveToWix(refNum) {
@@ -2232,6 +2233,82 @@ function saveToWix(refNum) {
   .then(r => r.json())
   .then(data => console.log('Saved to Wix:', data))
   .catch(err => console.warn('Wix save failed:', err));
+}
+
+function sendAdminNotification(refNum) {
+  const ADMIN_EMAIL = 'phi@nguyenphivan.com';
+  const ftLabels  = {single_unit:'Single-Unit Franchise',multi_unit:'Multi-Unit Franchise',area_developer:'Area Developer',master_franchisee:'Master Franchisee'};
+  const fname     = document.getElementById('firstName')?.value
+    ? document.getElementById('firstName').value + ' ' + (document.getElementById('lastName')?.value || '')
+    : (document.getElementById('companyName')?.value || '—');
+  const territory = state.selectedCountries.length > 0
+    ? state.selectedCountries.join(', ')
+    : (state.selectedRegions.map(id => REGIONS.find(r=>r.id===id)?.label).filter(Boolean).join(', ') || '—');
+  const brands    = state.selectedBrands.map(id => BRANDS.find(b=>b.id===id)?.name).filter(Boolean).join(', ') || '—';
+
+  const bodyText = [
+    'GO GLOBAL HOLDINGS – NEW FRANCHISE REGISTRATION',
+    '='.repeat(55),
+    '',
+    'REFERENCE NUMBER: ' + refNum,
+    'Submission Date: ' + new Date().toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'}),
+    '',
+    '── APPLICANT PROFILE ─────────────────────────────────',
+    'Name / Company:     ' + fname,
+    'Applicant Type:     ' + (state.applicantType || '—'),
+    'Email:              ' + (document.getElementById(state.applicantType==='individual'?'email':'contactEmail')?.value || '—'),
+    'Phone:              ' + (state.applicantType==='individual' ? (getPhone('phoneCode','phoneNumber')||'—') : (getPhone('contactPhoneCode','contactPhoneNumber')||'—')),
+    'Country:            ' + (document.getElementById(state.applicantType==='individual'?'countryOfResidence':'countryOfIncorp')?.value || '—'),
+    '',
+    '── FRANCHISE PREFERENCES ─────────────────────────────',
+    'Franchise Type:     ' + (ftLabels[state.franchiseType] || '—'),
+    'Opening Timeline:   ' + (document.getElementById('openingTimeline')?.value || '—'),
+    'Selected Brands:    ' + brands,
+    'Target Territory:   ' + territory,
+    'Primary Country:    ' + (document.getElementById('primaryCountry')?.value || '—'),
+    '',
+    '── FINANCIAL PROFILE ─────────────────────────────────',
+    'Liquid Capital:     ' + (state.liquidCapital || '—'),
+    'Net Worth:          ' + (state.netWorth || '—'),
+    'Source of Funds:    ' + (['src_savings','src_bank','src_inv','src_biz','src_prop','src_other'].filter(id=>document.getElementById(id)?.checked).map(id=>document.getElementById(id).closest('label').textContent.trim()).join(', ')||'—'),
+    'Ext. Financing:     ' + (document.getElementById('requiresFinancing')?.value || '—'),
+    '',
+    '── EXPERIENCE & BACKGROUND ───────────────────────────',
+    'Current Role:       ' + (document.getElementById('currentRole')?.value || '—'),
+    'Current Employer:   ' + (document.getElementById('currentEmployer')?.value || '—'),
+    'Industry:           ' + (state.selectedIndustries.join(', ') || '—'),
+    'Years Experience:   ' + (document.getElementById('yearsExp')?.value || '—'),
+    'Franchise Exp:      ' + ((() => { const el=document.getElementById('hasFranchiseExp'); return el?.value ? el.options[el.selectedIndex].text : '—'; })()),
+    ...INDUSTRY_EXP_CONFIG
+      .filter(cfg => state.selectedBrands.some(id => cfg.brandIds.includes(id)))
+      .map(cfg => cfg.title.padEnd(20).slice(0,20) + (document.getElementById(cfg.selectId)?.value || '—')),
+    'Brand Location Visit: ' + (document.getElementById('visitedLocations')?.value || '—'),
+    'Key Strengths:      ' + (state.selectedStrengths.join(', ') || '—'),
+    '',
+    '── VISION & MOTIVATION ───────────────────────────────',
+    'Operator Type:      ' + (document.getElementById('operatorType')?.value || '—'),
+    'Franchise Broker:   ' + (document.getElementById('hasBroker')?.value || '—') + (document.getElementById('brokerName')?.value ? ' — ' + document.getElementById('brokerName').value : ''),
+    'Heard About Us:     ' + (state.selectedHearAbout.join(', ') || '—'),
+    ...(document.getElementById('additionalInfo')?.value?.trim() ? ['', 'Additional Info:', document.getElementById('additionalInfo').value.trim()] : []),
+    '',
+    '='.repeat(55),
+    'Submitted via goglobalfranchise.com',
+  ].join('\n');
+
+  if (typeof emailjs === 'undefined') {
+    console.warn('EmailJS not loaded – admin notification skipped.');
+    return;
+  }
+
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    to_email:            ADMIN_EMAIL,
+    applicant_name:      fname,
+    ref_number:          refNum,
+    subject:             'New Registration: ' + fname + ' – ' + refNum,
+    application_content: bodyText,
+  })
+  .then(() => console.log('Admin notification sent for', refNum))
+  .catch(err => console.warn('Admin notification failed:', err));
 }
 
 function sendApplicationCopy() {
