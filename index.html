@@ -2182,6 +2182,56 @@ function submitForm() {
   s.classList.add('active','show');
   s.scrollIntoView({behavior:'smooth',block:'start'});
   updateProgress(10);
+  // Save to Wix CMS
+  saveToWix(refNum);
+}
+
+function saveToWix(refNum) {
+  const ftLabels = {single_unit:'Single-Unit Franchise',multi_unit:'Multi-Unit Franchise',area_developer:'Area Developer',master_franchisee:'Master Franchisee'};
+  const fname = document.getElementById('firstName')?.value
+    ? document.getElementById('firstName').value + ' ' + (document.getElementById('lastName')?.value || '')
+    : (document.getElementById('companyName')?.value || '');
+  const territory = state.selectedCountries.length > 0
+    ? state.selectedCountries.join(', ')
+    : state.selectedRegions.map(id => REGIONS.find(r=>r.id===id)?.label).filter(Boolean).join(', ');
+  const franchiseExpEl = document.getElementById('hasFranchiseExp');
+  const franchiseExpVal = franchiseExpEl?.value ? franchiseExpEl.options[franchiseExpEl.selectedIndex].text : '';
+  const srcFunds = ['src_savings','src_bank','src_inv','src_biz','src_prop','src_other']
+    .filter(id => document.getElementById(id)?.checked)
+    .map(id => document.getElementById(id).closest('label').textContent.trim())
+    .join(', ');
+
+  const payload = {
+    referenceNumber:  refNum,
+    submissionDate:   new Date().toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'}),
+    applicantType:    state.applicantType,
+    fullName:         fname,
+    email:            document.getElementById(state.applicantType==='individual'?'email':'contactEmail')?.value || '',
+    phone:            state.applicantType==='individual' ? (getPhone('phoneCode','phoneNumber')||'') : (getPhone('contactPhoneCode','contactPhoneNumber')||''),
+    country:          document.getElementById(state.applicantType==='individual'?'countryOfResidence':'countryOfIncorp')?.value || '',
+    franchiseType:    ftLabels[state.franchiseType] || '',
+    brands:           state.selectedBrands.map(id => BRANDS.find(b=>b.id===id)?.name).filter(Boolean).join(', '),
+    targetTerritory:  territory,
+    primaryCountry:   document.getElementById('primaryCountry')?.value || '',
+    liquidCapital:    state.liquidCapital || '',
+    netWorth:         state.netWorth || '',
+    sourceOfFunds:    srcFunds,
+    currentRole:      document.getElementById('currentRole')?.value || '',
+    yearsExperience:  document.getElementById('yearsExp')?.value || '',
+    keyStrengths:     state.selectedStrengths.join(', '),
+    operatorType:     document.getElementById('operatorType')?.value || '',
+    hearAboutUs:      state.selectedHearAbout.join(', '),
+    additionalInfo:   document.getElementById('additionalInfo')?.value?.trim() || '',
+  };
+
+  fetch('https://www.goglobalholdings.com/_functions/saveRegistration', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(payload),
+  })
+  .then(r => r.json())
+  .then(data => console.log('Saved to Wix:', data))
+  .catch(err => console.warn('Wix save failed:', err));
 }
 
 function sendApplicationCopy() {
