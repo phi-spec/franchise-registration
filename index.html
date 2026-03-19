@@ -1,0 +1,2320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go Global Holdings — International Franchise Registration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1a1a1a;--gold:#2aaa2a;--gold-light:#a8e6a8;--red:#e8294a;--bg:#f4f8f4;--white:#fff;--text:#1a1a1a;--muted:#6b7280;--border:#d4e8d4;--radius:12px;--shadow:0 4px 24px rgba(42,170,42,.12);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+/* ── HEADER ── */
+.header{background:#fff;padding:12px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:3px solid #2aaa2a;box-shadow:0 2px 12px rgba(0,0,0,.08);}
+.logo{display:flex;align-items:center;gap:0;}
+.logo img{height:60px;width:auto;object-fit:contain;}
+.logo-divider{width:1px;height:36px;background:#d4e8d4;margin:0 18px;}
+.logo-tagline{font-size:12px;color:#555;font-weight:500;letter-spacing:.3px;line-height:1.5;}
+.header-badge{background:rgba(42,170,42,.12);border:1px solid #2aaa2a;color:#1a7a1a;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:.5px;}
+/* ── PROGRESS ── */
+.progress-wrap{background:var(--white);border-bottom:1px solid var(--border);padding:18px 40px;}
+.progress-steps{display:flex;align-items:center;gap:0;overflow-x:auto;padding-bottom:4px;}
+.progress-steps::-webkit-scrollbar{height:4px;}
+.progress-steps::-webkit-scrollbar-track{background:var(--bg);}
+.progress-steps::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+.step-item{display:flex;align-items:center;flex-shrink:0;}
+.step-dot{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--muted);transition:all .3s;cursor:default;}
+.step-dot.active{border-color:#1a1a1a;background:#1a1a1a;color:var(--white);}
+.step-dot.done{border-color:var(--gold);background:var(--gold);color:var(--white);}
+.step-label{font-size:11px;color:var(--muted);margin-left:6px;white-space:nowrap;}
+.step-label.active{color:#1a1a1a;font-weight:600;}
+.step-connector{width:32px;height:2px;background:var(--border);margin:0 8px;flex-shrink:0;}
+.step-connector.done{background:var(--gold);}
+/* ── MAIN ── */
+.main{max-width:820px;margin:36px auto;padding:0 20px 60px;}
+.form-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:40px;display:none;}
+.form-card.active{display:block;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.step-header{margin-bottom:28px;padding-bottom:20px;border-bottom:2px solid var(--bg);}
+.step-num{font-size:12px;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.step-title{font-size:26px;font-weight:700;color:var(--navy);}
+.step-desc{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.6;}
+/* ── FORM ELEMENTS ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.form-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.full{grid-column:1/-1;}
+label{font-size:13px;font-weight:600;color:var(--text);}
+label .req{color:var(--red);margin-left:2px;}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=url],input[type=number],select,textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;color:var(--text);background:var(--white);transition:border-color .2s;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--navy);}
+input.error,select.error,textarea.error{border-color:var(--red);}
+textarea{resize:vertical;min-height:100px;}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
+.hint{font-size:12px;color:var(--muted);margin-top:2px;}
+.err-msg{font-size:12px;color:var(--red);margin-top:2px;display:none;}
+/* ── RADIO / CHECKBOX CARDS ── */
+.type-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+.type-card{border:2px solid var(--border);border-radius:var(--radius);padding:20px;cursor:pointer;transition:all .25s;position:relative;}
+.type-card:hover{border-color:var(--navy);background:#f9fbff;}
+.type-card.selected{border-color:var(--navy);background:#eef2ff;}
+.type-card input{position:absolute;opacity:0;pointer-events:none;}
+.type-card .tc-icon{font-size:28px;margin-bottom:10px;}
+.type-card .tc-title{font-size:15px;font-weight:700;color:var(--navy);}
+.type-card .tc-desc{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5;}
+.type-card .tc-check{width:20px;height:20px;border:2px solid var(--border);border-radius:50%;position:absolute;top:14px;right:14px;display:flex;align-items:center;justify-content:center;}
+.type-card.selected .tc-check{background:var(--navy);border-color:var(--navy);}
+.type-card.selected .tc-check::after{content:'✓';font-size:11px;color:var(--white);font-weight:700;}
+/* ── BRAND CARDS ── */
+.brand-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.brand-card{border:2px solid var(--border);border-radius:var(--radius);padding:14px 10px;cursor:pointer;transition:all .25s;text-align:center;position:relative;background:var(--white);}
+.brand-card:hover{border-color:#2aaa2a;transform:translateY(-2px);box-shadow:0 6px 16px rgba(42,170,42,.12);}
+.brand-card.selected{border-color:#2aaa2a;background:#f2fbf2;}
+.brand-card.selected::after{content:'✓';position:absolute;top:8px;right:8px;width:22px;height:22px;background:#2aaa2a;color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;line-height:22px;}
+.brand-logo-wrap{height:64px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.brand-logo-wrap img{max-height:60px;max-width:100%;object-fit:contain;}
+.brand-name{font-size:12px;font-weight:700;color:#1a1a1a;line-height:1.3;}
+.brand-cat{font-size:10px;color:var(--muted);margin-top:3px;}
+.brand-intro{font-size:10.5px;color:#444;margin-top:7px;line-height:1.5;min-height:32px;}
+.brand-learn-btn{margin-top:9px;width:100%;padding:5px 0;border:1.5px solid #2aaa2a;border-radius:6px;background:none;color:#1a7a1a;font-size:10px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
+.brand-learn-btn:hover{background:#2aaa2a;color:#fff;}
+/* ── BRAND MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{background:#fff;border-radius:16px;width:100%;max-width:680px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);transform:translateY(16px);transition:transform .25s;}
+.modal-overlay.open .modal-box{transform:translateY(0);}
+.modal-header{padding:24px 28px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;position:sticky;top:0;background:#fff;z-index:2;}
+.modal-header img{height:52px;max-width:140px;object-fit:contain;}
+.modal-header-text h2{font-size:18px;font-weight:700;color:#1a1a1a;}
+.modal-header-text p{font-size:12px;color:var(--muted);margin-top:2px;}
+.modal-close{margin-left:auto;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);padding:4px 8px;line-height:1;}
+.modal-close:hover{color:#1a1a1a;}
+.modal-operating{padding:14px 20px;background:#f2fbf2;border-bottom:1px solid #c5e8c5;display:flex;align-items:center;flex-wrap:wrap;gap:8px;}
+.modal-operating-label{font-size:10px;font-weight:700;color:#1a7a1a;text-transform:uppercase;letter-spacing:.6px;margin-right:4px;}
+.modal-op-chip{display:flex;align-items:center;gap:5px;background:#fff;border:1px solid #c5e8c5;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:600;color:#1a1a1a;}
+.modal-op-chip .flag{font-size:14px;line-height:1;}
+.modal-body{padding:22px 28px;}
+.modal-section{margin-bottom:22px;}
+.modal-section h3{font-size:12px;font-weight:700;color:#2aaa2a;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;}
+.modal-desc{font-size:13px;color:#333;line-height:1.7;}
+.modal-strengths{display:flex;flex-wrap:wrap;gap:7px;}
+.modal-strength{background:#f2fbf2;border:1px solid #c5e8c5;color:#1a6b1a;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;}
+.modal-packages{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.modal-pkg{border:1.5px solid var(--border);border-radius:10px;padding:14px 12px;text-align:center;}
+.modal-pkg.highlight{border-color:#2aaa2a;background:#f2fbf2;}
+.modal-pkg-name{font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:8px;}
+.modal-pkg-row{font-size:11px;margin-bottom:8px;display:flex;flex-direction:column;gap:1px;}
+.modal-pkg-row span:first-child{color:#888;font-size:10px;text-transform:uppercase;letter-spacing:.4px;}
+.modal-pkg-row span:last-child{font-weight:700;color:#1a1a1a;font-size:12px;}
+.modal-footer{padding:16px 28px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;bottom:0;background:#fff;}
+.modal-select-btn{background:#2aaa2a;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;}
+.modal-select-btn:hover{background:#1a8a1a;}
+.modal-select-btn.deselect{background:#e8f5e8;color:#1a6b1a;border:1.5px solid #2aaa2a;}
+.modal-website{font-size:12px;color:#2aaa2a;text-decoration:none;font-weight:600;}
+.modal-website:hover{text-decoration:underline;}
+/* ── TERRITORY TOGGLE ── */
+.terr-tabs{display:flex;margin-bottom:22px;border:2px solid var(--border);border-radius:10px;overflow:hidden;}
+.terr-tab{flex:1;padding:11px 0;border:none;background:none;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
+.terr-tab.active{background:#1a1a1a;color:#fff;}
+.terr-tab:not(.active):hover{background:var(--bg);}
+/* ── REGION SELECTION ── */
+.region-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.region-btn{border:2px solid var(--border);border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:var(--text);}
+.region-btn:hover{border-color:var(--navy);background:#f9fbff;}
+.region-btn.selected{border-color:var(--gold);background:#fffbf0;color:var(--navy);font-weight:600;}
+.region-flag{font-size:20px;}
+/* ── COUNTRY PICKER ── */
+.country-pick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;max-height:280px;overflow-y:auto;border:1.5px solid var(--border);border-radius:8px;padding:10px;margin-top:10px;}
+.country-pick-grid::-webkit-scrollbar{width:4px;}
+.country-pick-grid::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+.country-pick-btn{padding:6px 10px;border:1.5px solid var(--border);border-radius:6px;background:#fff;font-size:12px;cursor:pointer;transition:all .2s;text-align:left;font-family:'Inter',sans-serif;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.country-pick-btn:hover{border-color:#2aaa2a;background:#f2fbf2;}
+.country-pick-btn.selected{border-color:#2aaa2a;background:#2aaa2a;color:#fff;}
+.country-pick-btn.hidden{display:none;}
+.country-chips-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.country-chip{display:flex;align-items:center;gap:6px;background:#1a1a1a;color:#fff;border-radius:6px;padding:5px 10px;font-size:12px;font-weight:600;}
+.country-chip-remove{cursor:pointer;opacity:.7;font-size:15px;line-height:1;}
+.country-chip-remove:hover{opacity:1;}
+/* ── INDUSTRY MULTI-SELECT ── */
+.industry-pick-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+.industry-btn{padding:7px 14px;border:1.5px solid var(--border);border-radius:20px;background:#fff;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;color:#1a1a1a;}
+.industry-btn:hover{border-color:#2aaa2a;background:#f2fbf2;}
+.industry-btn.selected{border-color:#2aaa2a;background:#2aaa2a;color:#fff;font-weight:600;}
+/* ── CHECKBOX GROUP ── */
+.check-group{display:flex;flex-direction:column;gap:10px;}
+.check-item{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;}
+.check-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--navy);cursor:pointer;flex-shrink:0;}
+/* ── TAGS / MULTI-SELECT ── */
+.tag-input-wrap{border:1.5px solid var(--border);border-radius:8px;padding:8px;min-height:46px;display:flex;flex-wrap:wrap;gap:6px;cursor:text;}
+.tag-input-wrap:focus-within{border-color:var(--navy);}
+.tag{background:var(--navy);color:var(--white);border-radius:4px;padding:3px 8px;font-size:12px;display:flex;align-items:center;gap:4px;}
+.tag-remove{cursor:pointer;opacity:.7;font-size:14px;line-height:1;}
+.tag-remove:hover{opacity:1;}
+/* ── BUDGET SLIDER ── */
+.budget-options{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.budget-opt{border:2px solid var(--border);border-radius:8px;padding:12px;cursor:pointer;transition:all .2s;text-align:center;}
+.budget-opt:hover{border-color:var(--navy);}
+.budget-opt.selected{border-color:var(--gold);background:#fffbf0;}
+.budget-opt .amt{font-size:14px;font-weight:700;color:var(--navy);}
+.budget-opt .lbl{font-size:11px;color:var(--muted);margin-top:2px;}
+/* ── EXPERIENCE TABLE ── */
+.exp-entry{border:1.5px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;}
+.exp-entry-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.exp-entry-title{font-size:14px;font-weight:600;color:var(--navy);}
+.btn-remove{background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px;}
+.btn-remove:hover{border-color:var(--red);color:var(--red);}
+.btn-add{background:none;border:2px dashed var(--border);color:var(--navy);border-radius:8px;padding:10px;cursor:pointer;font-size:13px;font-weight:600;width:100%;margin-top:8px;}
+.btn-add:hover{border-color:var(--navy);background:#f9fbff;}
+/* ── REVIEW ── */
+.review-section{margin-bottom:24px;}
+.review-section h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;}
+.review-item{display:flex;flex-direction:column;gap:2px;}.review-item.full{grid-column:1/-1;}
+.review-label{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
+.review-value{font-size:14px;color:var(--text);}
+/* ── SCORE CARD ── */
+.score-card{background:linear-gradient(135deg,#1a1a1a,#2d2d2d);border-radius:var(--radius);padding:24px;color:var(--white);margin-bottom:24px;}
+.score-card h3{font-size:16px;font-weight:700;margin-bottom:16px;color:var(--gold);}
+.score-bars{display:flex;flex-direction:column;gap:12px;}
+.score-bar-item{display:flex;align-items:center;gap:12px;}
+.score-bar-label{font-size:12px;color:#a0aec0;width:140px;flex-shrink:0;}
+.score-bar-track{flex:1;background:rgba(255,255,255,.15);border-radius:4px;height:8px;}
+.score-bar-fill{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--gold-light),var(--gold));transition:width .6s ease;}
+.score-pct{font-size:12px;font-weight:700;color:var(--gold);width:36px;text-align:right;}
+/* ── DECLARATION ── */
+.decl-item{display:flex;align-items:flex-start;gap:12px;padding:14px;border:1.5px solid var(--border);border-radius:8px;margin-bottom:10px;cursor:pointer;}
+.decl-item:hover{background:#f9fbff;}
+.decl-item input{margin-top:2px;width:16px;height:16px;accent-color:var(--navy);flex-shrink:0;cursor:pointer;}
+.decl-item .decl-text{font-size:13px;line-height:1.6;color:var(--text);}
+.decl-item .decl-text strong{color:var(--navy);}
+/* ── NAVIGATION ── */
+.form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--border);}
+.btn{padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;border:none;font-family:'Inter',sans-serif;}
+.btn-back{background:var(--white);border:2px solid var(--border);color:var(--text);}
+.btn-back:hover{border-color:var(--navy);color:var(--navy);}
+.btn-next{background:var(--navy);color:var(--white);padding:12px 36px;}
+.btn-next:hover{background:#1a3560;transform:translateY(-1px);box-shadow:0 4px 12px rgba(15,30,61,.25);}
+.btn-submit{background:linear-gradient(135deg,var(--gold),#e0a840);color:var(--white);padding:12px 40px;}
+.btn-submit:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(201,150,44,.4);}
+.step-counter{font-size:13px;color:var(--muted);}
+.step-counter span{color:var(--navy);font-weight:600;}
+/* ── SUCCESS ── */
+.success-screen{display:none;text-align:center;padding:60px 40px;}
+.success-screen.show{display:block;animation:fadeIn .5s ease;}
+.success-icon{width:80px;height:80px;background:linear-gradient(135deg,#10b981,#059669);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 24px;}
+.success-screen h2{font-size:28px;font-weight:700;color:var(--navy);margin-bottom:12px;}
+.success-screen p{font-size:15px;color:var(--muted);max-width:480px;margin:0 auto 8px;line-height:1.7;}
+.ref-number{display:inline-block;background:var(--bg);border:2px solid var(--gold);color:var(--navy);font-size:20px;font-weight:700;padding:14px 32px;border-radius:8px;margin:24px 0;letter-spacing:2px;}
+.next-steps{background:var(--bg);border-radius:var(--radius);padding:24px;margin-top:28px;text-align:left;}
+.next-steps h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;}
+.next-steps ol{list-style:decimal;padding-left:20px;display:flex;flex-direction:column;gap:8px;}
+/* ── EMAIL COPY ── */
+.email-copy-box{background:#f2fbf2;border:1.5px solid #c5e8c5;border-radius:12px;padding:24px 28px;margin-top:28px;text-align:left;}
+.email-copy-box h4{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.email-copy-box p{font-size:13px;color:var(--muted);margin-bottom:14px;}
+.email-copy-row{display:flex;gap:10px;align-items:center;}
+.email-copy-row input{flex:1;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border .2s;}
+.email-copy-row input:focus{border-color:#2aaa2a;}
+.email-copy-row .btn-send{background:#2aaa2a;color:#fff;border:none;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s;font-family:'Inter',sans-serif;}
+.email-copy-row .btn-send:hover{background:#238a23;}
+.email-sent-state{display:none;align-items:center;gap:10px;padding:12px 16px;background:#e8f8e8;border:1.5px solid #a3d9a3;border-radius:8px;font-size:14px;font-weight:600;color:#1a7a1a;}
+.email-sent-state.show{display:flex;}
+.next-steps li{font-size:13px;color:var(--muted);line-height:1.6;}
+/* ── NOTICE ── */
+.info-box{background:#eef4ff;border-left:4px solid var(--navy);border-radius:0 8px 8px 0;padding:14px 16px;font-size:13px;color:var(--text);margin-bottom:20px;line-height:1.6;}
+.warn-box{background:#fff8e6;border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:14px 16px;font-size:13px;color:#92670a;margin-bottom:20px;line-height:1.6;}
+/* ── RESPONSIVE ── */
+@media(max-width:700px){
+  .header{padding:14px 20px;}
+  .progress-wrap{padding:14px 20px;}
+  .main{margin:20px auto;}
+  .form-card{padding:24px 20px;}
+  .form-grid,.form-grid.cols-3{grid-template-columns:1fr;}
+  .type-cards{grid-template-columns:1fr;}
+  .brand-grid{grid-template-columns:repeat(2,1fr);}
+  .region-grid{grid-template-columns:1fr 1fr;}
+  .budget-options{grid-template-columns:1fr 1fr;}
+  .review-grid{grid-template-columns:1fr;}
+}
+/* ── BRAND MOTIVATION BOX ── */
+.brand-motivations{margin-top:20px;display:flex;flex-direction:column;gap:16px;}
+.brand-mot-card{border:1.5px solid var(--border);border-radius:8px;padding:16px;}
+.brand-mot-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.brand-mot-icon{font-size:20px;}
+.brand-mot-name{font-size:14px;font-weight:700;color:var(--navy);}
+/* ── SECTION DIVIDER ── */
+.section-divider{margin:24px 0 20px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.section-divider h4{font-size:14px;font-weight:700;color:var(--navy);}
+.section-divider p{font-size:12px;color:var(--muted);margin-top:3px;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">
+    <img src="logo.jpg" alt="Go Global Holdings">
+    <div class="logo-divider"></div>
+    <div class="logo-tagline">International Franchise<br>Registration</div>
+  </div>
+  <div class="header-badge">FRANCHISE REGISTRATION</div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-wrap">
+  <div class="progress-steps" id="progressSteps"></div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <!-- ══ STEP 1: APPLICANT PROFILE ══ -->
+  <div class="form-card active" id="step1">
+    <div class="step-header">
+      <div class="step-num">Step 1 of 9</div>
+      <div class="step-title">Applicant Profile</div>
+      <div class="step-desc">Select your applicant type and provide your personal or company details. All fields marked with <span style="color:var(--red)">*</span> are required.</div>
+    </div>
+    <div class="type-cards" id="applicantTypeCards">
+      <label class="type-card selected" onclick="selectType('individual')">
+        <input type="radio" name="applicantType" value="individual" checked>
+        <div class="tc-icon">👤</div>
+        <div class="tc-title">Individual</div>
+        <div class="tc-desc">Applying as a private individual investor or entrepreneur</div>
+        <div class="tc-check"></div>
+      </label>
+      <label class="type-card" onclick="selectType('company')">
+        <input type="radio" name="applicantType" value="company">
+        <div class="tc-icon">🏢</div>
+        <div class="tc-title">Company / Corporation</div>
+        <div class="tc-desc">Applying on behalf of a registered legal entity or corporation</div>
+        <div class="tc-check"></div>
+      </label>
+    </div>
+
+    <!-- Individual Fields -->
+    <div id="individualFields">
+      <div class="form-grid">
+        <div class="form-group"><label>First Name <span class="req">*</span></label><input type="text" id="firstName" placeholder="Given name"></div>
+        <div class="form-group"><label>Last Name <span class="req">*</span></label><input type="text" id="lastName" placeholder="Family name"></div>
+        <div class="form-group">
+          <label>Date of Birth <span class="req">*</span></label>
+          <div style="display:grid;grid-template-columns:1fr 1.6fr 1.2fr;gap:8px;">
+            <select id="dobDay"><option value="">Day</option></select>
+            <select id="dobMonth"><option value="">Month</option></select>
+            <select id="dobYear"><option value="">Year</option></select>
+          </div>
+          <input type="hidden" id="dob">
+        </div>
+        <div class="form-group"><label>Nationality <span class="req">*</span></label><select id="nationality"><option value="">Select nationality...</option></select></div>
+        <div class="form-group"><label>Country of Residence <span class="req">*</span></label><select id="countryOfResidence"><option value="">Select country...</option></select></div>
+        <div class="form-group">
+          <label>City of Residence <span class="req">*</span></label>
+          <select id="city" disabled style="color:var(--muted)">
+            <option value="">— Select country first —</option>
+          </select>
+          <input type="text" id="cityOther" placeholder="Type your city name" style="display:none;margin-top:6px;">
+        </div>
+        <div class="form-group"><label>Email Address <span class="req">*</span></label><input type="email" id="email" placeholder="your@email.com"></div>
+        <div class="form-group"><label>Mobile / WhatsApp <span class="req">*</span></label><input type="tel" id="phone" placeholder="+1 234 567 8900"></div>
+        <div class="form-group"><label>Secondary Phone</label><input type="tel" id="phone2" placeholder="+1 234 567 8900"></div>
+        <div class="form-group"><label>LinkedIn Profile URL</label><input type="url" id="linkedin" placeholder="https://linkedin.com/in/..."></div>
+      </div>
+    </div>
+
+    <!-- Company Fields -->
+    <div id="companyFields" style="display:none">
+      <div class="form-grid">
+        <div class="form-group full"><label>Registered Company Name <span class="req">*</span></label><input type="text" id="companyName" placeholder="Full legal name"></div>
+        <div class="form-group"><label>Business Registration No. <span class="req">*</span></label><input type="text" id="regNumber" placeholder="Company reg. number"></div>
+        <div class="form-group"><label>Country of Incorporation <span class="req">*</span></label><select id="countryOfIncorp"><option value="">Select country...</option></select></div>
+        <div class="form-group"><label>Year Established <span class="req">*</span></label><input type="number" id="yearEstablished" placeholder="e.g. 2010" min="1900" max="2025"></div>
+        <div class="form-group"><label>Type of Business <span class="req">*</span></label>
+          <select id="bizType">
+            <option value="">Select...</option>
+            <option>Private Limited Company</option>
+            <option>Public Limited Company</option>
+            <option>Partnership</option>
+            <option>Sole Proprietorship</option>
+            <option>Family Business</option>
+            <option>Holding Company</option>
+            <option>Investment Group</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Number of Employees</label><select id="numEmployees"><option value="">Select...</option><option>1–10</option><option>11–50</option><option>51–200</option><option>201–500</option><option>500+</option></select></div>
+        <div class="form-group"><label>Company Website</label><input type="url" id="companyWeb" placeholder="https://..."></div>
+        <div class="form-group"><label>Annual Turnover (USD)</label>
+          <select id="annualTurnover"><option value="">Select...</option><option>Under $500K</option><option>$500K – $1M</option><option>$1M – $5M</option><option>$5M – $20M</option><option>$20M – $100M</option><option>Over $100M</option></select>
+        </div>
+      </div>
+      <div class="section-divider"><h4>Primary Contact Person</h4><p>Who will be the main point of contact for this application?</p></div>
+      <div class="form-grid">
+        <div class="form-group"><label>Contact Name <span class="req">*</span></label><input type="text" id="contactName" placeholder="Full name"></div>
+        <div class="form-group"><label>Job Title / Designation <span class="req">*</span></label><input type="text" id="contactTitle" placeholder="e.g. CEO, Director"></div>
+        <div class="form-group"><label>Contact Email <span class="req">*</span></label><input type="email" id="contactEmail" placeholder="contact@company.com"></div>
+        <div class="form-group"><label>Contact Mobile <span class="req">*</span></label><input type="tel" id="contactPhone" placeholder="+1 234 567 8900"></div>
+        <div class="form-group"><label>LinkedIn Profile</label><input type="url" id="contactLinkedIn" placeholder="https://linkedin.com/in/..."></div>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <div></div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="step-counter">Step <span>1</span> of 9</div>
+        <button class="btn btn-next" onclick="nextStep(1)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 2: FRANCHISE TYPE ══ -->
+  <div class="form-card" id="step2">
+    <div class="step-header">
+      <div class="step-num">Step 2 of 9</div>
+      <div class="step-title">Franchise Type</div>
+      <div class="step-desc">Select the type of franchise partnership you are interested in. You may change this after initial discussions.</div>
+    </div>
+    <div class="info-box">💡 <strong>Not sure which type is right for you?</strong> Our team will guide you after reviewing your application. Select the option that best aligns with your current investment capacity and expansion plans.</div>
+    <div id="franchiseTypeCards" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+      <label class="type-card" onclick="selectFranchiseType('single_unit')">
+        <input type="radio" name="franchiseType" value="single_unit">
+        <div class="tc-icon">🏪</div>
+        <div class="tc-title">Single-Unit Franchise</div>
+        <div class="tc-desc">Operate one franchise location. Ideal for first-time franchisees who want to learn the system before expanding.</div>
+        <div class="tc-check"></div>
+      </label>
+      <label class="type-card" onclick="selectFranchiseType('multi_unit')">
+        <input type="radio" name="franchiseType" value="multi_unit">
+        <div class="tc-icon">🏬</div>
+        <div class="tc-title">Multi-Unit Franchise</div>
+        <div class="tc-desc">Develop and operate multiple franchise locations. Typically 3–10 units in an agreed timeline.</div>
+        <div class="tc-check"></div>
+      </label>
+      <label class="type-card" onclick="selectFranchiseType('area_developer')">
+        <input type="radio" name="franchiseType" value="area_developer">
+        <div class="tc-icon">🗺️</div>
+        <div class="tc-title">Area Developer</div>
+        <div class="tc-desc">Exclusive rights to develop and operate multiple units across a defined geographic territory or region.</div>
+        <div class="tc-check"></div>
+      </label>
+      <label class="type-card" onclick="selectFranchiseType('master_franchisee')">
+        <input type="radio" name="franchiseType" value="master_franchisee">
+        <div class="tc-icon">🌍</div>
+        <div class="tc-title">Master Franchisee</div>
+        <div class="tc-desc">Country or territory license to sub-franchise to other operators. You become the franchisor in your territory.</div>
+        <div class="tc-check"></div>
+      </label>
+    </div>
+
+    <div id="ftExtraFields" style="display:none;">
+      <div class="form-grid" id="multiUnitExtra" style="display:none;">
+        <div class="form-group"><label>Planned Number of Units <span class="req">*</span></label><select id="plannedUnits"><option value="">Select...</option><option>2–3 units</option><option>4–5 units</option><option>6–10 units</option><option>11–20 units</option><option>20+ units</option></select></div>
+        <div class="form-group"><label>Development Timeline <span class="req">*</span></label><select id="devTimeline"><option value="">Select...</option><option>Within 1 year</option><option>1–2 years</option><option>2–3 years</option><option>3–5 years</option></select></div>
+      </div>
+      <div id="masterDevExtra" style="display:none;">
+        <div class="section-divider" style="margin-top:16px;"><h4>Target Territory</h4><p>Select the country or region you intend to operate as Area Developer / Master Franchisee.</p></div>
+        <div class="terr-tabs">
+          <button class="terr-tab active" id="s2TabRegion" onclick="s2SwitchMode('region')">🌍 By Region</button>
+          <button class="terr-tab" id="s2TabCountry" onclick="s2SwitchMode('country')">🗺 By Country</button>
+        </div>
+        <div id="s2RegionMode">
+          <div class="form-group" style="margin-bottom:20px;">
+            <label>Select Region(s) of Interest <span class="req">*</span></label>
+            <p class="hint" style="margin-bottom:10px;">Click to select / deselect. Multiple regions allowed.</p>
+            <div class="region-grid" id="s2RegionGrid"></div>
+          </div>
+          <div id="s2CountrySection" style="display:none;">
+            <div class="section-divider"><h4>Narrow Down to Specific Countries</h4><p>Select specific countries within your chosen regions. (Optional)</p></div>
+            <div class="form-group">
+              <input type="text" id="s2RegionCountrySearch" placeholder="🔍 Search within selected regions..." oninput="s2FilterRegionCountries(this.value)" style="margin-bottom:0;">
+              <div class="country-pick-grid" id="s2RegionCountryPickGrid"></div>
+            </div>
+            <div id="s2SpecificCountriesChipsWrap" style="display:none;margin-top:4px;">
+              <p class="hint" style="margin-bottom:8px;">Selected countries:</p>
+              <div class="country-chips-wrap" id="s2SpecificCountriesChips"></div>
+            </div>
+          </div>
+        </div>
+        <div id="s2CountryMode" style="display:none;">
+          <div class="form-group">
+            <label>Select Individual Countries <span class="req">*</span></label>
+            <input type="text" id="s2CountrySearch" placeholder="🔍 Search countries..." oninput="s2FilterCountries(this.value)" style="margin-bottom:0;">
+            <div class="country-pick-grid" id="s2CountryPickGrid"></div>
+          </div>
+          <div id="s2SelectedCountriesWrap" style="display:none;margin-top:4px;">
+            <p class="hint" style="margin-bottom:8px;">Selected countries:</p>
+            <div class="country-chips-wrap" id="s2SelectedCountriesChips"></div>
+          </div>
+        </div>
+        <div class="form-grid" style="margin-top:16px;">
+          <div class="form-group"><label>Minimum Sub-Franchisees Targeted</label><select id="subFranchisees"><option value="">Select...</option><option>5–10</option><option>10–25</option><option>25–50</option><option>50–100</option><option>100+</option></select></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"><h4>Opening Timeline</h4></div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>When do you plan to open your first unit? <span class="req">*</span></label>
+        <select id="openingTimeline">
+          <option value="">Select timeline...</option>
+          <option>Within 6 months</option>
+          <option>6–12 months</option>
+          <option>1–2 years</option>
+          <option>2–3 years</option>
+          <option>3+ years (planning phase)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Do you have a specific site / property in mind?</label>
+        <select id="hasSite"><option value="">Select...</option><option>Yes – secured</option><option>Yes – in negotiation</option><option>No – still searching</option><option>No – franchisor to assist</option></select>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn btn-back" onclick="prevStep(2)">← Back</button>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="step-counter">Step <span>2</span> of 9</div>
+        <button class="btn btn-next" onclick="nextStep(2)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 3: BRAND SELECTION ══ -->
+  <div class="form-card" id="step3">
+    <div class="step-header">
+      <div class="step-num">Step 3 of 9</div>
+      <div class="step-title">Brand Selection</div>
+      <div class="step-desc">Select one or more brands from our portfolio that you are interested in franchising. You may select multiple brands.</div>
+    </div>
+    <div class="warn-box">⚠️ Select all brands you are interested in. Our team will assess your application for each brand based on your profile, territory, and financial capacity.</div>
+    <div class="brand-grid" id="brandGrid"></div>
+    <div class="brand-motivations" id="brandMotivations" style="display:none;">
+      <div class="section-divider"><h4>Brand-Specific Interest</h4><p>Tell us why you are interested in each selected brand.</p></div>
+      <div id="brandMotivationCards"></div>
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-back" onclick="prevStep(3)">← Back</button>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="step-counter">Step <span>3</span> of 9</div>
+        <button class="btn btn-next" onclick="nextStep(3)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 4: TERRITORY ══ -->
+  <div class="form-card" id="step4">
+    <div class="step-header">
+      <div class="step-num">Step 4 of 9</div>
+      <div class="step-title">Territory of Interest</div>
+      <div class="step-desc">Select the regions or individual countries where you intend to operate your franchise(s).</div>
+    </div>
+
+    <!-- Mode toggle -->
+    <div class="terr-tabs">
+      <button class="terr-tab active" id="tabRegion" onclick="switchTerritoryMode('region')">🌍 By Region</button>
+      <button class="terr-tab" id="tabCountry" onclick="switchTerritoryMode('country')">🗺 By Country</button>
+    </div>
+
+    <!-- Region mode -->
+    <div id="terrRegionMode">
+      <div class="form-group" style="margin-bottom:20px;">
+        <label>Select Region(s) of Interest <span class="req">*</span></label>
+        <p class="hint" style="margin-bottom:10px;">Click to select / deselect. Multiple regions allowed.</p>
+        <div class="region-grid" id="regionGrid"></div>
+      </div>
+      <div id="countrySection" style="display:none;">
+        <div class="section-divider"><h4>Narrow Down to Specific Countries</h4><p>Select specific countries within your chosen regions. (Optional)</p></div>
+        <div class="form-group">
+          <input type="text" id="regionCountrySearch" placeholder="🔍 Search within selected regions..." oninput="filterRegionCountries(this.value)" style="margin-bottom:0;">
+          <div class="country-pick-grid" id="regionCountryPickGrid"></div>
+        </div>
+        <div id="specificCountriesChipsWrap" style="display:none;margin-top:4px;">
+          <p class="hint" style="margin-bottom:8px;">Selected countries:</p>
+          <div class="country-chips-wrap" id="specificCountriesChips"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Country mode -->
+    <div id="terrCountryMode" style="display:none;">
+      <div class="form-group">
+        <label>Select Individual Countries <span class="req">*</span></label>
+        <input type="text" id="countrySearch" placeholder="🔍 Search countries..." oninput="filterCountries(this.value)" style="margin-bottom:0;">
+        <div class="country-pick-grid" id="countryPickGrid"></div>
+      </div>
+      <div id="selectedCountriesWrap" style="display:none;margin-top:4px;">
+        <p class="hint" style="margin-bottom:8px;">Selected countries:</p>
+        <div class="country-chips-wrap" id="selectedCountriesChips"></div>
+      </div>
+    </div>
+
+    <!-- Always shown -->
+    <div class="form-grid" style="margin-top:24px;">
+      <div class="form-group">
+        <label>Primary Country of Operation <span class="req">*</span></label>
+        <select id="primaryCountry"><option value="">Select primary country...</option></select>
+      </div>
+      <div class="form-group">
+        <label>Open to Suggestions on Territory?</label>
+        <select id="openToSuggestions"><option value="">Select...</option><option>Yes – flexible on territory</option><option>Somewhat – prefer selected regions</option><option>No – specific territory only</option></select>
+      </div>
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-back" onclick="prevStep(4)">← Back</button>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="step-counter">Step <span>4</span> of 9</div>
+        <button class="btn btn-next" onclick="nextStep(4)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 5: FINANCIAL PROFILE ══ -->
+  <div class="form-card" id="step5">
+    <div class="step-header">
+      <div class="step-num">Step 5 of 9</div>
+      <div class="step-title">Financial Profile</div>
+      <div class="step-desc">Provide your financial capacity to help us match you with the right brand and territory. All information is strictly confidential.</div>
+    </div>
+    <div class="info-box">🔒 Financial information is treated with strict confidentiality and used solely for franchise qualification purposes. We do not share this with third parties.</div>
+    <div class="section-divider"><h4>Available Investment Capital</h4><p>Liquid capital available specifically for franchise investment (not including personal living expenses)</p></div>
+    <div class="form-group" style="margin-bottom:20px;">
+      <label>Available Liquid Capital (USD) <span class="req">*</span></label>
+      <div class="budget-options" id="liquidCapitalOpts">
+        <div class="budget-opt" onclick="selectBudget('liquidCapital','Under $50K')"><div class="amt">Under $50K</div><div class="lbl">Entry Level</div></div>
+        <div class="budget-opt" onclick="selectBudget('liquidCapital','$50K–$100K')"><div class="amt">$50K–$100K</div><div class="lbl">Starter</div></div>
+        <div class="budget-opt" onclick="selectBudget('liquidCapital','$100K–$250K')"><div class="amt">$100K–$250K</div><div class="lbl">Single Unit</div></div>
+        <div class="budget-opt" onclick="selectBudget('liquidCapital','$250K–$500K')"><div class="amt">$250K–$500K</div><div class="lbl">Multi-Unit</div></div>
+        <div class="budget-opt" onclick="selectBudget('liquidCapital','$500K–$1M')"><div class="amt">$500K–$1M</div><div class="lbl">Area Dev.</div></div>
+        <div class="budget-opt" onclick="selectBudget('liquidCapital','Over $1M')"><div class="amt">Over $1M</div><div class="lbl">Master Rights</div></div>
+      </div>
+    </div>
+    <div class="section-divider"><h4>Total Net Worth</h4><p>Estimated total personal / company net worth including all assets</p></div>
+    <div class="form-group" style="margin-bottom:20px;">
+      <label>Estimated Net Worth (USD) <span class="req">*</span></label>
+      <div class="budget-options" id="netWorthOpts">
+        <div class="budget-opt" onclick="selectBudget('netWorth','Under $100K')"><div class="amt">Under $100K</div><div class="lbl">Growing</div></div>
+        <div class="budget-opt" onclick="selectBudget('netWorth','$100K–$500K')"><div class="amt">$100K–$500K</div><div class="lbl">Developing</div></div>
+        <div class="budget-opt" onclick="selectBudget('netWorth','$500K–$1M')"><div class="amt">$500K–$1M</div><div class="lbl">Established</div></div>
+        <div class="budget-opt" onclick="selectBudget('netWorth','$1M–$3M')"><div class="amt">$1M–$3M</div><div class="lbl">Affluent</div></div>
+        <div class="budget-opt" onclick="selectBudget('netWorth','$3M–$10M')"><div class="amt">$3M–$10M</div><div class="lbl">High Net Worth</div></div>
+        <div class="budget-opt" onclick="selectBudget('netWorth','Over $10M')"><div class="amt">Over $10M</div><div class="lbl">UHNWI</div></div>
+      </div>
+    </div>
+    <div class="section-divider"><h4>Source of Funds</h4></div>
+    <div class="form-group" style="margin-bottom:20px;">
+      <label>Source of Investment Funds <span class="req">*</span> <span class="hint">(Select all that apply)</span></label>
+      <div class="check-group" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+        <label class="check-item"><input type="checkbox" value="personal_savings" id="src_savings"> Personal / Family Savings</label>
+        <label class="check-item"><input type="checkbox" value="bank_loan" id="src_bank"> Bank Loan / Credit Facility</label>
+        <label class="check-item"><input type="checkbox" value="investors" id="src_inv"> External Investors / Partners</label>
+        <label class="check-item"><input type="checkbox" value="business_profits" id="src_biz"> Existing Business Profits</label>
+        <label class="check-item"><input type="checkbox" value="property_sale" id="src_prop"> Property / Asset Sale</label>
+        <label class="check-item"><input type="checkbox" value="other" id="src_other"> Other</label>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Will you require external financing?</label>
+        <select id="requiresFinancing"><option value="">Select...</option><option>No – fully self-funded</option><option>Yes – partial bank financing</option><option>Yes – seeking investors</option><option>Already secured financing</option></select>
+      </div>
+      <div class="form-group">
+        <label>Currency Preference for Investment</label>
+        <select id="currency"><option value="">Select...</option><option>USD (US Dollar)</option><option>EUR (Euro)</option><option>GBP (British Pound)</option><option>SGD (Singapore Dollar)</option><option>AED (UAE Dirham)</option><option>SAR (Saudi Riyal)</option><option>INR (Indian Rupee)</option><option>MYR (Malaysian Ringgit)</option><option>Other</option></select>
+      </div>
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-back" onclick="prevStep(5)">← Back</button>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="step-counter">Step <span>5</span> of 9</div>
+        <button class="btn btn-next" onclick="nextStep(5)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 6: EXPERIENCE ══ -->
+  <div class="form-card" id="step6">
+    <div class="step-header">
+      <div class="step-num">Step 6 of 9</div>
+      <div class="step-title">Experience & Background</div>
+      <div class="step-desc">Tell us about your professional background, business experience, and any previous franchise ownership. This helps us assess your readiness and match you with the right brand.</div>
+    </div>
+    <div class="section-divider"><h4>Current Occupation</h4></div>
+    <div class="form-grid">
+      <div class="form-group"><label>Current / Most Recent Role <span class="req">*</span></label><input type="text" id="currentRole" placeholder="e.g. Managing Director, Business Owner..."></div>
+      <div class="form-group"><label>Current / Most Recent Employer</label><input type="text" id="currentEmployer" placeholder="Company or self-employed"></div>
+      <div class="form-group full">
+        <label>Industry <span class="req">*</span></label>
+        <p class="hint" style="margin-bottom:4px;">Select all that apply.</p>
+        <div class="industry-pick-wrap" id="industryPickWrap">
+          <button class="industry-btn" onclick="toggleIndustry('Food &amp; Beverage')">Food &amp; Beverage</button>
+          <button class="industry-btn" onclick="toggleIndustry('Retail')">Retail</button>
+          <button class="industry-btn" onclick="toggleIndustry('Hospitality / Hotels')">Hospitality / Hotels</button>
+          <button class="industry-btn" onclick="toggleIndustry('Finance / Banking')">Finance / Banking</button>
+          <button class="industry-btn" onclick="toggleIndustry('Real Estate / Property')">Real Estate / Property</button>
+          <button class="industry-btn" onclick="toggleIndustry('Technology / IT')">Technology / IT</button>
+          <button class="industry-btn" onclick="toggleIndustry('Healthcare / Medical')">Healthcare / Medical</button>
+          <button class="industry-btn" onclick="toggleIndustry('Manufacturing')">Manufacturing</button>
+          <button class="industry-btn" onclick="toggleIndustry('Education / Training')">Education / Training</button>
+          <button class="industry-btn" onclick="toggleIndustry('Logistics / Supply Chain')">Logistics / Supply Chain</button>
+          <button class="industry-btn" onclick="toggleIndustry('Professional Services')">Professional Services</button>
+          <button class="industry-btn" onclick="toggleIndustry('Construction / Infrastructure')">Construction / Infrastructure</button>
+          <button class="industry-btn" onclick="toggleIndustry('Agriculture / Food Production')">Agriculture / Food Production</button>
+          <button class="industry-btn" onclick="toggleIndustry('Media / Marketing')">Media / Marketing</button>
+          <button class="industry-btn" onclick="toggleIndustry('Other')">Other</button>
+        </div>
+      </div>
+      <div class="form-group"><label>Years of Business Experience <span class="req">*</span></label>
+        <select id="yearsExp"><option value="">Select...</option><option>Less than 1 year</option><option>1–3 years</option><option>3–5 years</option><option>5–10 years</option><option>10–15 years</option><option>Over 15 years</option></select>
+      </div>
+      <div class="form-group"><label>Max. No. of Staff Ever Managed</label>
+        <select id="staffManaged"><option value="">Select...</option><option>None</option><option>1–5</option><option>6–15</option><option>16–50</option><option>51–200</option><option>200+</option></select>
+      </div>
+      <div class="form-group"><label>Highest Education Level</label>
+        <select id="education"><option value="">Select...</option><option>High School / Secondary</option><option>Diploma / Associate Degree</option><option>Bachelor's Degree</option><option>Master's Degree (MBA or other)</option><option>Doctorate / PhD</option><option>Professional Qualification (e.g. CPA, CFA)</option></select>
+      </div>
+    </div>
+
+    <div class="section-divider"><h4>Current Business Ownership</h4></div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Do you currently own / operate a business? <span class="req">*</span></label>
+        <select id="ownsBusiness" onchange="toggleOwnsBusiness()"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select>
+      </div>
+    </div>
+    <div id="bizDetails" style="display:none;">
+      <div class="form-grid">
+        <div class="form-group"><label>Business Name</label><input type="text" id="bizName" placeholder="Name of your business"></div>
+        <div class="form-group"><label>Business Type / Industry</label><input type="text" id="bizIndustry" placeholder="e.g. F&B, Retail, Services"></div>
+        <div class="form-group"><label>Annual Revenue (approx. USD)</label>
+          <select id="bizRevenue"><option value="">Select...</option><option>Under $100K</option><option>$100K–$500K</option><option>$500K–$2M</option><option>$2M–$10M</option><option>Over $10M</option></select>
+        </div>
+        <div class="form-group"><label>Number of Current Staff</label><input type="number" id="bizStaff" placeholder="e.g. 25" min="0"></div>
+      </div>
+    </div>
+
+    <div class="section-divider"><h4>Franchise Experience</h4></div>
+    <div class="form-grid">
+      <div class="form-group full">
+        <label>Do you have prior franchise ownership or management experience? <span class="req">*</span></label>
+        <select id="hasFranchiseExp" onchange="toggleFranchiseExp()"><option value="">Select...</option><option value="yes">Yes – I own/owned franchise(s)</option><option value="operated">Yes – I managed a franchise operation</option><option value="no">No – this is my first franchise application</option></select>
+      </div>
+    </div>
+    <div id="franchiseExpDetails" style="display:none;">
+      <div id="franchiseExpEntries"></div>
+      <button class="btn-add" onclick="addFranchiseEntry()">+ Add Franchise Experience</button>
+    </div>
+
+    <div id="industryExpSection"><!-- built dynamically by buildIndustryExpSection() --></div>
+
+    <div class="form-nav">
+      <button class="btn btn-back" onclick="prevStep(6)">← Back</button>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="step-counter">Step <span>6</span> of 9</div>
+        <button class="btn btn-next" onclick="nextStep(6)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 7: VISION & MOTIVATION ══ -->
+  <div class="form-card" id="step7">
+    <div class="step-header">
+      <div class="step-num">Step 7 of 9</div>
+      <div class="step-title">Vision & Motivation</div>
+      <div class="step-desc">Help us understand your entrepreneurial vision and why you want to partner with our brands. This is one of the most important sections of your application.</div>
+    </div>
+    <div class="form-group" style="margin-bottom:20px;">
+      <label>Why do you want to franchise with us? <span class="req">*</span></label>
+      <p class="hint">Describe what draws you to our brand(s), your alignment with our values, and what you bring as a franchise partner. Minimum 100 words.</p>
+      <textarea id="whyFranchise" placeholder="Share your motivation, alignment with our brand values, what excites you about this opportunity, and why you believe you'll be a successful franchisee..." style="min-height:130px;"></textarea>
+    </div>
+    <div class="form-group" style="margin-bottom:20px;">
+      <label>What is your business vision for your franchise operation? <span class="req">*</span></label>
+      <p class="hint">Describe your 3–5 year plan: growth strategy, number of units, target market, community impact, etc.</p>
+      <textarea id="businessVision" placeholder="Describe your vision: how many units you plan to open, your target customer base, your management structure, and how you plan to grow..." style="min-height:120px;"></textarea>
+    </div>
+    <div class="form-grid">
+      <div class="form-group full">
+        <label>What are your key strengths as a potential franchisee? <span class="req">*</span></label>
+        <p class="hint" style="margin-bottom:4px;">Select all that apply.</p>
+        <div class="industry-pick-wrap" id="strengthPickWrap">
+          <button class="industry-btn" onclick="toggleStrength('Strong financial resources')">Strong financial resources</button>
+          <button class="industry-btn" onclick="toggleStrength('Deep local market knowledge')">Deep local market knowledge</button>
+          <button class="industry-btn" onclick="toggleStrength('Proven operational experience')">Proven operational experience</button>
+          <button class="industry-btn" onclick="toggleStrength('Existing retail / F&amp;B network')">Existing retail / F&amp;B network</button>
+          <button class="industry-btn" onclick="toggleStrength('Strong management team')">Strong management team</button>
+          <button class="industry-btn" onclick="toggleStrength('Government / business connections')">Government / business connections</button>
+          <button class="industry-btn" onclick="toggleStrength('Prime property access')">Prime property access</button>
+          <button class="industry-btn" onclick="toggleStrength('Marketing &amp; branding expertise')">Marketing &amp; branding expertise</button>
+          <button class="industry-btn" onclick="toggleStrength('Supply chain / logistics network')">Supply chain / logistics network</button>
+          <button class="industry-btn" onclick="toggleStrength('Technology &amp; digital capabilities')">Technology &amp; digital capabilities</button>
+          <button class="industry-btn" onclick="toggleStrength('Multilingual / multicultural team')">Multilingual / multicultural team</button>
+        </div>
+      </div>
+      <div class="form-group full">
+        <label>How did you hear about us? <span class="req">*</span></label>
+        <p class="hint" style="margin-bottom:4px;">Select all that apply.</p>
+        <div class="industry-pick-wrap" id="hearAboutPickWrap">
+          <button class="industry-btn" onclick="toggleHearAbout('Franchise Exhibition / Expo')">Franchise Exhibition / Expo</button>
+          <button class="industry-btn" onclick="toggleHearAbout('Online Search (Google, etc.)')">Online Search (Google, etc.)</button>
+          <button class="industry-btn" onclick="toggleHearAbout('Social Media (LinkedIn, Instagram, etc.)')">Social Media (LinkedIn, Instagram, etc.)</button>
+          <button class="industry-btn" onclick="toggleHearAbout('Referral from a friend / associate')">Referral from a friend / associate</button>
+          <button class="industry-btn" onclick="toggleHearAbout('Existing franchisee')">Existing franchisee</button>
+          <button class="industry-btn" onclick="toggleHearAbout('Franchise consultant / broker')">Franchise consultant / broker</button>
+          <button class="industry-btn" onclick="toggleHearAbout('Industry publication / magazine')">Industry publication / magazine</button>
+          <button class="industry-btn" onclick="toggleHearAbout('Email / newsletter')">Email / newsletter</button>
+          <button class="industry-btn" onclick="toggleHearAbout('Company website')">Company website</button>
+          <button class="industry-btn" onclick="toggleHearAbout('Other')">Other</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Will you be a hands-on operator? <span class="req">*</span></label>
+        <select id="operatorType">
+          <option value="">Select...</option>
+          <option>Yes – I will be owner-operator, personally involved daily</option>
+          <option>Semi-active – I will oversee but hire professional management</option>
+          <option>Passive investor – professionally managed by hired team</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Are you currently working with a franchise consultant / broker?</label>
+        <select id="hasBroker">
+          <option value="">Select...</option>
+          <option>Yes – name below</option>
+          <option>No – applying directly</option>
+        </select>
+      </div>
+      <div class="form-group full" id="brokerNameField" style="display:none;">
+        <label>Consultant / Broker Name & Company</label>
+        <input type="text" id="brokerName" placeholder="Name and company of your franchise consultant">
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:8px;">
+      <label>Additional Information / Message to Our Team</label>
+      <p class="hint">Anything else you'd like us to know about your application?</p>
+      <textarea id="additionalInfo" placeholder="Any other relevant information, special circumstances, or questions you have for our franchise team..." style="min-height:80px;"></textarea>
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-back" onclick="prevStep(7)">← Back</button>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="step-counter">Step <span>7</span> of 9</div>
+        <button class="btn btn-next" onclick="nextStep(7)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 8: DOCUMENTS ══ -->
+  <div class="form-card" id="step8">
+    <div class="step-header">
+      <div class="step-num">Step 8 of 9</div>
+      <div class="step-title">Supporting Documents</div>
+      <div class="step-desc">Uploading supporting documents significantly strengthens your application. All documents are optional at this stage and can be submitted later.</div>
+    </div>
+    <div class="warn-box">📋 Documents are optional but highly recommended for Master Franchisee and Area Developer applications. They will be requested during the due diligence phase.</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label id="cvLabel">CV / Resume</label>
+        <p class="hint" id="cvHint">PDF or Word document. Max 5MB.</p>
+        <input type="file" id="cvFile" accept=".pdf,.doc,.docx" style="border:2px dashed var(--border);padding:12px;border-radius:8px;background:#fafafa;cursor:pointer;">
+      </div>
+      <div class="form-group">
+        <label>Business Plan (if available)</label>
+        <p class="hint">PDF only. Max 10MB.</p>
+        <input type="file" id="bizPlanFile" accept=".pdf" style="border:2px dashed var(--border);padding:12px;border-radius:8px;background:#fafafa;cursor:pointer;">
+      </div>
+      <div class="form-group">
+        <label>Financial Statement / Proof of Funds</label>
+        <p class="hint">Bank statement, account summary, or net worth statement. PDF. Max 5MB.</p>
+        <input type="file" id="financeFile" accept=".pdf,.jpg,.jpeg,.png" style="border:2px dashed var(--border);padding:12px;border-radius:8px;background:#fafafa;cursor:pointer;">
+      </div>
+      <div class="form-group">
+        <label>Company Profile / Registration Documents</label>
+        <p class="hint">Company registration certificate, profile, or business license. PDF. Max 5MB.</p>
+        <input type="file" id="companyFile" accept=".pdf,.jpg,.jpeg,.png" style="border:2px dashed var(--border);padding:12px;border-radius:8px;background:#fafafa;cursor:pointer;">
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:8px;">
+      <label>Reference Contact 1 (Professional Reference)</label>
+      <div class="form-grid">
+        <input type="text" id="ref1name" placeholder="Full name">
+        <input type="text" id="ref1title" placeholder="Title / Company">
+        <input type="email" id="ref1email" placeholder="Email address">
+        <input type="tel" id="ref1phone" placeholder="Phone number">
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:8px;">
+      <label>Reference Contact 2 (Business / Character Reference)</label>
+      <div class="form-grid">
+        <input type="text" id="ref2name" placeholder="Full name">
+        <input type="text" id="ref2title" placeholder="Title / Company">
+        <input type="email" id="ref2email" placeholder="Email address">
+        <input type="tel" id="ref2phone" placeholder="Phone number">
+      </div>
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-back" onclick="prevStep(8)">← Back</button>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="step-counter">Step <span>8</span> of 9</div>
+        <button class="btn btn-next" onclick="nextStep(8)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 9: REVIEW & DECLARATION ══ -->
+  <div class="form-card" id="step9">
+    <div class="step-header">
+      <div class="step-num">Step 9 of 9</div>
+      <div class="step-title">Review & Declaration</div>
+      <div class="step-desc">Review your application summary and confirm your declarations before submitting.</div>
+    </div>
+    <div class="score-card" id="candidateScoreCard">
+      <h3>📊 Candidate Matching Summary</h3>
+      <div class="score-bars" id="scoreBars"></div>
+    </div>
+    <div id="reviewSummary"></div>
+    <div class="section-divider"><h4>Declarations & Consent</h4></div>
+    <label class="decl-item">
+      <input type="checkbox" id="decl1">
+      <div class="decl-text"><strong>Accuracy of Information:</strong> I confirm that all information provided in this application is true, accurate, and complete to the best of my knowledge. I understand that providing false information may result in immediate disqualification.</div>
+    </label>
+    <label class="decl-item">
+      <input type="checkbox" id="decl2">
+      <div class="decl-text"><strong>Background & Reference Check:</strong> I authorize Go Global Holdings and its designated representatives to conduct background checks, verify references, and assess financial information provided in this application as part of the franchise qualification process.</div>
+    </label>
+    <label class="decl-item">
+      <input type="checkbox" id="decl3">
+      <div class="decl-text"><strong>Privacy Policy:</strong> I have read and agree to the <a href="#" style="color:var(--gold)">Privacy Policy</a> and <a href="#" style="color:var(--gold)">Terms & Conditions</a>. I understand how my personal information will be collected, used, and stored.</div>
+    </label>
+    <label class="decl-item">
+      <input type="checkbox" id="decl4">
+      <div class="decl-text"><strong>Non-Commitment Acknowledgement:</strong> I understand that this application does not constitute a binding franchise agreement and that submitting this form does not guarantee or imply approval of a franchise. Any franchise offer is subject to mutual due diligence and execution of a Franchise Disclosure Document (FDD) and Franchise Agreement.</div>
+    </label>
+    <label class="decl-item">
+      <input type="checkbox" id="declMarketing">
+      <div class="decl-text"><strong>Marketing Communications (Optional):</strong> I agree to receive updates, newsletters, and promotional materials about franchise opportunities from Go Global Holdings via email and messaging platforms.</div>
+    </label>
+    <div class="form-nav">
+      <button class="btn btn-back" onclick="prevStep(9)">← Back</button>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="step-counter">Step <span>9</span> of 9</div>
+        <button class="btn btn-submit" onclick="submitForm()">🚀 Submit Application</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SUCCESS SCREEN ══ -->
+  <div class="form-card success-screen" id="successScreen">
+    <div class="success-icon">✓</div>
+    <h2>Application Submitted Successfully!</h2>
+    <p>Thank you for your interest in franchising with us. Your application has been received and is now under review by our International Franchise Development Team.</p>
+    <div class="ref-number" id="refNumber">FR-2025-000000</div>
+    <p style="font-size:13px;color:var(--muted);">Please save this reference number for all future correspondence.</p>
+    <div class="next-steps">
+      <h3>What happens next?</h3>
+      <ol>
+        <li><strong>Application Review (3–5 business days):</strong> Our franchise development team will review your application and assess your profile against our brand requirements.</li>
+        <li><strong>Initial Screening Call (Week 1–2):</strong> A franchise development manager will contact you to schedule an introductory call to discuss your application in detail.</li>
+        <li><strong>Franchise Disclosure & Discovery Day (Week 2–4):</strong> Qualified candidates will receive our Franchise Disclosure Document and be invited to attend a Discovery Day at our HQ.</li>
+        <li><strong>Due Diligence & Approval (Week 4–8):</strong> Financial verification, reference checks, and territory assessment will be completed.</li>
+        <li><strong>Franchise Agreement (Week 8–12):</strong> Approved candidates will receive and execute the Franchise Agreement, followed by onboarding.</li>
+      </ol>
+    </div>
+    <div class="email-copy-box">
+      <h4>📧 Get a Copy of Your Application</h4>
+      <p>We'll open your email client with a full summary of your submitted application.</p>
+      <div class="email-copy-row">
+        <input type="email" id="copyEmailInput" placeholder="Your email address">
+        <button class="btn-send" onclick="sendApplicationCopy()">Send Copy →</button>
+      </div>
+      <div class="email-sent-state" id="emailSentState">
+        <span>✅</span> Email client opened — check your drafts or sent folder.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ══ BRAND MODAL ══ -->
+<div class="modal-overlay" id="brandModal" onclick="if(event.target===this)closeBrandModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <img id="modalLogo" src="" alt="">
+      <div class="modal-header-text">
+        <h2 id="modalName"></h2>
+        <p id="modalMeta"></p>
+      </div>
+      <button class="modal-close" onclick="closeBrandModal()">✕</button>
+    </div>
+    <div class="modal-operating" id="modalOperating" style="display:none"></div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <h3>About the Brand</h3>
+        <p class="modal-desc" id="modalDesc"></p>
+      </div>
+      <div class="modal-section" id="modalStrengthsSection">
+        <h3>Key Strengths</h3>
+        <div class="modal-strengths" id="modalStrengths"></div>
+      </div>
+      <div class="modal-section" id="modalPkgsSection">
+        <h3>Franchise Packages</h3>
+        <div class="modal-packages" id="modalPackages"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a id="modalWebsite" href="#" target="_blank" rel="noopener" class="modal-website">🌐 Visit Website</a>
+      <button class="modal-select-btn" id="modalSelectBtn" onclick="toggleBrandFromModal()"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// CONFIGURATION — Customize your 8 brands
+// ═══════════════════════════════════════
+const BRANDS = [
+  {
+    id:'b1', name:"Three O'Clock Coffee", category:'F&B / Café', logo:'brand_threeoclock.jpg',
+    tagline:'Your Authentic Vietnamese Café',
+    operatingIn:[{flag:'🇻🇳',name:'Vietnam'},{flag:'🇮🇳',name:'India'},{flag:'🇮🇩',name:'Indonesia'}],
+    intro:"The authentic Vietnamese café that never sleeps — Vietnam's pioneer 24-hour coffee chain.",
+    desc:"Founded in Ho Chi Minh City in 2016, Three O'Clock is Vietnam's pioneering 24-hour café chain, serving signature Vietnamese coffee flavors — including unique blends crafted from locally sourced Lam Dong coffee beans and Bao Loc teas — to a loyal base of young urban professionals. With over 20 branches in Vietnam and master franchise deals in Indonesia and the Indian Subcontinent, Three O'Clock is actively expanding internationally with proven operational systems and end-to-end franchisee support.",
+    outlets:20, established:2016, website:'https://threeoclock.vn/en/',
+    strengths:['24-hour café pioneer','Distinct Vietnamese flavors','Operations in India & Indonesia','High profitability','Strong R&D capability'],
+    packages:[
+      {name:'Multi-Unit',stores:3,fee:'$50,000',totalPerStore:'$85,000',royalty:'6%',term:'3 yrs',breakeven:'10 months',netMargin:'26%'},
+      {name:'Area Developer',stores:5,fee:'$75,000',totalPerStore:'$85,000',royalty:'6%',term:'10 yrs',breakeven:'10 months',netMargin:'26%'},
+      {name:'Master Franchise',stores:10,fee:'$150,000',totalPerStore:'$85,000',royalty:'3%',term:'10 yrs',breakeven:'9 months',netMargin:'29%'},
+    ]
+  },
+  {
+    id:'b2', name:'HappiTea', category:'F&B / Bubble Tea', logo:'brand_happitea.jpg',
+    tagline:'Infusing Happiness',
+    operatingIn:[{flag:'🇻🇳',name:'Vietnam'},{flag:'🇵🇭',name:'Philippines'},{flag:'🇮🇳',name:'India'}],
+    intro:'Born from a humble wooden cart in 2017 — now 170+ bubble tea stores across Asia.',
+    desc:'HappiTea has grown into a dynamic brand with over 170+ bubble tea stores across Vietnam, the Philippines, and India, driven by the mission of "Infusing Happiness." The brand blends local Vietnamese ingredients like tea, coffee, and fruit with modern F&B trends, delivering bold, social-media-ready drinks that resonate strongly with Gen Z and Millennial consumers. With flexible store formats including kiosks, food trucks, and flagship locations, HappiTea offers scalable franchise models suited for malls, campuses, and urban hubs.',
+    outlets:170, established:2017, website:'https://www.phuctea.com.vn/en/global-franchise',
+    strengths:['Asset-light model','170+ stores globally','Flexible kiosk/flagship formats','Quick ROI','Strong Gen Z appeal'],
+    packages:[
+      {name:'Multi-Unit',stores:5,fee:'$30,000',totalPerStore:'$15,000',royalty:'6%',term:'3 yrs',breakeven:'5 months',netMargin:'20%'},
+      {name:'Area Developer',stores:10,fee:'$50,000',totalPerStore:'$15,000',royalty:'6%',term:'5 yrs',breakeven:'5 months',netMargin:'20%'},
+      {name:'Master Franchise',stores:15,fee:'$70,000',totalPerStore:'$15,000',royalty:'3%',term:'10 yrs',breakeven:'5 months',netMargin:'20%'},
+    ]
+  },
+  {
+    id:'b3', name:'Burger Viet', category:'F&B / QSR', logo:'brand_burgerviet.webp',
+    tagline:'Fast food, the Vietnamese way.',
+    operatingIn:[{flag:'🇻🇳',name:'Vietnam'},{flag:'🇰🇭',name:'Cambodia'}],
+    intro:"Vietnam's homegrown fast-food champion — 14 years of local flavour, zero royalty fees.",
+    desc:"Burger Việt is Vietnam's leading homegrown fast-food franchise brand, with 14 years of excellence in the F&B industry and a network of more than 70 stores nationwide. Renowned for delivering quick, convenient, and affordable meals, Burger Việt has won the hearts of millions of Vietnamese consumers by genuinely understanding and serving local tastes. With a proven, scalable QSR model built over more than a decade of domestic growth, Burger Việt offers franchise investors a rare opportunity to back a category-leading Vietnamese brand with strong brand loyalty.",
+    outlets:70, established:2011, website:'https://burgerviet.vn/',
+    strengths:['14 years of excellence','Zero royalty fee','70+ stores nationwide','Asset-light model','Flexible formats'],
+    packages:[
+      {name:'Multi-Unit',stores:5,fee:'$30,000',totalPerStore:'$8,000',royalty:'0%',term:'3 yrs',breakeven:'4 months',netMargin:'20%'},
+      {name:'Area Developer',stores:10,fee:'$45,000',totalPerStore:'$8,000',royalty:'0%',term:'5 yrs',breakeven:'4 months',netMargin:'20%'},
+      {name:'Master Franchise',stores:20,fee:'$80,000',totalPerStore:'$8,000',royalty:'0%',term:'10 yrs',breakeven:'3 months',netMargin:'22%'},
+    ]
+  },
+  {
+    id:'b4', name:'Niêu House', category:'F&B / Casual Dining', logo:'brand_nieuhouse.jpg',
+    tagline:'Taste Vietnam. Feel Home.',
+    operatingIn:[{flag:'🇻🇳',name:'Vietnam'}],
+    intro:'Bringing the soul of Vietnamese clay pot cooking to dining tables around the world.',
+    desc:"Niêu House is an authentic Vietnamese restaurant specializing in Cơm Niêu (traditional clay pot rice). The brand brings the soul of Vietnamese home cooking to the table with dishes that are as healthy as they are delicious. Whether you're a busy professional looking for a quick, nutritious lunch, a family gathering for a cozy dinner, or a traveler eager to taste the real Vietnam, Niêu House offers a warm atmosphere and a true taste of home — with a menu that travels internationally.",
+    outlets:3, established:2025, website:'https://www.nieuhouse.com',
+    strengths:['Authentic clay pot rice cuisine','Trending globally','No heavy kitchen setup','Highly profitable','Flexible collaboration'],
+    packages:[
+      {name:'Flagship Store',stores:1,fee:'$20,000',totalPerStore:'$65,000',royalty:'7%',term:'3 yrs',breakeven:'13 months',netMargin:'11%'},
+      {name:'Multi-Unit',stores:3,fee:'$50,000',totalPerStore:'$65,000',royalty:'6%',term:'5 yrs',breakeven:'12 months',netMargin:'12%'},
+      {name:'Area Developer',stores:5,fee:'$75,000',totalPerStore:'$65,000',royalty:'5%',term:'10 yrs',breakeven:'10 months',netMargin:'13%'},
+    ]
+  },
+  {
+    id:'b5', name:'Acne Studio', category:'Beauty / Clinical', logo:'brand_acnestudio.png',
+    tagline:'Leading the Way in Drug-Free Acne Treatment',
+    operatingIn:[{flag:'🇻🇳',name:'Vietnam'}],
+    intro:"The world's first science-based, drug-free acne treatment franchise — 27% profit margins.",
+    desc:"Founded by Dr. Truong and his team after years of witnessing the damaging side effects of antibiotic and isotretinoin-dependent treatments, Acne Studio by PMT was built on one bold philosophy: pioneering drug-free acne control that is safe, sustainable, and science-based. The brand's proprietary protocols address the root causes of acne — including skin barrier damage, microbiome imbalance, and inflammation — without long-term health trade-offs. For investors, Acne Studio represents a differentiated clinical beauty concept in a market driven by health-conscious consumers.",
+    outlets:3, established:2025, website:'https://acnestudio.vn',
+    strengths:['Drug-free acne pioneer','Strong healthcare founder background','Multi revenue channels','27% net profit margin','Quick 7-month ROI'],
+    packages:[
+      {name:'Multi-Unit',stores:3,fee:'$75,000',totalPerStore:'$73,000',royalty:'10%',term:'3 yrs',breakeven:'7 months',netMargin:'27%'},
+      {name:'Area Developer',stores:5,fee:'$125,000',totalPerStore:'$73,000',royalty:'10%',term:'5 yrs',breakeven:'7 months',netMargin:'27%'},
+      {name:'Master Franchise',stores:10,fee:'$250,000',totalPerStore:'$73,000',royalty:'10%',term:'10 yrs',breakeven:'7 months',netMargin:'27%'},
+    ]
+  },
+  {
+    id:'b6', name:'FaiFo Tailoring', category:'Fashion / Bespoke', logo:'brand_faifo.png',
+    tagline:'All the luxury of custom tailoring at a fraction of the cost',
+    operatingIn:[{flag:'🇻🇳',name:'Vietnam'}],
+    intro:"Hội An's 500-year tailoring heritage reimagined — bespoke garments delivered in 48 hours.",
+    desc:"Rooted in Hoi An's 500-year tailoring heritage from its 16th-century Silk Road port era, Faifo Tailor was founded to preserve the traditional artistry of Vietnamese bespoke tailoring while bringing it to a global audience through modern technology. The brand uses a personalized measuring service with garments delivered within 48 hours — connecting travelers and clients worldwide to a network of master artisans and over 10,000 fabric types globally. One of the most asset-light franchise opportunities in the portfolio with a 46% profit margin.",
+    outlets:12, established:2018, website:'https://faifotailor.vn',
+    strengths:['Hội An 500-year tailoring heritage','Lowest capex in portfolio','46% profit margin','48-hour garment delivery','Simple setup & operation'],
+    packages:[
+      {name:'Multi-Unit',stores:5,fee:'$28,000',totalPerStore:'$5,000',royalty:'0%',term:'3 yrs',breakeven:'5 months',netMargin:'46%'},
+      {name:'Area Developer',stores:10,fee:'$50,000',totalPerStore:'$5,000',royalty:'0%',term:'5 yrs',breakeven:'5 months',netMargin:'46%'},
+      {name:'Master Franchise',stores:20,fee:'$100,000',totalPerStore:'$5,000',royalty:'0%',term:'10 yrs',breakeven:'5 months',netMargin:'46%'},
+    ]
+  },
+  {
+    id:'b7', name:'Care With Love', category:'Healthcare / Mom & Baby', logo:'brand_carewithlove.webp',
+    tagline:'A trusted companion for your motherhood journey',
+    operatingIn:[{flag:'🇻🇳',name:'Vietnam'},{flag:'🇰🇭',name:'Cambodia'}],
+    intro:"Vietnam's most trusted maternal & infant care brand — 222,000+ families served since 2012.",
+    desc:"Founded in 2012, Care With Love is a pioneering brand in maternal and infant care that harmoniously blends Vietnamese traditional therapies with modern medical care standards, having cared for over 222,000 mothers and babies to date. It is the first and only establishment in Vietnam certified by the Ministry of Health and holding international certifications including BCTMB — the US-standard National Certification Board for Therapeutic Massage and Bodywork. With 19 branches across Vietnam and international locations in the Philippines, Care With Love offers franchise investors a deeply trusted brand in a high-growth, recurring-revenue healthcare services market.",
+    outlets:15, established:2012, website:'https://carewithlove.com.vn/en/',
+    strengths:['222,000+ mothers & babies served','BCTMB internationally certified','MOH Vietnam certified','25% net profit margin','Operations in Philippines'],
+    packages:[
+      {name:'Multi-Unit',stores:3,fee:'$50,000',totalPerStore:'$30,000',royalty:'7%',term:'3 yrs',breakeven:'5 months',netMargin:'25%'},
+      {name:'Area Developer',stores:5,fee:'$75,000',totalPerStore:'$30,000',royalty:'5%',term:'5 yrs',breakeven:'5 months',netMargin:'25%'},
+      {name:'Master Franchise',stores:10,fee:'$250,000',totalPerStore:'$30,000',royalty:'3%',term:'10 yrs',breakeven:'5 months',netMargin:'25%'},
+    ]
+  },
+  {
+    id:'b8', name:'Heramo', category:'Tech / Laundry', logo:'brand_heramo.png',
+    tagline:'Less laundry, more love',
+    operatingIn:[{flag:'🇻🇳',name:'Vietnam'}],
+    intro:'A smart 4.0 laundry franchise that practically runs itself — just one staff per shift.',
+    desc:"HERAMO is a 4.0 premium laundry and cleaning franchise system with 6 years of experience, serving over 60,000 customers and operating 14 branches throughout Ho Chi Minh City. The platform allows customers to book laundry, dry cleaning, shoe care, and household cleaning services with doorstep delivery through a proprietary app, with processing carried out by a quality-controlled partner network. The lean franchise model requires only one staff member per shift and just 10% of the management time of traditional laundry businesses.",
+    outlets:9, established:2017, website:'https://heramo.com',
+    strengths:['Tech-driven 4.0 model','60,000+ customers served','Only 1 staff per shift needed','Low capex & easy ops','Proprietary booking app'],
+    packages:[
+      {name:'Multi-Unit',stores:5,fee:'$30,000',totalPerStore:'$10,000',royalty:'6%',term:'3 yrs',breakeven:'7 months',netMargin:'15%'},
+      {name:'Area Developer',stores:10,fee:'$50,000',totalPerStore:'$10,000',royalty:'5%',term:'5 yrs',breakeven:'7 months',netMargin:'15%'},
+      {name:'Master Franchise',stores:20,fee:'$100,000',totalPerStore:'$10,000',royalty:'3%',term:'10 yrs',breakeven:'7 months',netMargin:'15%'},
+    ]
+  },
+];
+
+// ═══════════════════════════════════════
+// INDUSTRY-SPECIFIC EXPERIENCE CONFIG
+// Maps brand IDs → tailored Step 6 questions
+// ═══════════════════════════════════════
+const INDUSTRY_EXP_CONFIG = [
+  {
+    key: 'fnb',
+    title: 'F&B / Hospitality Experience',
+    brandIds: ['b1','b2','b3','b4'],
+    selectId: 'industryExpFnb',
+    question: 'Do you have F&B / hospitality industry experience?',
+    options: [
+      'Yes – owner / operator of F&B business',
+      'Yes – management level in F&B / hospitality',
+      'Yes – worked in restaurant / café / QSR operations',
+      'No – but very interested in this space',
+    ]
+  },
+  {
+    key: 'beauty',
+    title: 'Beauty & Clinical Skincare Experience',
+    brandIds: ['b5'],
+    selectId: 'industryExpBeauty',
+    question: 'Do you have beauty, aesthetics, or clinical skincare experience?',
+    options: [
+      'Yes – owner / operator of beauty or clinic business',
+      'Yes – management level in beauty / aesthetics',
+      'Yes – clinical, dermatology, or skincare professional background',
+      'No – but very interested in this space',
+    ]
+  },
+  {
+    key: 'fashion',
+    title: 'Fashion & Retail Experience',
+    brandIds: ['b6'],
+    selectId: 'industryExpFashion',
+    question: 'Do you have fashion, luxury retail, or bespoke clothing experience?',
+    options: [
+      'Yes – owner / operator of fashion or retail business',
+      'Yes – management level in retail or fashion',
+      'Yes – worked in tailoring, fashion, or luxury goods',
+      'No – but very interested in this space',
+    ]
+  },
+  {
+    key: 'healthcare',
+    title: 'Healthcare & Maternal Wellness Experience',
+    brandIds: ['b7'],
+    selectId: 'industryExpHealthcare',
+    question: 'Do you have healthcare, maternal care, or therapeutic wellness experience?',
+    options: [
+      'Yes – owner / operator of healthcare or wellness business',
+      'Yes – management level in healthcare / wellness',
+      'Yes – clinical, nursing, or therapeutic background',
+      'No – but very interested in this space',
+    ]
+  },
+  {
+    key: 'tech',
+    title: 'Tech-Enabled Services Experience',
+    brandIds: ['b8'],
+    selectId: 'industryExpTech',
+    question: 'Do you have experience in tech-enabled or app-based service businesses?',
+    options: [
+      'Yes – owner / operator of a tech or service business',
+      'Yes – management level in tech / service operations',
+      'Yes – worked in laundry, cleaning, or home services',
+      'No – but very interested in this space',
+    ]
+  },
+];
+
+const REGIONS = [
+  { id:'asean', label:'ASEAN', flag:'🌏', desc:'SE Asia' },
+  { id:'gcc', label:'GCC', flag:'🕌', desc:'Gulf States' },
+  { id:'indian_sub', label:'Indian Sub-continent', flag:'🇮🇳', desc:'India, Pak, Bangladesh' },
+  { id:'east_asia', label:'East Asia', flag:'🗼', desc:'China, Japan, Korea' },
+  { id:'mena', label:'MENA', flag:'🌙', desc:'Middle East & N. Africa' },
+  { id:'europe', label:'Europe', flag:'🏰', desc:'EU & UK' },
+  { id:'north_america', label:'North America', flag:'🗽', desc:'USA, Canada, Mexico' },
+  { id:'latam', label:'Latin America', flag:'🌎', desc:'South & Central America' },
+  { id:'africa', label:'Sub-Saharan Africa', flag:'🌍', desc:'Africa excl. North' },
+  { id:'oceania', label:'Oceania', flag:'🦘', desc:'Australia, NZ, Pacific' },
+  { id:'central_asia', label:'Central Asia', flag:'🏔️', desc:'Kazakhstan, Uzbekistan...' },
+  { id:'south_asia', label:'South Asia', flag:'🏯', desc:'Sri Lanka, Nepal, Myanmar' },
+];
+
+const REGION_COUNTRIES = {
+  asean:        ['Cambodia','Indonesia','Laos','Malaysia','Myanmar','Philippines','Singapore','Thailand','Vietnam'],
+  gcc:          ['Bahrain','Kuwait','Oman','Qatar','Saudi Arabia','UAE'],
+  indian_sub:   ['Bangladesh','India','Maldives','Nepal','Pakistan','Sri Lanka'],
+  east_asia:    ['China','Japan','Mongolia','South Korea','Taiwan'],
+  mena:         ['Algeria','Egypt','Iran','Iraq','Jordan','Lebanon','Libya','Morocco','Oman','Palestine','Qatar','Saudi Arabia','Syria','Tunisia','Turkey','UAE','Yemen'],
+  europe:       ['Albania','Armenia','Austria','Belgium','Bosnia','Bulgaria','Croatia','Cyprus','Czech Republic','Denmark','Estonia','Finland','France','Georgia','Germany','Greece','Hungary','Ireland','Israel','Italy','Latvia','Lithuania','Luxembourg','Malta','Netherlands','Norway','Poland','Portugal','Romania','Russia','Serbia','Slovakia','Slovenia','Spain','Sweden','Switzerland','Ukraine','United Kingdom'],
+  north_america:['Canada','Mexico','United States'],
+  latam:        ['Argentina','Bolivia','Brazil','Chile','Colombia','Ecuador','Guatemala','Panama','Peru','Venezuela'],
+  africa:       ['Ethiopia','Ghana','Kenya','Nigeria','Senegal','South Africa','Tanzania','Uganda','Zambia','Zimbabwe'],
+  oceania:      ['Australia','New Zealand'],
+  central_asia: ['Azerbaijan','Kazakhstan','Kyrgyzstan','Tajikistan','Turkmenistan','Uzbekistan'],
+  south_asia:   ['Myanmar','Nepal','Sri Lanka'],
+};
+
+const COUNTRIES = ['Afghanistan','Albania','Algeria','Argentina','Armenia','Australia','Austria','Azerbaijan','Bahrain','Bangladesh','Belgium','Bolivia','Bosnia','Brazil','Bulgaria','Cambodia','Canada','Chile','China','Colombia','Croatia','Cyprus','Czech Republic','Denmark','Ecuador','Egypt','Estonia','Ethiopia','Finland','France','Georgia','Germany','Ghana','Greece','Guatemala','Hungary','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Japan','Jordan','Kazakhstan','Kenya','Kuwait','Kyrgyzstan','Laos','Latvia','Lebanon','Libya','Lithuania','Luxembourg','Malaysia','Maldives','Malta','Mexico','Mongolia','Morocco','Myanmar','Nepal','Netherlands','New Zealand','Nigeria','Norway','Oman','Pakistan','Palestine','Panama','Peru','Philippines','Poland','Portugal','Qatar','Romania','Russia','Saudi Arabia','Senegal','Serbia','Singapore','Slovakia','Slovenia','South Africa','South Korea','Spain','Sri Lanka','Sudan','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','Tunisia','Turkey','Turkmenistan','UAE','Uganda','Ukraine','United Kingdom','United States','Uzbekistan','Venezuela','Vietnam','Yemen','Zambia','Zimbabwe'];
+
+const CITIES = {
+  'Afghanistan':['Kabul','Kandahar','Herat','Mazar-i-Sharif','Jalalabad','Kunduz'],
+  'Albania':['Tirana','Durrës','Vlorë','Shkodër','Fier','Korçë'],
+  'Algeria':['Algiers','Oran','Constantine','Annaba','Blida','Sétif','Tlemcen','Batna'],
+  'Argentina':['Buenos Aires','Córdoba','Rosario','Mendoza','La Plata','Tucumán','Mar del Plata','Salta'],
+  'Armenia':['Yerevan','Gyumri','Vanadzor','Vagharshapat','Abovyan'],
+  'Australia':['Sydney','Melbourne','Brisbane','Perth','Adelaide','Gold Coast','Canberra','Hobart','Darwin'],
+  'Austria':['Vienna','Graz','Linz','Salzburg','Innsbruck','Klagenfurt'],
+  'Azerbaijan':['Baku','Ganja','Sumqayit','Mingachevir','Nakhchivan'],
+  'Bahrain':['Manama','Muharraq','Riffa','Hamad Town','Isa Town','Sitra'],
+  'Bangladesh':['Dhaka','Chittagong','Sylhet','Rajshahi','Khulna','Comilla','Narayanganj','Gazipur'],
+  'Belgium':['Brussels','Antwerp','Ghent','Charleroi','Liège','Bruges','Namur'],
+  'Bolivia':['Sucre','La Paz','Santa Cruz de la Sierra','Cochabamba','Oruro','Potosí'],
+  'Bosnia':['Sarajevo','Banja Luka','Tuzla','Mostar','Zenica'],
+  'Brazil':['São Paulo','Rio de Janeiro','Brasília','Salvador','Fortaleza','Belo Horizonte','Manaus','Curitiba','Porto Alegre','Recife'],
+  'Bulgaria':['Sofia','Plovdiv','Varna','Burgas','Ruse','Stara Zagora'],
+  'Cambodia':['Phnom Penh','Siem Reap','Battambang','Sihanoukville','Kampong Cham'],
+  'Canada':['Toronto','Montreal','Vancouver','Calgary','Edmonton','Ottawa','Winnipeg','Quebec City','Hamilton','Mississauga'],
+  'Chile':['Santiago','Valparaíso','Concepción','La Serena','Antofagasta','Temuco','Rancagua'],
+  'China':['Beijing','Shanghai','Guangzhou','Shenzhen','Chengdu','Hangzhou','Wuhan','Xi\'an','Chongqing','Nanjing','Tianjin','Suzhou','Qingdao','Zhengzhou','Dongguan','Foshan','Shenyang','Harbin','Kunming','Xiamen'],
+  'Colombia':['Bogotá','Medellín','Cali','Barranquilla','Cartagena','Bucaramanga','Pereira','Manizales'],
+  'Croatia':['Zagreb','Split','Rijeka','Osijek','Zadar','Dubrovnik'],
+  'Cyprus':['Nicosia','Limassol','Larnaca','Paphos','Famagusta'],
+  'Czech Republic':['Prague','Brno','Ostrava','Plzeň','Liberec','Olomouc'],
+  'Denmark':['Copenhagen','Aarhus','Odense','Aalborg','Esbjerg','Randers'],
+  'Ecuador':['Quito','Guayaquil','Cuenca','Ambato','Manta','Portoviejo'],
+  'Egypt':['Cairo','Alexandria','Giza','Shubra El-Kheima','Port Said','Suez','Luxor','Aswan','Mansoura','Tanta'],
+  'Estonia':['Tallinn','Tartu','Narva','Pärnu','Kohtla-Järve'],
+  'Ethiopia':['Addis Ababa','Dire Dawa','Mekelle','Gondar','Bahir Dar','Hawassa'],
+  'Finland':['Helsinki','Espoo','Tampere','Vantaa','Oulu','Turku'],
+  'France':['Paris','Marseille','Lyon','Toulouse','Nice','Nantes','Strasbourg','Bordeaux','Lille','Rennes','Reims','Toulon'],
+  'Georgia':['Tbilisi','Kutaisi','Batumi','Rustavi','Gori','Zugdidi'],
+  'Germany':['Berlin','Hamburg','Munich','Cologne','Frankfurt','Stuttgart','Düsseldorf','Dortmund','Essen','Leipzig','Bremen','Dresden','Nuremberg','Hannover'],
+  'Ghana':['Accra','Kumasi','Tamale','Cape Coast','Sekondi-Takoradi','Obuasi'],
+  'Greece':['Athens','Thessaloniki','Patras','Heraklion','Larissa','Volos','Rhodes'],
+  'Guatemala':['Guatemala City','Mixco','Villa Nueva','Quetzaltenango','Escuintla'],
+  'Hungary':['Budapest','Debrecen','Miskolc','Szeged','Pécs','Győr','Nyíregyháza'],
+  'India':['Mumbai','Delhi','Bengaluru','Hyderabad','Chennai','Kolkata','Pune','Ahmedabad','Jaipur','Surat','Lucknow','Kanpur','Nagpur','Indore','Bhopal','Coimbatore','Kochi','Chandigarh','Visakhapatnam','Gurgaon','Noida','Mysuru'],
+  'Indonesia':['Jakarta','Surabaya','Bandung','Medan','Bekasi','Palembang','Semarang','Makassar','Tangerang','Depok','Bali (Denpasar)','Yogyakarta','Bogor'],
+  'Iran':['Tehran','Mashhad','Isfahan','Karaj','Tabriz','Shiraz','Qom','Ahvaz'],
+  'Iraq':['Baghdad','Basra','Mosul','Erbil','Sulaymaniyah','Najaf','Kirkuk'],
+  'Ireland':['Dublin','Cork','Limerick','Galway','Waterford','Drogheda'],
+  'Israel':['Jerusalem','Tel Aviv','Haifa','Rishon LeZion','Petah Tikva','Ashdod','Netanya','Beer Sheva'],
+  'Italy':['Rome','Milan','Naples','Turin','Palermo','Genoa','Bologna','Florence','Bari','Venice'],
+  'Japan':['Tokyo','Yokohama','Osaka','Nagoya','Sapporo','Fukuoka','Kobe','Kyoto','Kawasaki','Saitama','Hiroshima','Sendai'],
+  'Jordan':['Amman','Zarqa','Irbid','Russeifa','Aqaba','Madaba'],
+  'Kazakhstan':['Almaty','Nur-Sultan (Astana)','Shymkent','Karaganda','Aktobe','Taraz','Pavlodar'],
+  'Kenya':['Nairobi','Mombasa','Kisumu','Nakuru','Eldoret','Thika'],
+  'Kuwait':['Kuwait City','Salmiya','Hawalli','Farwaniya','Jahra','Ahmadi'],
+  'Kyrgyzstan':['Bishkek','Osh','Jalal-Abad','Karakol','Tokmok'],
+  'Laos':['Vientiane','Pakse','Savannakhet','Luang Prabang','Thakhek'],
+  'Latvia':['Riga','Daugavpils','Liepāja','Jelgava','Jūrmala'],
+  'Lebanon':['Beirut','Tripoli','Sidon','Tyre','Zahle','Jounieh'],
+  'Libya':['Tripoli','Benghazi','Misrata','Tobruk','Al-Khums'],
+  'Lithuania':['Vilnius','Kaunas','Klaipėda','Šiauliai','Panevėžys'],
+  'Luxembourg':['Luxembourg City','Esch-sur-Alzette','Differdange','Dudelange'],
+  'Malaysia':['Kuala Lumpur','George Town (Penang)','Johor Bahru','Ipoh','Kota Kinabalu','Shah Alam','Petaling Jaya','Kuching','Subang Jaya','Klang','Cyberjaya','Putrajaya'],
+  'Maldives':['Malé','Addu City','Fuvahmulah','Kulhudhuffushi'],
+  'Malta':['Valletta','Birkirkara','Qormi','Mosta','Naxxar','Rabat'],
+  'Mexico':['Mexico City','Guadalajara','Monterrey','Puebla','Tijuana','Cancún','Mérida','León','Zapopan','Juárez','San Luis Potosí','Querétaro'],
+  'Mongolia':['Ulaanbaatar','Erdenet','Darkhan','Choibalsan'],
+  'Morocco':['Casablanca','Rabat','Marrakech','Fez','Tangier','Agadir','Meknes','Oujda'],
+  'Myanmar':['Yangon','Mandalay','Naypyidaw','Bago','Mawlamyine','Taunggyi'],
+  'Nepal':['Kathmandu','Pokhara','Lalitpur','Bharatpur','Biratnagar','Birgunj'],
+  'Netherlands':['Amsterdam','Rotterdam','The Hague','Utrecht','Eindhoven','Tilburg','Groningen','Almere'],
+  'New Zealand':['Auckland','Wellington','Christchurch','Hamilton','Tauranga','Dunedin','Napier'],
+  'Nigeria':['Lagos','Kano','Ibadan','Abuja','Port Harcourt','Benin City','Maiduguri','Enugu','Kaduna'],
+  'Norway':['Oslo','Bergen','Trondheim','Stavanger','Drammen','Tromsø'],
+  'Oman':['Muscat','Salalah','Sohar','Nizwa','Sur','Barka','Rustaq'],
+  'Pakistan':['Karachi','Lahore','Faisalabad','Rawalpindi','Islamabad','Gujranwala','Peshawar','Multan','Quetta','Hyderabad','Sialkot'],
+  'Palestine':['East Jerusalem','Gaza','Ramallah','Hebron','Nablus','Jenin'],
+  'Panama':['Panama City','San Miguelito','Colón','David','Arraijan'],
+  'Peru':['Lima','Arequipa','Trujillo','Chiclayo','Piura','Cusco','Iquitos'],
+  'Philippines':['Manila','Quezon City','Caloocan','Davao','Cebu City','Zamboanga','Taguig','Antipolo','Makati','Pasig','Cagayan de Oro','Bacoor'],
+  'Poland':['Warsaw','Kraków','Łódź','Wrocław','Poznań','Gdańsk','Szczecin','Bydgoszcz','Lublin','Katowice'],
+  'Portugal':['Lisbon','Porto','Braga','Setúbal','Coimbra','Funchal','Faro'],
+  'Qatar':['Doha','Al Rayyan','Al Wakrah','Al Khor','Lusail','Mesaieed'],
+  'Romania':['Bucharest','Cluj-Napoca','Timișoara','Iași','Constanța','Craiova','Brașov','Galați'],
+  'Russia':['Moscow','Saint Petersburg','Novosibirsk','Yekaterinburg','Kazan','Nizhny Novgorod','Chelyabinsk','Omsk','Samara','Rostov-on-Don','Ufa','Krasnoyarsk'],
+  'Saudi Arabia':['Riyadh','Jeddah','Mecca','Medina','Dammam','Khobar','Dhahran','Taif','Tabuk','Buraidah','Abha'],
+  'Senegal':['Dakar','Thiès','Touba','Saint-Louis','Kaolack'],
+  'Serbia':['Belgrade','Novi Sad','Niš','Kragujevac','Subotica'],
+  'Singapore':['Singapore (Central)','Orchard','Marina Bay','Jurong East','Tampines','Woodlands','Buona Vista','Changi'],
+  'Slovakia':['Bratislava','Košice','Prešov','Žilina','Nitra','Banská Bystrica'],
+  'Slovenia':['Ljubljana','Maribor','Celje','Kranj','Velenje'],
+  'South Africa':['Johannesburg','Cape Town','Durban','Pretoria','Port Elizabeth','Bloemfontein','Soweto','East London','Sandton','Midrand'],
+  'South Korea':['Seoul','Busan','Incheon','Daegu','Daejeon','Gwangju','Suwon','Ulsan','Changwon','Goyang'],
+  'Spain':['Madrid','Barcelona','Valencia','Seville','Bilbao','Málaga','Zaragoza','Murcia','Palma','Alicante','Valladolid'],
+  'Sri Lanka':['Colombo','Kandy','Galle','Negombo','Jaffna','Trincomalee','Batticaloa'],
+  'Sudan':['Khartoum','Omdurman','Khartoum North','Port Sudan','Kassala'],
+  'Sweden':['Stockholm','Gothenburg','Malmö','Uppsala','Västerås','Örebro','Linköping'],
+  'Switzerland':['Zurich','Geneva','Basel','Bern','Lausanne','Winterthur','St. Gallen','Lugano'],
+  'Syria':['Damascus','Aleppo','Homs','Latakia','Hama','Deir ez-Zor'],
+  'Taiwan':['Taipei','New Taipei','Taichung','Kaohsiung','Tainan','Hsinchu','Keelung','Taoyuan'],
+  'Tajikistan':['Dushanbe','Khujand','Kulob','Bokhtar'],
+  'Tanzania':['Dar es Salaam','Mwanza','Arusha','Dodoma','Mbeya','Zanzibar City'],
+  'Thailand':['Bangkok','Chiang Mai','Phuket','Pattaya','Khon Kaen','Hat Yai','Nakhon Ratchasima','Udon Thani','Chonburi','Rayong'],
+  'Tunisia':['Tunis','Sfax','Sousse','Ettadhamen','Kairouan','Bizerte'],
+  'Turkey':['Istanbul','Ankara','Izmir','Bursa','Adana','Gaziantep','Konya','Antalya','Kayseri','Mersin','Diyarbakir'],
+  'Turkmenistan':['Ashgabat','Turkmenabat','Dashoguz','Mary','Balkanabat'],
+  'UAE':['Dubai','Abu Dhabi','Sharjah','Ajman','Al Ain','Ras Al Khaimah','Fujairah','Umm Al Quwain'],
+  'Uganda':['Kampala','Gulu','Lira','Mbarara','Jinja','Entebbe'],
+  'Ukraine':['Kyiv','Kharkiv','Odessa','Dnipro','Zaporizhzhia','Lviv','Kryvyi Rih','Mykolaiv'],
+  'United Kingdom':['London','Birmingham','Manchester','Glasgow','Liverpool','Leeds','Edinburgh','Bristol','Sheffield','Cardiff','Belfast','Newcastle','Nottingham','Leicester','Southampton'],
+  'United States':['New York','Los Angeles','Chicago','Houston','Phoenix','Philadelphia','San Antonio','San Diego','Dallas','San Jose','Austin','Jacksonville','Fort Worth','Columbus','Charlotte','San Francisco','Seattle','Denver','Nashville','Miami','Atlanta','Minneapolis','Boston','Las Vegas','Portland'],
+  'Uzbekistan':['Tashkent','Samarkand','Namangan','Andijan','Bukhara','Fergana','Nukus'],
+  'Venezuela':['Caracas','Maracaibo','Valencia','Barquisimeto','Maracay','Ciudad Guayana'],
+  'Vietnam':['Ho Chi Minh City','Hanoi','Da Nang','Hai Phong','Can Tho','Bien Hoa','Nha Trang','Hue','Vung Tau','Buon Ma Thuot'],
+  'Yemen':['Sanaa','Aden','Taiz','Al Hudaydah','Ibb','Dhamar'],
+  'Zambia':['Lusaka','Kitwe','Ndola','Kabwe','Livingstone','Chipata'],
+  'Zimbabwe':['Harare','Bulawayo','Chitungwiza','Mutare','Gweru','Kwekwe'],
+};
+
+// ═════════════════════
+// STATE
+// ═════════════════════
+const state = {
+  currentStep: 1,
+  applicantType: 'individual',
+  franchiseType: '',
+  selectedBrands: [],
+  selectedRegions: [],
+  specificRegionCountries: [],
+  territoryMode: 'region',
+  s2TerritoryMode: 'region',
+  selectedIndustries: [],
+  selectedStrengths: [],
+  selectedHearAbout: [],
+  selectedCountries: [],
+  liquidCapital: '',
+  netWorth: '',
+  franchiseExpEntries: 0,
+};
+
+// ═════════════════════
+// INIT
+// ═════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  buildProgress();
+  buildCountryDropdowns();
+  buildDobSelects();
+  buildBrandGrid();
+  buildRegionGrid();
+  buildCountryPickGrid();
+  s2BuildRegionGrid();
+  s2BuildCountryPickGrid();
+  toggleBrokerField();
+  document.getElementById('hasBroker').addEventListener('change', toggleBrokerField);
+  document.getElementById('hasFranchiseExp').addEventListener('change', toggleFranchiseExp);
+});
+
+function buildProgress() {
+  const steps = ['Applicant','Franchise Type','Brands','Territory','Financials','Experience','Vision','Documents','Review'];
+  const wrap = document.getElementById('progressSteps');
+  wrap.innerHTML = steps.map((s,i) => `
+    <div class="step-item">
+      <div class="step-dot ${i===0?'active':''}" id="dot${i+1}">${i+1}</div>
+      <div class="step-label ${i===0?'active':''}" id="lbl${i+1}">${s}</div>
+      ${i<steps.length-1?`<div class="step-connector" id="conn${i+1}"></div>`:''}
+    </div>
+  `).join('');
+}
+
+function buildDobSelects() {
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dayEl = document.getElementById('dobDay');
+  const monEl = document.getElementById('dobMonth');
+  const yrEl  = document.getElementById('dobYear');
+
+  // Days 1–31
+  for (let d = 1; d <= 31; d++) {
+    const o = document.createElement('option'); o.value = d; o.textContent = d; dayEl.appendChild(o);
+  }
+  // Months
+  months.forEach((m, i) => { const o = document.createElement('option'); o.value = i+1; o.textContent = m; monEl.appendChild(o); });
+  // Years: current year - 18 down to 1940
+  const maxYear = new Date().getFullYear() - 18;
+  for (let y = maxYear; y >= 1940; y--) {
+    const o = document.createElement('option'); o.value = y; o.textContent = y; yrEl.appendChild(o);
+  }
+
+  // Sync to hidden dob field & adjust days per month
+  function syncDob() {
+    const d = dayEl.value, m = monEl.value, y = yrEl.value;
+    document.getElementById('dob').value = (d && m && y) ? `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}` : '';
+    // Adjust max days when month/year changes
+    if (m && y) {
+      const maxDay = new Date(y, m, 0).getDate();
+      Array.from(dayEl.options).forEach(o => { if (o.value) o.disabled = parseInt(o.value) > maxDay; });
+      if (parseInt(dayEl.value) > maxDay) dayEl.value = '';
+    }
+  }
+  [dayEl, monEl, yrEl].forEach(el => el.addEventListener('change', syncDob));
+}
+
+function buildCountryDropdowns() {
+  const selects = ['nationality','countryOfResidence','countryOfIncorp','primaryCountry'];
+  selects.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) COUNTRIES.forEach(c => { const o=document.createElement('option'); o.value=c; o.textContent=c; el.appendChild(o); });
+  });
+  document.getElementById('countryOfResidence').addEventListener('change', () => {
+    updateCities(document.getElementById('countryOfResidence').value);
+  });
+}
+
+function updateCities(country) {
+  const sel = document.getElementById('city');
+  const other = document.getElementById('cityOther');
+  sel.innerHTML = '<option value="">Select city...</option>';
+  if (!country) { sel.disabled=true; sel.style.color='var(--muted)'; sel.options[0].text='— Select country first —'; return; }
+  const cities = CITIES[country] || [];
+  cities.forEach(c => { const o=document.createElement('option'); o.value=c; o.textContent=c; sel.appendChild(o); });
+  const oth=document.createElement('option'); oth.value='__other__'; oth.textContent='Other (type below)...'; sel.appendChild(oth);
+  sel.disabled=false; sel.style.color='var(--text)';
+  sel.onchange = () => { other.style.display = sel.value==='__other__' ? 'block' : 'none'; if(sel.value!=='__other__') other.value=''; };
+  other.style.display='none'; other.value='';
+}
+
+function buildBrandGrid() {
+  const grid = document.getElementById('brandGrid');
+  grid.innerHTML = BRANDS.map(b => `
+    <div class="brand-card" id="bc_${b.id}" onclick="toggleBrand('${b.id}')">
+      <div class="brand-logo-wrap"><img src="${b.logo}" alt="${b.name}" onerror="this.style.display='none'"></div>
+      <div class="brand-name">${b.name}</div>
+      <div class="brand-cat">${b.category}</div>
+      <div class="brand-intro">${b.intro}</div>
+      <button class="brand-learn-btn" onclick="event.stopPropagation();openBrandModal('${b.id}')">Learn More →</button>
+    </div>
+  `).join('');
+}
+
+function toggleBrand(id) {
+  const idx = state.selectedBrands.indexOf(id);
+  if (idx > -1) state.selectedBrands.splice(idx, 1);
+  else state.selectedBrands.push(id);
+  document.querySelectorAll('.brand-card').forEach(c => c.classList.remove('selected'));
+  state.selectedBrands.forEach(bid => document.getElementById('bc_'+bid)?.classList.add('selected'));
+  updateBrandMotivations();
+}
+
+function updateBrandMotivations() {
+  const section = document.getElementById('brandMotivations');
+  const cards = document.getElementById('brandMotivationCards');
+  if (state.selectedBrands.length === 0) { section.style.display='none'; return; }
+  section.style.display='block';
+  cards.innerHTML = state.selectedBrands.map(bid => {
+    const b = BRANDS.find(x=>x.id===bid);
+    return `<div class="brand-mot-card">
+      <div class="brand-mot-header">
+        <img src="${b.logo}" alt="${b.name}" style="height:36px;max-width:100px;object-fit:contain;margin-right:10px;">
+        <div><div class="brand-mot-name">${b.name}</div><div style="font-size:11px;color:var(--muted)">${b.tagline}</div></div>
+      </div>
+      <div class="form-group"><label>Why are you interested in <strong>${b.name}</strong>? <span class="req">*</span></label>
+      <textarea id="mot_${bid}" placeholder="Describe your interest in ${b.name}, your understanding of this brand, and how you plan to develop it in your territory..." style="min-height:80px;"></textarea></div>
+    </div>`;
+  }).join('');
+}
+
+function buildRegionGrid() {
+  const grid = document.getElementById('regionGrid');
+  grid.innerHTML = REGIONS.map(r => `
+    <div class="region-btn" id="reg_${r.id}" onclick="toggleRegion('${r.id}')">
+      <span class="region-flag">${r.flag}</span>
+      <div><div style="font-weight:600">${r.label}</div><div style="font-size:11px;color:var(--muted)">${r.desc}</div></div>
+    </div>
+  `).join('');
+}
+
+function toggleRegion(id) {
+  const isAdding = !state.selectedRegions.includes(id);
+  const idx = state.selectedRegions.indexOf(id);
+  if (idx > -1) state.selectedRegions.splice(idx, 1);
+  else state.selectedRegions.push(id);
+  // Mutual exclusivity: adding a region clears any individually-picked countries
+  if (isAdding && state.selectedCountries.length > 0) {
+    state.selectedCountries = [];
+    document.querySelectorAll('#countryPickGrid .country-pick-btn.selected, #s2CountryPickGrid .country-pick-btn.selected')
+      .forEach(b => b.classList.remove('selected'));
+    refreshCountryChips();
+    s2RefreshCountryChips();
+  }
+  document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('selected'));
+  state.selectedRegions.forEach(rid => {
+    document.getElementById('reg_'+rid)?.classList.add('selected');
+    document.getElementById('s2reg_'+rid)?.classList.add('selected');
+  });
+  const hasRegions = state.selectedRegions.length > 0;
+  // Step 4 sync
+  document.getElementById('countrySection').style.display = hasRegions ? 'block' : 'none';
+  if (hasRegions) buildRegionCountryPicker();
+  else { state.specificRegionCountries = []; refreshSpecificCountryChips(); }
+  // Step 2 sync
+  const s2cs = document.getElementById('s2CountrySection');
+  if (s2cs) {
+    s2cs.style.display = hasRegions ? 'block' : 'none';
+    if (hasRegions) s2BuildRegionCountryPicker();
+    else s2RefreshSpecificCountryChips();
+  }
+  updatePrimaryCountryDropdown();
+}
+
+function buildRegionCountryPicker() {
+  // Get all countries in selected regions (deduped, sorted)
+  const set = new Set();
+  state.selectedRegions.forEach(rid => (REGION_COUNTRIES[rid] || []).forEach(c => set.add(c)));
+  const countries = COUNTRIES.filter(c => set.has(c));
+  // Remove any previously selected specific countries no longer in scope
+  state.specificRegionCountries = state.specificRegionCountries.filter(c => set.has(c));
+  const grid = document.getElementById('regionCountryPickGrid');
+  grid.innerHTML = countries.map(c => `
+    <button class="country-pick-btn${state.specificRegionCountries.includes(c) ? ' selected' : ''}"
+      id="rcpick_${c.replace(/\s+/g,'_')}" onclick="toggleRegionCountry('${c.replace(/'/g,"\\'")}')">
+      ${c}
+    </button>
+  `).join('');
+  // Reset search
+  const srch = document.getElementById('regionCountrySearch');
+  if (srch) srch.value = '';
+  refreshSpecificCountryChips();
+}
+
+function filterRegionCountries(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('#regionCountryPickGrid .country-pick-btn').forEach(btn => {
+    btn.classList.toggle('hidden', q.length > 0 && !btn.textContent.trim().toLowerCase().includes(q));
+  });
+}
+
+function toggleRegionCountry(country) {
+  const idx = state.specificRegionCountries.indexOf(country);
+  if (idx > -1) state.specificRegionCountries.splice(idx, 1);
+  else state.specificRegionCountries.push(country);
+  // Update Step 4 button
+  const btn4 = document.getElementById('rcpick_' + country.replace(/\s+/g,'_'));
+  if (btn4) btn4.classList.toggle('selected', state.specificRegionCountries.includes(country));
+  refreshSpecificCountryChips();
+  // Update Step 2 button
+  const btn2 = document.getElementById('s2rcpick_' + country.replace(/\s+/g,'_'));
+  if (btn2) btn2.classList.toggle('selected', state.specificRegionCountries.includes(country));
+  s2RefreshSpecificCountryChips();
+}
+
+function refreshSpecificCountryChips() {
+  const wrap = document.getElementById('specificCountriesChipsWrap');
+  const chips = document.getElementById('specificCountriesChips');
+  if (!wrap) return;
+  if (state.specificRegionCountries.length === 0) { wrap.style.display = 'none'; return; }
+  wrap.style.display = '';
+  chips.innerHTML = state.specificRegionCountries.map(c => `
+    <span class="country-chip">
+      ${c}
+      <span class="country-chip-remove" onclick="toggleRegionCountry('${c.replace(/'/g,"\\'")}')">✕</span>
+    </span>
+  `).join('');
+}
+
+function toggleIndustry(name) {
+  const idx = state.selectedIndustries.indexOf(name);
+  if (idx > -1) state.selectedIndustries.splice(idx, 1);
+  else state.selectedIndustries.push(name);
+  document.querySelectorAll('#industryPickWrap .industry-btn').forEach(btn => {
+    btn.classList.toggle('selected', state.selectedIndustries.includes(btn.textContent.trim()));
+  });
+}
+
+function toggleStrength(name) {
+  const idx = state.selectedStrengths.indexOf(name);
+  if (idx > -1) state.selectedStrengths.splice(idx, 1);
+  else state.selectedStrengths.push(name);
+  document.querySelectorAll('#strengthPickWrap .industry-btn').forEach(btn => {
+    btn.classList.toggle('selected', state.selectedStrengths.includes(btn.textContent.trim()));
+  });
+}
+
+function toggleHearAbout(name) {
+  const idx = state.selectedHearAbout.indexOf(name);
+  if (idx > -1) state.selectedHearAbout.splice(idx, 1);
+  else state.selectedHearAbout.push(name);
+  document.querySelectorAll('#hearAboutPickWrap .industry-btn').forEach(btn => {
+    btn.classList.toggle('selected', state.selectedHearAbout.includes(btn.textContent.trim()));
+  });
+}
+
+function switchTerritoryMode(mode) {
+  state.territoryMode = mode;
+  document.getElementById('terrRegionMode').style.display = mode === 'region' ? '' : 'none';
+  document.getElementById('terrCountryMode').style.display = mode === 'country' ? '' : 'none';
+  document.getElementById('tabRegion').classList.toggle('active', mode === 'region');
+  document.getElementById('tabCountry').classList.toggle('active', mode === 'country');
+  updatePrimaryCountryDropdown();
+}
+
+function updatePrimaryCountryDropdown() {
+  const sel = document.getElementById('primaryCountry');
+  const current = sel.value;
+  let countries = [];
+  // Check actual state data regardless of which step's mode tab is active —
+  // selections from Step 2 or Step 4 both write to the same state arrays.
+  if (state.selectedCountries.length > 0) {
+    // Specific countries were directly selected (By Country mode, either step)
+    countries = [...state.selectedCountries].sort();
+  } else if (state.selectedRegions.length > 0) {
+    // Regions were selected (By Region mode, either step) — expand to all countries within
+    const set = new Set();
+    state.selectedRegions.forEach(rid => (REGION_COUNTRIES[rid] || []).forEach(c => set.add(c)));
+    countries = COUNTRIES.filter(c => set.has(c));
+  } else {
+    countries = COUNTRIES;
+  }
+  sel.innerHTML = '<option value="">Select primary country...</option>' +
+    countries.map(c => `<option value="${c}"${c === current ? ' selected' : ''}>${c}</option>`).join('');
+}
+
+function buildCountryPickGrid() {
+  const grid = document.getElementById('countryPickGrid');
+  grid.innerHTML = COUNTRIES.map(c => `
+    <button class="country-pick-btn" id="cpick_${c.replace(/\s+/g,'_')}" onclick="toggleCountryPick('${c.replace(/'/g,"\\'")}')">
+      ${c}
+    </button>
+  `).join('');
+}
+
+function filterCountries(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('#countryPickGrid .country-pick-btn').forEach(btn => {
+    btn.classList.toggle('hidden', q.length > 0 && !btn.textContent.trim().toLowerCase().includes(q));
+  });
+}
+
+function toggleCountryPick(country) {
+  const isAdding = !state.selectedCountries.includes(country);
+  const idx = state.selectedCountries.indexOf(country);
+  if (idx > -1) state.selectedCountries.splice(idx, 1);
+  else state.selectedCountries.push(country);
+  // Mutual exclusivity: adding a specific country clears any region selections
+  if (isAdding && state.selectedRegions.length > 0) {
+    state.selectedRegions = [];
+    state.specificRegionCountries = [];
+    document.querySelectorAll('.region-btn.selected').forEach(b => b.classList.remove('selected'));
+    document.getElementById('countrySection').style.display = 'none';
+    const s2cs = document.getElementById('s2CountrySection');
+    if (s2cs) s2cs.style.display = 'none';
+    refreshSpecificCountryChips();
+    s2RefreshSpecificCountryChips();
+  }
+  // Update Step 4 button
+  const btn4 = document.getElementById('cpick_' + country.replace(/\s+/g,'_'));
+  if (btn4) btn4.classList.toggle('selected', state.selectedCountries.includes(country));
+  refreshCountryChips();
+  // Update Step 2 button
+  const btn2 = document.getElementById('s2cpick_' + country.replace(/\s+/g,'_'));
+  if (btn2) btn2.classList.toggle('selected', state.selectedCountries.includes(country));
+  s2RefreshCountryChips();
+  updatePrimaryCountryDropdown();
+}
+
+function refreshCountryChips() {
+  const wrap = document.getElementById('selectedCountriesWrap');
+  const chips = document.getElementById('selectedCountriesChips');
+  if (state.selectedCountries.length === 0) { wrap.style.display = 'none'; return; }
+  wrap.style.display = '';
+  chips.innerHTML = state.selectedCountries.map(c => `
+    <span class="country-chip">
+      ${c}
+      <span class="country-chip-remove" onclick="toggleCountryPick('${c.replace(/'/g,"\\'")}')">✕</span>
+    </span>
+  `).join('');
+}
+
+// ─── Step 2 Territory Picker (Area Dev / Master Franchisee) ───────────────────
+function s2SwitchMode(mode) {
+  state.s2TerritoryMode = mode;
+  document.getElementById('s2RegionMode').style.display = mode === 'region' ? '' : 'none';
+  document.getElementById('s2CountryMode').style.display = mode === 'country' ? '' : 'none';
+  document.getElementById('s2TabRegion').classList.toggle('active', mode === 'region');
+  document.getElementById('s2TabCountry').classList.toggle('active', mode === 'country');
+}
+
+function s2BuildRegionGrid() {
+  const grid = document.getElementById('s2RegionGrid');
+  if (!grid) return;
+  grid.innerHTML = REGIONS.map(r => `
+    <div class="region-btn${state.selectedRegions.includes(r.id) ? ' selected' : ''}" id="s2reg_${r.id}" onclick="toggleRegion('${r.id}')">
+      <span class="region-flag">${r.flag}</span>
+      <div><div style="font-weight:600">${r.label}</div><div style="font-size:11px;color:var(--muted)">${r.desc}</div></div>
+    </div>
+  `).join('');
+}
+
+function s2BuildRegionCountryPicker() {
+  const set = new Set();
+  state.selectedRegions.forEach(rid => (REGION_COUNTRIES[rid] || []).forEach(c => set.add(c)));
+  const countries = COUNTRIES.filter(c => set.has(c));
+  state.specificRegionCountries = state.specificRegionCountries.filter(c => set.has(c));
+  const grid = document.getElementById('s2RegionCountryPickGrid');
+  if (!grid) return;
+  grid.innerHTML = countries.map(c => `
+    <button class="country-pick-btn${state.specificRegionCountries.includes(c) ? ' selected' : ''}"
+      id="s2rcpick_${c.replace(/\s+/g,'_')}" onclick="toggleRegionCountry('${c.replace(/'/g,"\\'")}')">
+      ${c}
+    </button>
+  `).join('');
+  const srch = document.getElementById('s2RegionCountrySearch');
+  if (srch) srch.value = '';
+  s2RefreshSpecificCountryChips();
+}
+
+function s2FilterRegionCountries(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('#s2RegionCountryPickGrid .country-pick-btn').forEach(btn => {
+    btn.classList.toggle('hidden', q.length > 0 && !btn.textContent.trim().toLowerCase().includes(q));
+  });
+}
+
+function s2RefreshSpecificCountryChips() {
+  const wrap = document.getElementById('s2SpecificCountriesChipsWrap');
+  const chips = document.getElementById('s2SpecificCountriesChips');
+  if (!wrap) return;
+  if (state.specificRegionCountries.length === 0) { wrap.style.display = 'none'; return; }
+  wrap.style.display = '';
+  chips.innerHTML = state.specificRegionCountries.map(c => `
+    <span class="country-chip">
+      ${c}
+      <span class="country-chip-remove" onclick="toggleRegionCountry('${c.replace(/'/g,"\\'")}')">✕</span>
+    </span>
+  `).join('');
+}
+
+function s2BuildCountryPickGrid() {
+  const grid = document.getElementById('s2CountryPickGrid');
+  if (!grid) return;
+  grid.innerHTML = COUNTRIES.map(c => `
+    <button class="country-pick-btn${state.selectedCountries.includes(c) ? ' selected' : ''}"
+      id="s2cpick_${c.replace(/\s+/g,'_')}" onclick="toggleCountryPick('${c.replace(/'/g,"\\'")}')">
+      ${c}
+    </button>
+  `).join('');
+}
+
+function s2FilterCountries(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('#s2CountryPickGrid .country-pick-btn').forEach(btn => {
+    btn.classList.toggle('hidden', q.length > 0 && !btn.textContent.trim().toLowerCase().includes(q));
+  });
+}
+
+function s2RefreshCountryChips() {
+  const wrap = document.getElementById('s2SelectedCountriesWrap');
+  const chips = document.getElementById('s2SelectedCountriesChips');
+  if (!wrap) return;
+  if (state.selectedCountries.length === 0) { wrap.style.display = 'none'; return; }
+  wrap.style.display = '';
+  chips.innerHTML = state.selectedCountries.map(c => `
+    <span class="country-chip">
+      ${c}
+      <span class="country-chip-remove" onclick="toggleCountryPick('${c.replace(/'/g,"\\'")}')">✕</span>
+    </span>
+  `).join('');
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
+function selectType(type) {
+  state.applicantType = type;
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('#applicantTypeCards .type-card').forEach(c => {
+    if (c.querySelector('input').value === type) c.classList.add('selected');
+  });
+  document.getElementById('individualFields').style.display = type==='individual' ? 'block' : 'none';
+  document.getElementById('companyFields').style.display = type==='company' ? 'block' : 'none';
+  // Swap CV label based on applicant type
+  const cvLabel = document.getElementById('cvLabel');
+  const cvHint  = document.getElementById('cvHint');
+  if (cvLabel) cvLabel.textContent = type === 'company' ? 'Corporate Profile' : 'CV / Resume';
+  if (cvHint)  cvHint.textContent  = type === 'company' ? 'Company profile document. PDF or Word. Max 5MB.' : 'PDF or Word document. Max 5MB.';
+}
+
+function selectFranchiseType(type) {
+  state.franchiseType = type;
+  document.querySelectorAll('#franchiseTypeCards .type-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('#franchiseTypeCards .type-card').forEach(c => {
+    if (c.querySelector('input').value === type) c.classList.add('selected');
+  });
+  document.getElementById('ftExtraFields').style.display='block';
+  document.getElementById('multiUnitExtra').style.display = type==='multi_unit' ? 'grid' : 'none';
+  document.getElementById('masterDevExtra').style.display = (type==='area_developer'||type==='master_franchisee') ? 'block' : 'none';
+}
+
+function selectBudget(field, value) {
+  const mapId = { liquidCapital:'liquidCapitalOpts', netWorth:'netWorthOpts' };
+  document.querySelectorAll(`#${mapId[field]} .budget-opt`).forEach(o => o.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  state[field] = value;
+}
+
+function toggleOwnsBusiness() {
+  document.getElementById('bizDetails').style.display = document.getElementById('ownsBusiness').value==='yes' ? 'block' : 'none';
+}
+
+function toggleFranchiseExp() {
+  const val = document.getElementById('hasFranchiseExp').value;
+  const show = val==='yes' || val==='operated';
+  document.getElementById('franchiseExpDetails').style.display = show ? 'block' : 'none';
+  if (show && state.franchiseExpEntries===0) addFranchiseEntry();
+}
+
+function addFranchiseEntry() {
+  state.franchiseExpEntries++;
+  const n = state.franchiseExpEntries;
+  const container = document.getElementById('franchiseExpEntries');
+  const div = document.createElement('div');
+  div.className='exp-entry'; div.id=`fexp_${n}`;
+  div.innerHTML=`<div class="exp-entry-header"><div class="exp-entry-title">Franchise Experience #${n}</div>${n>1?`<button class="btn-remove" onclick="removeEntry('fexp_${n}')">Remove</button>`:''}</div>
+  <div class="form-grid">
+    <div class="form-group"><label>Franchise Brand Name</label><input type="text" placeholder="e.g. McDonald's, Subway..."></div>
+    <div class="form-group"><label>Number of Units</label><input type="number" placeholder="e.g. 3" min="1"></div>
+    <div class="form-group"><label>Years of Operation</label><select><option value="">Select...</option><option>Less than 1 year</option><option>1–2 years</option><option>2–5 years</option><option>5–10 years</option><option>10+ years</option></select></div>
+    <div class="form-group"><label>Your Role</label><select><option value="">Select...</option><option>Owner / Franchisee</option><option>Operations Manager</option><option>Area Manager</option><option>Master Franchisee</option></select></div>
+  </div>`;
+  container.appendChild(div);
+}
+
+function removeEntry(id) {
+  document.getElementById(id)?.remove();
+}
+
+function toggleBrokerField() {
+  const val = document.getElementById('hasBroker').value;
+  document.getElementById('brokerNameField').style.display = val==='Yes – name below' ? 'block' : 'none';
+}
+
+// ═════════════════════
+// NAVIGATION
+// ═════════════════════
+function nextStep(from) {
+  if (!validateStep(from)) return;
+  goToStep(from+1);
+}
+
+function prevStep(from) {
+  goToStep(from-1);
+}
+
+function buildIndustryExpSection() {
+  const section = document.getElementById('industryExpSection');
+  if (!section) return;
+
+  // Find all industry groups represented by the user's selected brands
+  const activeGroups = INDUSTRY_EXP_CONFIG.filter(cfg =>
+    state.selectedBrands.some(id => cfg.brandIds.includes(id))
+  );
+
+  const visitedQ = `
+    <div class="form-group">
+      <label>Have you visited any of our brand locations?</label>
+      <select id="visitedLocations"><option value="">Select...</option><option>Yes – multiple times</option><option>Yes – once or twice</option><option>No – but researched online</option><option>No – heard about it recently</option></select>
+    </div>`;
+
+  if (activeGroups.length === 0) {
+    section.innerHTML = `
+      <div class="section-divider"><h4>Industry-Specific Experience</h4></div>
+      <div class="info-box">ℹ️ Your brand selections from Step 3 will determine the industry-specific questions shown here. Please go back and select at least one brand.</div>`;
+    return;
+  }
+
+  let html = '';
+  activeGroups.forEach(cfg => {
+    // Single industry: side-by-side with "visited" question in same row
+    // Multiple industries: full-width per industry, visited at end
+    const isSingle = activeGroups.length === 1;
+    html += `
+      <div class="section-divider"><h4>${cfg.title}</h4></div>
+      <div class="form-grid">
+        <div class="form-group${isSingle ? '' : ' full'}">
+          <label>${cfg.question}</label>
+          <select id="${cfg.selectId}"><option value="">Select...</option>${cfg.options.map(o => `<option>${o}</option>`).join('')}</select>
+        </div>
+        ${isSingle ? visitedQ : ''}
+      </div>`;
+  });
+
+  // When multiple industries, add visited question once at the bottom
+  if (activeGroups.length > 1) {
+    html += `<div class="form-grid" style="margin-top:4px;"><div class="form-group"><label>Have you visited any of our brand locations?</label><select id="visitedLocations"><option value="">Select...</option><option>Yes – multiple times</option><option>Yes – once or twice</option><option>No – but researched online</option><option>No – heard about it recently</option></select></div></div>`;
+  }
+
+  section.innerHTML = html;
+}
+
+function goToStep(n) {
+  document.querySelectorAll('.form-card').forEach(c => c.classList.remove('active'));
+  const target = document.getElementById('step'+n);
+  if (target) { target.classList.add('active'); target.scrollIntoView({behavior:'smooth',block:'start'}); }
+  state.currentStep = n;
+  updateProgress(n);
+  if (n===6) buildIndustryExpSection();
+  if (n===9) buildReview();
+}
+
+function updateProgress(n) {
+  for (let i=1; i<=9; i++) {
+    const dot = document.getElementById('dot'+i);
+    const lbl = document.getElementById('lbl'+i);
+    const conn = document.getElementById('conn'+i);
+    if (!dot) continue;
+    dot.classList.remove('active','done');
+    lbl?.classList.remove('active');
+    if (i < n) { dot.classList.add('done'); dot.textContent='✓'; if(conn) conn.classList.add('done'); }
+    else if (i === n) { dot.classList.add('active'); dot.textContent=i; lbl?.classList.add('active'); }
+    else { dot.textContent=i; if(conn) conn.classList.remove('done'); }
+  }
+}
+
+// ═════════════════════
+// VALIDATION (basic)
+// ═════════════════════
+function _highlightPick(wrapId) {
+  const wrap = document.getElementById(wrapId);
+  if (!wrap) return;
+  wrap.style.outline = '2px solid #e53e3e';
+  wrap.style.borderRadius = '8px';
+  wrap.scrollIntoView({behavior:'smooth', block:'center'});
+  setTimeout(() => { wrap.style.outline = ''; }, 3000);
+}
+
+function _focusField(id) {
+  const el = document.getElementById(id);
+  if (el) { el.scrollIntoView({behavior:'smooth', block:'center'}); el.focus(); }
+}
+
+function validateStep(step) {
+  if (step===1) {
+    if (state.applicantType==='individual') {
+      if (!v('firstName')) { alert('Please enter your first name.'); _focusField('firstName'); return false; }
+      if (!v('lastName'))  { alert('Please enter your last name.'); _focusField('lastName'); return false; }
+      if (!v('email'))     { alert('Please enter your email address.'); _focusField('email'); return false; }
+      if (!v('phone'))     { alert('Please enter your phone number.'); _focusField('phone'); return false; }
+      if (!v('nationality'))        { alert('Please select your nationality.'); _focusField('nationality'); return false; }
+      if (!v('countryOfResidence')) { alert('Please select your country of residence.'); _focusField('countryOfResidence'); return false; }
+      if (!v('dobDay')||!v('dobMonth')||!v('dobYear')) { alert('Please complete your date of birth.'); _focusField('dobDay'); return false; }
+    } else {
+      if (!v('companyName'))   { alert('Please enter your company name.'); _focusField('companyName'); return false; }
+      if (!v('regNumber'))     { alert('Please enter your company registration number.'); _focusField('regNumber'); return false; }
+      if (!v('contactName'))   { alert('Please enter the primary contact name.'); _focusField('contactName'); return false; }
+      if (!v('contactEmail'))  { alert('Please enter the contact email address.'); _focusField('contactEmail'); return false; }
+      if (!v('contactPhone'))  { alert('Please enter the contact phone number.'); _focusField('contactPhone'); return false; }
+      if (!v('countryOfIncorp')) { alert('Please select the country of incorporation.'); _focusField('countryOfIncorp'); return false; }
+    }
+  }
+  if (step===2 && !state.franchiseType) { alert('Please select a franchise type.'); return false; }
+  if (step===2 && (state.franchiseType==='area_developer'||state.franchiseType==='master_franchisee')) {
+    const hasTerritory = state.selectedRegions.length > 0 || state.selectedCountries.length > 0;
+    if (!hasTerritory) {
+      _highlightPick(state.s2TerritoryMode === 'region' ? 's2RegionGrid' : 's2CountryPickGrid');
+      alert('Please select at least one target territory for your Area Developer / Master Franchisee application.');
+      return false;
+    }
+  }
+  if (step===2 && !v('openingTimeline')) { alert('Please select your planned opening timeline.'); _focusField('openingTimeline'); return false; }
+  if (step===3 && state.selectedBrands.length===0) { alert('Please select at least one brand.'); return false; }
+  if (step===4 && state.territoryMode==='region' && state.selectedRegions.length===0) { alert('Please select at least one region of interest.'); return false; }
+  if (step===4 && state.territoryMode==='country' && state.selectedCountries.length===0) { alert('Please select at least one country of interest.'); return false; }
+  if (step===4 && !v('primaryCountry')) { alert('Please select your primary country of operation.'); _focusField('primaryCountry'); return false; }
+  if (step===5 && !state.liquidCapital) { alert('Please select your available liquid capital range.'); return false; }
+  if (step===5 && !state.netWorth) { alert('Please select your estimated net worth range.'); return false; }
+  if (step===6) {
+    if (!v('currentRole')) { alert('Please enter your current / most recent role.'); _focusField('currentRole'); return false; }
+    if (state.selectedIndustries.length===0) { _highlightPick('industryPickWrap'); alert('Please select at least one industry.'); return false; }
+    if (!v('yearsExp'))       { alert('Please select your years of business experience.'); _focusField('yearsExp'); return false; }
+    if (!v('hasFranchiseExp')) { alert('Please indicate your franchise experience.'); _focusField('hasFranchiseExp'); return false; }
+    if (!v('ownsBusiness'))   { alert('Please indicate whether you own / operate a business.'); _focusField('ownsBusiness'); return false; }
+  }
+  if (step===7) {
+    const why = document.getElementById('whyFranchise')?.value.trim();
+    const vision = document.getElementById('businessVision')?.value.trim();
+    if (!why || why.split(' ').length < 20) { alert('Please share more about why you want to franchise with us (minimum ~50 words).'); _focusField('whyFranchise'); return false; }
+    if (!vision || vision.split(' ').length < 15) { alert('Please describe your business vision in more detail (minimum ~30 words).'); _focusField('businessVision'); return false; }
+    if (state.selectedStrengths.length===0)  { _highlightPick('strengthPickWrap');  alert('Please select at least one key strength.'); return false; }
+    if (state.selectedHearAbout.length===0)  { _highlightPick('hearAboutPickWrap'); alert('Please tell us how you heard about us.'); return false; }
+    if (!v('operatorType')) { alert('Please indicate your planned operator involvement.'); _focusField('operatorType'); return false; }
+  }
+  if (step===9) {
+    if (!document.getElementById('decl1')?.checked || !document.getElementById('decl2')?.checked || !document.getElementById('decl3')?.checked || !document.getElementById('decl4')?.checked) {
+      alert('Please agree to all required declarations before submitting.'); return false;
+    }
+  }
+  return true;
+}
+
+function v(id) {
+  const el = document.getElementById(id);
+  return el && el.value && el.value.trim() !== '';
+}
+
+// ═════════════════════
+// REVIEW & SCORE
+// ═════════════════════
+function buildReview() {
+  buildScoreCard();
+  const summary = document.getElementById('reviewSummary');
+  const fname = v('firstName') ? document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value : (v('companyName') ? document.getElementById('companyName').value : '—');
+  const ftLabels = {single_unit:'Single-Unit Franchise',multi_unit:'Multi-Unit Franchise',area_developer:'Area Developer',master_franchisee:'Master Franchisee'};
+  const selBrands = state.selectedBrands.map(id => BRANDS.find(b=>b.id===id)?.name).join(', ') || '—';
+  const selTerritory = state.selectedCountries.length > 0
+    ? state.selectedCountries.join(', ')
+    : (state.selectedRegions.map(id => REGIONS.find(r=>r.id===id)?.label).join(', ') || '—');
+  const terrLabel = state.selectedCountries.length > 0 ? 'Target Countries' : 'Target Regions';
+  // Dynamic industry experience rows based on selected brands
+  const industryExpRows = INDUSTRY_EXP_CONFIG
+    .filter(cfg => state.selectedBrands.some(id => cfg.brandIds.includes(id)))
+    .map(cfg => {
+      const val = document.getElementById(cfg.selectId)?.value || '—';
+      return `<div class="review-item"><div class="review-label">${cfg.title}</div><div class="review-value">${val}</div></div>`;
+    }).join('');
+  const visitedVal = document.getElementById('visitedLocations')?.value || '—';
+  // Helpers for fields used in multiple places
+  const phoneVal    = document.getElementById(state.applicantType==='individual'?'phone':'contactPhone')?.value||'—';
+  const emailVal    = document.getElementById(state.applicantType==='individual'?'email':'contactEmail')?.value||'—';
+  const countryVal  = document.getElementById(state.applicantType==='individual'?'countryOfResidence':'countryOfIncorp')?.value||'—';
+  // Source of funds checkboxes
+  const srcFunds = ['src_savings','src_bank','src_inv','src_biz','src_prop','src_other']
+    .filter(id => document.getElementById(id)?.checked)
+    .map(id => document.getElementById(id).closest('label').textContent.trim())
+    .join(', ') || '—';
+  // hasFranchiseExp — use display text, not raw value
+  const franchiseExpEl  = document.getElementById('hasFranchiseExp');
+  const franchiseExpVal = (franchiseExpEl?.value) ? franchiseExpEl.options[franchiseExpEl.selectedIndex].text : '—';
+  // Broker
+  const brokerVal = document.getElementById('hasBroker')?.value || '—';
+  const brokerName = document.getElementById('brokerName')?.value || '';
+  const brokerDisplay = brokerName ? `${brokerVal} — ${brokerName}` : brokerVal;
+  // Additional info
+  const addInfo = document.getElementById('additionalInfo')?.value?.trim() || '—';
+
+  summary.innerHTML = `
+    <div class="review-section"><h3>👤 Applicant Profile</h3><div class="review-grid">
+      <div class="review-item"><div class="review-label">Name / Company</div><div class="review-value">${fname}</div></div>
+      <div class="review-item"><div class="review-label">Applicant Type</div><div class="review-value" style="text-transform:capitalize">${state.applicantType}</div></div>
+      <div class="review-item"><div class="review-label">Email</div><div class="review-value">${emailVal}</div></div>
+      <div class="review-item"><div class="review-label">Phone</div><div class="review-value">${phoneVal}</div></div>
+      <div class="review-item"><div class="review-label">Country</div><div class="review-value">${countryVal}</div></div>
+    </div></div>
+    <div class="review-section"><h3>🏪 Franchise Preferences</h3><div class="review-grid">
+      <div class="review-item"><div class="review-label">Franchise Type</div><div class="review-value">${ftLabels[state.franchiseType]||'—'}</div></div>
+      <div class="review-item"><div class="review-label">Opening Timeline</div><div class="review-value">${document.getElementById('openingTimeline')?.value||'—'}</div></div>
+      <div class="review-item"><div class="review-label">Selected Brands</div><div class="review-value">${selBrands}</div></div>
+      <div class="review-item"><div class="review-label">${terrLabel}</div><div class="review-value">${selTerritory}</div></div>
+      <div class="review-item"><div class="review-label">Primary Country</div><div class="review-value">${document.getElementById('primaryCountry')?.value||'—'}</div></div>
+    </div></div>
+    <div class="review-section"><h3>💰 Financial Profile</h3><div class="review-grid">
+      <div class="review-item"><div class="review-label">Liquid Capital</div><div class="review-value">${state.liquidCapital||'—'}</div></div>
+      <div class="review-item"><div class="review-label">Net Worth</div><div class="review-value">${state.netWorth||'—'}</div></div>
+      <div class="review-item"><div class="review-label">Source of Funds</div><div class="review-value">${srcFunds}</div></div>
+      <div class="review-item"><div class="review-label">External Financing</div><div class="review-value">${document.getElementById('requiresFinancing')?.value||'—'}</div></div>
+    </div></div>
+    <div class="review-section"><h3>🎓 Experience</h3><div class="review-grid">
+      <div class="review-item"><div class="review-label">Current Role</div><div class="review-value">${document.getElementById('currentRole')?.value||'—'}</div></div>
+      <div class="review-item"><div class="review-label">Current Employer</div><div class="review-value">${document.getElementById('currentEmployer')?.value||'—'}</div></div>
+      <div class="review-item"><div class="review-label">Industry Background</div><div class="review-value">${state.selectedIndustries.join(', ')||'—'}</div></div>
+      <div class="review-item"><div class="review-label">Years Experience</div><div class="review-value">${document.getElementById('yearsExp')?.value||'—'}</div></div>
+      <div class="review-item"><div class="review-label">Franchise Experience</div><div class="review-value">${franchiseExpVal}</div></div>
+      ${industryExpRows}
+      <div class="review-item"><div class="review-label">Brand Location Visit</div><div class="review-value">${visitedVal}</div></div>
+      <div class="review-item"><div class="review-label">Key Strengths</div><div class="review-value">${state.selectedStrengths.join(', ')||'—'}</div></div>
+    </div></div>
+    <div class="review-section"><h3>💡 Vision & Motivation</h3><div class="review-grid">
+      <div class="review-item"><div class="review-label">Operator Type</div><div class="review-value">${document.getElementById('operatorType')?.value||'—'}</div></div>
+      <div class="review-item"><div class="review-label">Franchise Consultant</div><div class="review-value">${brokerDisplay}</div></div>
+      <div class="review-item"><div class="review-label">How They Heard About Us</div><div class="review-value">${state.selectedHearAbout.join(', ')||'—'}</div></div>
+      ${addInfo !== '—' ? `<div class="review-item full"><div class="review-label">Additional Information</div><div class="review-value">${addInfo}</div></div>` : ''}
+    </div></div>
+  `;
+}
+
+function buildScoreCard() {
+  const scores = {
+    'Financial Capacity': calcFinancialScore(),
+    'Experience Match': calcExpScore(),
+    'Territory Readiness': calcTerritoryScore(),
+    'Application Completeness': calcCompletenessScore(),
+    'Multi-Brand Interest': Math.min(100, state.selectedBrands.length * 20 + 20),
+  };
+  document.getElementById('scoreBars').innerHTML = Object.entries(scores).map(([label,score])=>`
+    <div class="score-bar-item">
+      <div class="score-bar-label">${label}</div>
+      <div class="score-bar-track"><div class="score-bar-fill" style="width:${score}%"></div></div>
+      <div class="score-pct">${score}%</div>
+    </div>
+  `).join('');
+}
+
+function calcFinancialScore() {
+  const map = {'Under $50K':20,'$50K–$100K':40,'$100K–$250K':60,'$250K–$500K':75,'$500K–$1M':88,'Over $1M':100};
+  return map[state.liquidCapital] || 0;
+}
+
+function calcExpScore() {
+  const expMap = {'Less than 1 year':20,'1–3 years':40,'3–5 years':55,'5–10 years':70,'10–15 years':85,'Over 15 years':100};
+  const base = expMap[document.getElementById('yearsExp')?.value] || 0;
+  const franchiseBonus = document.getElementById('hasFranchiseExp')?.value==='yes' ? 20 : 0;
+  return Math.min(100, base + franchiseBonus);
+}
+
+function calcTerritoryScore() {
+  let s = 0;
+  if (state.territoryMode === 'region') {
+    if (state.selectedRegions.length > 0) s += 40;
+    if (state.specificRegionCountries.length > 0) s += 20;
+  } else {
+    if (state.selectedCountries.length > 0) s += 40;
+    if (state.selectedCountries.length >= 3) s += 20;
+  }
+  if (v('primaryCountry')) s += 30;
+  if (v('openToSuggestions')) s += 10;
+  return Math.min(100, s);
+}
+
+function calcCompletenessScore() {
+  const fields = ['firstName','lastName','email','phone','nationality','countryOfResidence','currentRole','yearsExp','whyFranchise','businessVision'];
+  const filled = fields.filter(id => v(id)).length;
+  const hasRegions = (state.territoryMode==='region' ? state.selectedRegions.length : state.selectedCountries.length) > 0 ? 1 : 0;
+  const hasBrands = state.selectedBrands.length > 0 ? 1 : 0;
+  const hasFinancial = (state.liquidCapital && state.netWorth) ? 1 : 0;
+  return Math.round(((filled + hasRegions + hasBrands + hasFinancial) / (fields.length + 3)) * 100);
+}
+
+// ═════════════════════
+// SUBMIT
+// ═════════════════════
+function submitForm() {
+  if (!validateStep(9)) return;
+  const refNum = 'FR-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900000)+100000);
+  document.getElementById('refNumber').textContent = refNum;
+  // Pre-fill copy email with applicant's email
+  const applicantEmail = state.applicantType === 'individual'
+    ? (document.getElementById('email')?.value || '')
+    : (document.getElementById('contactEmail')?.value || '');
+  document.getElementById('copyEmailInput').value = applicantEmail;
+  document.getElementById('emailSentState').classList.remove('show');
+  document.querySelectorAll('.form-card').forEach(c => c.classList.remove('active'));
+  const s = document.getElementById('successScreen');
+  s.classList.add('active','show');
+  s.scrollIntoView({behavior:'smooth',block:'start'});
+  updateProgress(10);
+}
+
+function sendApplicationCopy() {
+  const emailEl = document.getElementById('copyEmailInput');
+  const toEmail = emailEl.value.trim();
+  if (!toEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(toEmail)) {
+    emailEl.style.borderColor = '#e53e3e';
+    emailEl.focus();
+    setTimeout(() => { emailEl.style.borderColor = ''; }, 2500);
+    return;
+  }
+
+  const refNum = document.getElementById('refNumber')?.textContent || '—';
+  const ftLabels = {single_unit:'Single-Unit Franchise',multi_unit:'Multi-Unit Franchise',area_developer:'Area Developer',master_franchisee:'Master Franchisee'};
+  const fname = document.getElementById('firstName')?.value
+    ? document.getElementById('firstName').value + ' ' + (document.getElementById('lastName')?.value || '')
+    : (document.getElementById('companyName')?.value || '—');
+
+  const territory = state.territoryMode === 'region'
+    ? (state.selectedRegions.map(id => REGIONS.find(r=>r.id===id)?.label).filter(Boolean).join(', ') || '—')
+    : (state.selectedCountries.join(', ') || '—');
+  const brands = state.selectedBrands.map(id => BRANDS.find(b=>b.id===id)?.name).filter(Boolean).join(', ') || '—';
+
+  const subject = encodeURIComponent('Go Global Holdings – Franchise Application Copy [' + refNum + ']');
+  const body = encodeURIComponent([
+    'GO GLOBAL HOLDINGS – INTERNATIONAL FRANCHISE REGISTRATION',
+    '='.repeat(55),
+    '',
+    'REFERENCE NUMBER: ' + refNum,
+    'Submission Date: ' + new Date().toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'}),
+    '',
+    '── APPLICANT PROFILE ─────────────────────────────────',
+    'Name / Company:     ' + fname,
+    'Applicant Type:     ' + (state.applicantType || '—'),
+    'Email:              ' + (document.getElementById(state.applicantType==='individual'?'email':'contactEmail')?.value || '—'),
+    'Phone:              ' + (document.getElementById(state.applicantType==='individual'?'phone':'contactPhone')?.value || '—'),
+    'Country:            ' + (document.getElementById(state.applicantType==='individual'?'countryOfResidence':'countryOfIncorp')?.value || '—'),
+    '',
+    '── FRANCHISE PREFERENCES ─────────────────────────────',
+    'Franchise Type:     ' + (ftLabels[state.franchiseType] || '—'),
+    'Opening Timeline:   ' + (document.getElementById('openingTimeline')?.value || '—'),
+    'Selected Brands:    ' + brands,
+    'Target Territory:   ' + territory,
+    'Primary Country:    ' + (document.getElementById('primaryCountry')?.value || '—'),
+    '',
+    '── FINANCIAL PROFILE ─────────────────────────────────',
+    'Liquid Capital:     ' + (state.liquidCapital || '—'),
+    'Net Worth:          ' + (state.netWorth || '—'),
+    'Source of Funds:    ' + (['src_savings','src_bank','src_inv','src_biz','src_prop','src_other'].filter(id=>document.getElementById(id)?.checked).map(id=>document.getElementById(id).closest('label').textContent.trim()).join(', ')||'—'),
+    'Ext. Financing:     ' + (document.getElementById('requiresFinancing')?.value || '—'),
+    '',
+    '── EXPERIENCE & BACKGROUND ───────────────────────────',
+    'Current Role:       ' + (document.getElementById('currentRole')?.value || '—'),
+    'Current Employer:   ' + (document.getElementById('currentEmployer')?.value || '—'),
+    'Industry:           ' + (state.selectedIndustries.join(', ') || '—'),
+    'Years Experience:   ' + (document.getElementById('yearsExp')?.value || '—'),
+    'Franchise Exp:      ' + ((() => { const el=document.getElementById('hasFranchiseExp'); return el?.value ? el.options[el.selectedIndex].text : '—'; })()),
+    ...INDUSTRY_EXP_CONFIG
+      .filter(cfg => state.selectedBrands.some(id => cfg.brandIds.includes(id)))
+      .map(cfg => cfg.title.padEnd(20).slice(0,20) + (document.getElementById(cfg.selectId)?.value || '—')),
+    'Brand Location Visit: ' + (document.getElementById('visitedLocations')?.value || '—'),
+    'Key Strengths:      ' + (state.selectedStrengths.join(', ') || '—'),
+    '',
+    '── VISION & MOTIVATION ───────────────────────────────',
+    'Operator Type:      ' + (document.getElementById('operatorType')?.value || '—'),
+    'Franchise Broker:   ' + (document.getElementById('hasBroker')?.value || '—') + (document.getElementById('brokerName')?.value ? ' — ' + document.getElementById('brokerName').value : ''),
+    'Heard About Us:     ' + (state.selectedHearAbout.join(', ') || '—'),
+    ...(document.getElementById('additionalInfo')?.value?.trim() ? ['', 'Additional Info:', document.getElementById('additionalInfo').value.trim()] : []),
+    '',
+    '='.repeat(55),
+    'This is an automated copy of your franchise application.',
+    'Please keep this email for your records.',
+    'For enquiries: franchise@goglobal.com',
+    '© Go Global Holdings – International Franchise Division',
+  ].join('\n'));
+
+  window.location.href = 'mailto:' + toEmail + '?subject=' + subject + '&body=' + body;
+
+  // Show confirmation state
+  setTimeout(() => {
+    document.getElementById('emailSentState').classList.add('show');
+  }, 800);
+}
+
+// ═════════════════════
+// BRAND MODAL
+// ═════════════════════
+let _modalBrandId = null;
+
+function openBrandModal(id) {
+  const b = BRANDS.find(x => x.id === id);
+  if (!b) return;
+  _modalBrandId = id;
+
+  // Header
+  document.getElementById('modalLogo').src = b.logo;
+  document.getElementById('modalLogo').alt = b.name;
+  document.getElementById('modalName').textContent = b.name;
+  document.getElementById('modalMeta').textContent = b.category + (b.established ? '  ·  Est. ' + b.established : '') + (b.outlets ? '  ·  ' + b.outlets + ' outlets' : '');
+
+  // Operating countries
+  const opWrap = document.getElementById('modalOperating');
+  if (b.operatingIn && b.operatingIn.length) {
+    opWrap.innerHTML = `<span class="modal-operating-label">Currently Operating In</span>` +
+      b.operatingIn.map(c => `<span class="modal-op-chip"><span class="flag">${c.flag}</span>${c.name}</span>`).join('');
+    opWrap.style.display = '';
+  } else {
+    opWrap.style.display = 'none';
+  }
+
+  // Body
+  document.getElementById('modalDesc').textContent = b.desc || b.intro || '';
+
+  // Strengths
+  const sSection = document.getElementById('modalStrengthsSection');
+  const sWrap = document.getElementById('modalStrengths');
+  if (b.strengths && b.strengths.length) {
+    sWrap.innerHTML = b.strengths.map(s => `<span class="modal-strength">${s}</span>`).join('');
+    sSection.style.display = '';
+  } else {
+    sSection.style.display = 'none';
+  }
+
+  // Packages
+  const pSection = document.getElementById('modalPkgsSection');
+  const pWrap = document.getElementById('modalPackages');
+  if (b.packages && b.packages.length) {
+    pWrap.innerHTML = b.packages.map((p, i) => `
+      <div class="modal-pkg${i===0?' highlight':''}">
+        <div class="modal-pkg-name">${p.name}</div>
+        ${p.stores ? `<div class="modal-pkg-row"><span>Stores</span><span>${p.stores}</span></div>` : ''}
+        ${p.fee ? `<div class="modal-pkg-row"><span>Franchise Fee</span><span>${p.fee}</span></div>` : ''}
+        ${p.totalPerStore ? `<div class="modal-pkg-row"><span>Average Capex</span><span>${p.totalPerStore}</span></div>` : ''}
+        ${p.royalty ? `<div class="modal-pkg-row"><span>Royalty</span><span>${p.royalty}</span></div>` : ''}
+        ${p.term ? `<div class="modal-pkg-row"><span>Term</span><span>${p.term}</span></div>` : ''}
+        ${p.breakeven ? `<div class="modal-pkg-row"><span>Average Unit ROI</span><span>${p.breakeven}</span></div>` : ''}
+        ${p.netMargin ? `<div class="modal-pkg-row"><span>Net Margin</span><span>${p.netMargin}</span></div>` : ''}
+      </div>
+    `).join('');
+    pSection.style.display = '';
+  } else {
+    pSection.style.display = 'none';
+  }
+
+  // Website
+  const wLink = document.getElementById('modalWebsite');
+  if (b.website) {
+    wLink.href = b.website;
+    wLink.style.display = '';
+  } else {
+    wLink.style.display = 'none';
+  }
+
+  // Select button state
+  _refreshModalSelectBtn();
+
+  // Open
+  document.getElementById('brandModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBrandModal() {
+  document.getElementById('brandModal').classList.remove('open');
+  document.body.style.overflow = '';
+  _modalBrandId = null;
+}
+
+function toggleBrandFromModal() {
+  if (!_modalBrandId) return;
+  toggleBrand(_modalBrandId);
+  _refreshModalSelectBtn();
+}
+
+function _refreshModalSelectBtn() {
+  const btn = document.getElementById('modalSelectBtn');
+  if (!_modalBrandId) return;
+  const isSelected = state.selectedBrands.includes(_modalBrandId);
+  btn.textContent = isSelected ? '✓ Selected — Remove' : '+ Select This Brand';
+  btn.classList.toggle('deselect', isSelected);
+}
+</script>
+</body>
+</html>
