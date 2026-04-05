@@ -255,6 +255,11 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 .section-divider{margin:24px 0 20px;padding-bottom:10px;border-bottom:1px solid var(--border);}
 .section-divider h4{font-size:14px;font-weight:700;color:var(--navy);}
 .section-divider p{font-size:12px;color:var(--muted);margin-top:3px;}
+/* ── LANGUAGE TOGGLE ── */
+.lang-toggle{display:flex;border:1.5px solid var(--border);border-radius:20px;overflow:hidden;}
+.lang-btn{padding:5px 13px;border:none;background:none;font-size:12px;font-weight:700;cursor:pointer;color:var(--muted);font-family:'Inter',sans-serif;transition:all .2s;letter-spacing:.3px;}
+.lang-btn.lang-active{background:#1a1a1a;color:#fff;}
+.lang-btn:not(.lang-active):hover{background:var(--bg);}
 </style>
 </head>
 <body>
@@ -266,7 +271,13 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
     <div class="logo-divider"></div>
     <div class="logo-tagline">International Franchise<br>Registration</div>
   </div>
-  <div class="header-badge">FRANCHISE REGISTRATION</div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="lang-toggle">
+      <button class="lang-btn lang-active" id="btnLangEn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btnLangZh" onclick="setLang('zh')">中文</button>
+    </div>
+    <div class="header-badge" id="headerBadge">FRANCHISE REGISTRATION</div>
+  </div>
 </div>
 
 <!-- PROGRESS BAR -->
@@ -2512,6 +2523,343 @@ function _refreshModalSelectBtn() {
   btn.textContent = isSelected ? '✓ Selected — Remove' : '+ Select This Brand';
   btn.classList.toggle('deselect', isSelected);
 }
+
+// ═══════════════════════════════════════
+// LANGUAGE / TRANSLATION SYSTEM
+// ═══════════════════════════════════════
+
+let currentLang = localStorage.getItem('ggLang') || 'en';
+
+// Progress bar labels per language
+const PROGRESS_LABELS = {
+  en: ['Applicant','Franchise Type','Brands','Territory','Financials','Experience','Vision','Documents','Review'],
+  zh: ['申请人','特许类型','品牌','区域','财务','经验','愿景','文件','审核'],
+};
+
+// Override buildProgress with i18n support
+function buildProgress() {
+  const steps = PROGRESS_LABELS[currentLang] || PROGRESS_LABELS.en;
+  const wrap = document.getElementById('progressSteps');
+  wrap.innerHTML = steps.map((s,i) => `
+    <div class="step-item">
+      <div class="step-dot ${i===0?'active':''}" id="dot${i+1}">${i+1}</div>
+      <div class="step-label ${i===0?'active':''}" id="lbl${i+1}">${s}</div>
+      ${i<steps.length-1?`<div class="step-connector" id="conn${i+1}"></div>`:''}
+    </div>
+  `).join('');
+}
+
+// Selector → {en, zh} translations for structural elements
+const SELECTOR_T = {
+  '#headerBadge':                        {en:'FRANCHISE REGISTRATION',      zh:'特许经营申请'},
+  '.logo-tagline':                        {en:'International Franchise<br>Registration', zh:'国际特许经营<br>注册'},
+  '.btn-next':                            {en:'Continue →',                  zh:'继续 →'},
+  '.btn-back':                            {en:'← Back',                      zh:'← 返回'},
+  '.btn-submit':                          {en:'🚀 Submit Application',        zh:'🚀 提交申请'},
+  // Step 1
+  '#step1 .step-num':                    {en:'Step 1 of 9',                  zh:'第 1 步，共 9 步'},
+  '#step1 .step-title':                  {en:'Applicant Profile',             zh:'申请人资料'},
+  '#step1 .step-desc':                   {en:'Select your applicant type and provide your personal or company details. All fields marked with <span style="color:var(--red)">*</span> are required.',
+                                          zh:'请选择您的申请人类型，并填写个人或公司详情。标有 <span style="color:var(--red)">*</span> 的字段为必填项。'},
+  '#applicantTypeCards .type-card:first-child .tc-title': {en:'Individual',  zh:'个人'},
+  '#applicantTypeCards .type-card:first-child .tc-desc':  {en:'Applying as a private individual investor or entrepreneur', zh:'以私人投资者或创业者身份申请'},
+  '#applicantTypeCards .type-card:last-child .tc-title':  {en:'Company / Corporation', zh:'公司/法人实体'},
+  '#applicantTypeCards .type-card:last-child .tc-desc':   {en:'Applying on behalf of a registered legal entity or corporation', zh:'代表注册法人实体或公司申请'},
+  // Step 2
+  '#step2 .step-num':                    {en:'Step 2 of 9',                  zh:'第 2 步，共 9 步'},
+  '#step2 .step-title':                  {en:'Franchise Type',                zh:'特许经营类型'},
+  '#step2 .step-desc':                   {en:'Select the type of franchise partnership you are interested in. You may change this after initial discussions.', zh:'请选择您感兴趣的特许合作类型。您可在初步讨论后更改此选择。'},
+  '#step2 .info-box':                    {en:'💡 <strong>Not sure which type is right for you?</strong> Our team will guide you after reviewing your application. Select the option that best aligns with your current investment capacity and expansion plans.',
+                                          zh:'💡 <strong>不确定哪种类型适合您？</strong> 我们的团队将在审核您的申请后提供指导。请选择与您目前投资实力和扩展计划最相符的选项。'},
+  '#franchiseTypeCards .type-card:nth-child(1) .tc-title': {en:'Single-Unit Franchise', zh:'单店特许经营'},
+  '#franchiseTypeCards .type-card:nth-child(1) .tc-desc':  {en:'Operate one franchise location. Ideal for first-time franchisees who want to learn the system before expanding.', zh:'经营一家特许店面，适合希望先熟悉体系再扩张的初次加盟者。'},
+  '#franchiseTypeCards .type-card:nth-child(2) .tc-title': {en:'Multi-Unit Franchise', zh:'多店特许经营'},
+  '#franchiseTypeCards .type-card:nth-child(2) .tc-desc':  {en:'Develop and operate multiple franchise locations. Typically 3–10 units in an agreed timeline.', zh:'在约定时间内开发并经营多家门店，通常为 3–10 家。'},
+  '#franchiseTypeCards .type-card:nth-child(3) .tc-title': {en:'Area Developer', zh:'区域开发商'},
+  '#franchiseTypeCards .type-card:nth-child(3) .tc-desc':  {en:'Exclusive rights to develop and operate multiple units across a defined geographic territory or region.', zh:'在特定地理区域内拥有开发和经营多家门店的独家权利。'},
+  '#franchiseTypeCards .type-card:nth-child(4) .tc-title': {en:'Master Franchisee', zh:'总特许经营商'},
+  '#franchiseTypeCards .type-card:nth-child(4) .tc-desc':  {en:'Country or territory license to sub-franchise to other operators. You become the franchisor in your territory.', zh:'获得国家/地区许可证，可将特许权转授他人，成为该地区的特许经营商。'},
+  '#s2TabRegion':                        {en:'🌍 By Region',                 zh:'🌍 按地区'},
+  '#s2TabCountry':                       {en:'🗺 By Country',                zh:'🗺 按国家'},
+  // Step 3
+  '#step3 .step-num':                    {en:'Step 3 of 9',                  zh:'第 3 步，共 9 步'},
+  '#step3 .step-title':                  {en:'Brand Selection',               zh:'品牌选择'},
+  '#step3 .step-desc':                   {en:'Select one or more brands from our portfolio that you are interested in franchising. You may select multiple brands.', zh:'请从我们的品牌组合中选择一个或多个感兴趣的加盟品牌，可多选。'},
+  '#step3 .warn-box':                    {en:'⚠️ Select all brands you are interested in. Our team will assess your application for each brand based on your profile, territory, and financial capacity.', zh:'⚠️ 请选择所有感兴趣的品牌。我们的团队将根据您的资质、区域和资金状况对每个品牌进行评估。'},
+  // Step 4
+  '#step4 .step-num':                    {en:'Step 4 of 9',                  zh:'第 4 步，共 9 步'},
+  '#step4 .step-title':                  {en:'Territory of Interest',         zh:'意向经营区域'},
+  '#step4 .step-desc':                   {en:'Select the regions or individual countries where you intend to operate your franchise(s).', zh:'请选择您打算开展特许经营业务的地区或国家。'},
+  '#tabRegion':                          {en:'🌍 By Region',                 zh:'🌍 按地区'},
+  '#tabCountry':                         {en:'🗺 By Country',                zh:'🗺 按国家'},
+  // Step 5
+  '#step5 .step-num':                    {en:'Step 5 of 9',                  zh:'第 5 步，共 9 步'},
+  '#step5 .step-title':                  {en:'Financial Profile',             zh:'财务状况'},
+  '#step5 .step-desc':                   {en:'Provide your financial capacity to help us match you with the right brand and territory. All information is strictly confidential.', zh:'请提供您的资金状况，以便为您匹配合适的品牌和区域。所有信息严格保密。'},
+  '#step5 .info-box':                    {en:'🔒 Financial information is treated with strict confidentiality and used solely for franchise qualification purposes. We do not share this with third parties.', zh:'🔒 财务信息严格保密，仅用于特许资质评估，不会与第三方共享。'},
+  // Step 6
+  '#step6 .step-num':                    {en:'Step 6 of 9',                  zh:'第 6 步，共 9 步'},
+  '#step6 .step-title':                  {en:'Experience & Background',       zh:'经验与背景'},
+  '#step6 .step-desc':                   {en:'Tell us about your professional background, business experience, and any previous franchise ownership. This helps us assess your readiness and match you with the right brand.', zh:'请介绍您的职业背景、商业经验及以往特许经营情况，帮助我们评估您的准备程度并匹配合适的品牌。'},
+  // Step 7
+  '#step7 .step-num':                    {en:'Step 7 of 9',                  zh:'第 7 步，共 9 步'},
+  '#step7 .step-title':                  {en:'Vision & Motivation',           zh:'愿景与动机'},
+  '#step7 .step-desc':                   {en:'Help us understand your entrepreneurial vision and why you want to partner with our brands. This is one of the most important sections of your application.', zh:'帮助我们了解您的创业愿景以及与我们品牌合作的原因，这是申请中最重要的部分之一。'},
+  // Step 8
+  '#step8 .step-num':                    {en:'Step 8 of 9',                  zh:'第 8 步，共 9 步'},
+  '#step8 .step-title':                  {en:'Supporting Documents',          zh:'支持文件'},
+  '#step8 .step-desc':                   {en:'Uploading supporting documents significantly strengthens your application. All documents are optional at this stage and can be submitted later.', zh:'上传支持文件将大大增强您的申请。所有文件在此阶段均为可选，可稍后提交。'},
+  '#step8 .warn-box':                    {en:'📋 Documents are optional but highly recommended for Master Franchisee and Area Developer applications. They will be requested during the due diligence phase.', zh:'📋 文件为可选项，但强烈建议总特许经营商和区域开发商申请人提交，尽职调查阶段将正式要求提交。'},
+  // Step 9
+  '#step9 .step-num':                    {en:'Step 9 of 9',                  zh:'第 9 步，共 9 步'},
+  '#step9 .step-title':                  {en:'Review & Declaration',          zh:'审核与声明'},
+  '#step9 .step-desc':                   {en:'Review your application summary and confirm your declarations before submitting.', zh:'请在提交前审核您的申请摘要并确认相关声明。'},
+  '#candidateScoreCard h3':              {en:'📊 Candidate Matching Summary', zh:'📊 候选人匹配摘要'},
+  // Declarations
+  '#step9 > label:nth-of-type(1) .decl-text': {
+    en:'<strong>Accuracy of Information:</strong> I confirm that all information provided in this application is true, accurate, and complete to the best of my knowledge. I understand that providing false information may result in immediate disqualification.',
+    zh:'<strong>信息准确性：</strong> 本人确认，本申请中提供的所有信息均真实、准确、完整。本人理解，提供虚假信息可能导致立即取消资格。'},
+  '#step9 > label:nth-of-type(2) .decl-text': {
+    en:'<strong>Background & Reference Check:</strong> I authorize Go Global Holdings and its designated representatives to conduct background checks, verify references, and assess financial information provided in this application as part of the franchise qualification process.',
+    zh:'<strong>背景与参考调查：</strong> 本人授权 Go Global Holdings 及其指定代表，作为特许资质审核程序的一部分，对本申请中的背景信息进行核查、验证推荐人并评估财务信息。'},
+  '#step9 > label:nth-of-type(3) .decl-text': {
+    en:'<strong>Privacy Policy:</strong> I have read and agree to the <a href="#" style="color:var(--gold)">Privacy Policy</a> and <a href="#" style="color:var(--gold)">Terms & Conditions</a>. I understand how my personal information will be collected, used, and stored.',
+    zh:'<strong>隐私政策：</strong> 本人已阅读并同意 <a href="#" style="color:var(--gold)">隐私政策</a> 和 <a href="#" style="color:var(--gold)">服务条款</a>，并了解个人信息的收集、使用和存储方式。'},
+  '#step9 > label:nth-of-type(4) .decl-text': {
+    en:'<strong>Non-Commitment Acknowledgement:</strong> I understand that this application does not constitute a binding franchise agreement and that submitting this form does not guarantee or imply approval of a franchise. Any franchise offer is subject to mutual due diligence and execution of a Franchise Disclosure Document (FDD) and Franchise Agreement.',
+    zh:'<strong>非约束性确认：</strong> 本人理解，本申请不构成具有约束力的特许协议，提交本表格并不保证或暗示申请获批。任何特许要约均须经双方尽职调查及签署特许披露文件（FDD）和特许协议后方可生效。'},
+  '#step9 > label:nth-of-type(5) .decl-text': {
+    en:'<strong>Marketing Communications (Optional):</strong> I agree to receive updates, newsletters, and promotional materials about franchise opportunities from Go Global Holdings via email and messaging platforms.',
+    zh:'<strong>营销信息（可选）：</strong> 本人同意通过电子邮件及即时通讯平台接收 Go Global Holdings 关于特许经营机会的更新、通讯及推广信息。'},
+  // Success screen
+  '#successScreen h2':                   {en:'Application Submitted Successfully!', zh:'申请提交成功！'},
+  '.next-steps h3':                      {en:'What happens next?',            zh:'后续流程'},
+  '.email-copy-box h4':                  {en:'📧 Get a Copy of Your Application', zh:'📧 获取申请副本'},
+  '.email-copy-box > p':                 {en:"Enter your email address and we'll send a full summary directly to your inbox.", zh:'输入您的电子邮件，我们将把完整申请摘要发送至您的邮箱。'},
+  '#btnSendCopy':                        {en:'Send Copy →',                   zh:'发送副本 →'},
+  // Modal
+  '#brandModal .modal-section:nth-child(1) h3': {en:'About the Brand',       zh:'品牌介绍'},
+  '#brandModal .modal-section:nth-child(2) h3': {en:'Key Strengths',         zh:'核心优势'},
+  '#brandModal .modal-section:nth-child(3) h3': {en:'Franchise Packages',    zh:'特许套餐'},
+};
+
+// Form label text → Chinese
+const LABEL_ZH = {
+  'First Name':'名字','Last Name':'姓氏','Date of Birth':'出生日期',
+  'Nationality':'国籍','Country of Residence':'居住国家','City of Residence':'居住城市',
+  'Email Address':'电子邮件','Mobile / WhatsApp':'手机 / WhatsApp','Secondary Phone':'备用电话',
+  'LinkedIn Profile URL':'LinkedIn 主页链接',
+  'Registered Company Name':'注册公司名称','Business Registration No.':'营业执照号',
+  'Country of Incorporation':'注册国家','Year Established':'成立年份',
+  'Type of Business':'企业类型','Number of Employees':'员工人数',
+  'Company Website':'公司网站','Annual Turnover (USD)':'年营业额（美元）',
+  'Contact Name':'联系人姓名','Job Title / Designation':'职务/头衔',
+  'Contact Email':'联系邮箱','Contact Mobile':'联系手机','LinkedIn Profile':'LinkedIn 主页',
+  'Planned Number of Units':'计划门店数量','Development Timeline':'开发时间表',
+  'Select Region(s) of Interest':'选择感兴趣的地区','Select Individual Countries':'选择具体国家',
+  'Minimum Sub-Franchisees Targeted':'目标最低子加盟商数量',
+  'When do you plan to open your first unit?':'您计划何时开设第一家门店？',
+  'Do you have a specific site / property in mind?':'您是否已有具体选址/物业？',
+  'Primary Country of Operation':'主要经营国家','Open to Suggestions on Territory?':'是否接受区域建议？',
+  'Available Liquid Capital (USD)':'可用流动资金（美元）','Estimated Net Worth (USD)':'估计净资产（美元）',
+  'Source of Investment Funds':'投资资金来源','Will you require external financing?':'是否需要外部融资？',
+  'Currency Preference for Investment':'投资货币偏好',
+  'Current / Most Recent Role':'当前/最近职位','Current / Most Recent Employer':'当前/最近雇主',
+  'Industry':'行业','Years of Business Experience':'商业经验年数',
+  'Max. No. of Staff Ever Managed':'曾管理最多员工数','Highest Education Level':'最高学历',
+  'Do you currently own / operate a business?':'您目前是否拥有/经营企业？',
+  'Business Name':'企业名称','Business Type / Industry':'企业类型/行业',
+  'Annual Revenue (approx. USD)':'年收入（约美元）','Number of Current Staff':'当前员工数量',
+  'Do you have prior franchise ownership or management experience?':'您是否有特许经营拥有或管理经验？',
+  'Why do you want to franchise with us?':'您为何想与我们合作加盟？',
+  'What is your business vision for your franchise operation?':'您对特许经营业务的商业愿景是什么？',
+  'What are your key strengths as a potential franchisee?':'作为潜在加盟商，您的主要优势是什么？',
+  'How did you hear about us?':'您如何了解到我们？',
+  'Will you be a hands-on operator?':'您是否会亲自参与运营？',
+  'Are you currently working with a franchise consultant / broker?':'您目前是否与特许顾问/中介合作？',
+  'Consultant / Broker Name & Company':'顾问/中介姓名及公司',
+  'Additional Information / Message to Our Team':'补充信息/团队留言',
+  'CV / Resume':'简历','Business Plan (if available)':'商业计划书（如有）',
+  'Financial Statement / Proof of Funds':'财务报表/资金证明',
+  'Company Profile / Registration Documents':'公司简介/注册文件',
+  'Reference Contact 1 (Professional Reference)':'推荐人 1（职业参考）',
+  'Reference Contact 2 (Business / Character Reference)':'推荐人 2（业务/个人参考）',
+};
+
+// Hint / section-divider texts → Chinese (matched by content)
+const SDIV_H4_ZH = {
+  'Primary Contact Person':'主要联系人','Opening Timeline':'开业时间安排',
+  'Target Territory':'目标区域','Narrow Down to Specific Countries':'缩小至具体国家',
+  'Available Investment Capital':'可用投资资金','Total Net Worth':'总净资产',
+  'Source of Funds':'资金来源','Current Occupation':'当前职业',
+  'Current Business Ownership':'当前企业所有权','Franchise Experience':'特许经营经验',
+  'Declarations & Consent':'声明与授权','Brand-Specific Interest':'品牌专项兴趣',
+};
+const SDIV_P_ZH = {
+  'Who will be the main point of contact for this application?':'谁将作为本申请的主要联系人？',
+  'Select the country or region you intend to operate as Area Developer / Master Franchisee.':'请选择您打算作为区域开发商/总特许经营商运营的国家或地区。',
+  'Select specific countries within your chosen regions. (Optional)':'在已选地区内选择具体国家（可选）。',
+  'Liquid capital available specifically for franchise investment (not including personal living expenses)':'专门用于特许投资的可用流动资金（不含个人生活费用）',
+  'Estimated total personal / company net worth including all assets':'包含所有资产的个人/公司总净资产估计',
+  'Tell us why you are interested in each selected brand.':'请告诉我们您对每个所选品牌的兴趣原因。',
+};
+
+// Button labels (industry-btn, check-item) → Chinese
+const BTN_ZH = {
+  'Food & Beverage':'餐饮','Retail':'零售','Hospitality / Hotels':'酒店/餐旅',
+  'Finance / Banking':'金融/银行','Real Estate / Property':'房地产',
+  'Technology / IT':'科技/信息技术','Healthcare / Medical':'医疗健康',
+  'Manufacturing':'制造业','Education / Training':'教育/培训',
+  'Logistics / Supply Chain':'物流/供应链','Professional Services':'专业服务',
+  'Construction / Infrastructure':'建筑/基础设施',
+  'Agriculture / Food Production':'农业/食品生产','Media / Marketing':'媒体/营销',
+  'Other':'其他',
+  'Strong financial resources':'雄厚的资金实力','Deep local market knowledge':'深度了解本地市场',
+  'Proven operational experience':'经过验证的运营经验',
+  'Existing retail / F&B network':'现有零售/餐饮网络','Strong management team':'强大的管理团队',
+  'Government / business connections':'政府/商业资源','Prime property access':'优质物业资源',
+  'Marketing & branding expertise':'市场营销/品牌专业知识',
+  'Supply chain / logistics network':'供应链/物流网络',
+  'Technology & digital capabilities':'技术与数字化能力',
+  'Multilingual / multicultural team':'多语言/多元文化团队',
+  'Franchise Exhibition / Expo':'特许经营展览会/博览会',
+  'Online Search (Google, etc.)':'网络搜索（谷歌等）',
+  'Social Media (LinkedIn, Instagram, etc.)':'社交媒体（LinkedIn、Instagram 等）',
+  'Referral from a friend / associate':'朋友/同事推荐','Existing franchisee':'现有加盟商',
+  'Franchise consultant / broker':'特许经营顾问/中介',
+  'Industry publication / magazine':'行业出版物/杂志','Email / newsletter':'电子邮件/通讯',
+  'Company website':'公司官网',
+  // source-of-funds check-items
+  'Personal / Family Savings':'个人/家庭储蓄','Bank Loan / Credit Facility':'银行贷款/信贷',
+  'External Investors / Partners':'外部投资者/合伙人','Existing Business Profits':'现有企业利润',
+  'Property / Asset Sale':'房产/资产出售',
+};
+
+// Placeholder text → Chinese
+const PH_ZH = {
+  'Given name':'名','Family name':'姓','your@email.com':'您的邮箱',
+  'Full legal name':'完整公司名称','Company reg. number':'公司注册号',
+  'e.g. 2010':'例：2010','Full name':'全名','e.g. CEO, Director':'例：CEO、董事',
+  'contact@company.com':'contact@company.com',
+  'e.g. Managing Director, Business Owner...':'例：董事总经理、企业主...',
+  'Company or self-employed':'公司或个体','Name of your business':'企业名称',
+  'e.g. F&B, Retail, Services':'例：餐饮、零售、服务',
+  'e.g. 25':'例：25','Name and company of your franchise consultant':'特许顾问姓名及公司',
+  'Your email address':'您的邮箱地址',
+  'Title / Company':'职务/公司','Email address':'电子邮件','Phone number':'电话号码',
+};
+
+function _applySelectors(lang) {
+  Object.entries(SELECTOR_T).forEach(([sel, t]) => {
+    document.querySelectorAll(sel).forEach(el => { el.innerHTML = t[lang] || t.en; });
+  });
+}
+
+function _applyLabels(lang) {
+  document.querySelectorAll('label').forEach(lbl => {
+    const nodes = Array.from(lbl.childNodes).filter(n => n.nodeType === 3 && n.textContent.trim());
+    if (!nodes.length) return;
+    const node = nodes[0];
+    if (!lbl.dataset.origLbl) lbl.dataset.origLbl = node.textContent;
+    const orig = lbl.dataset.origLbl.trim();
+    if (lang === 'zh') {
+      node.textContent = node.textContent.replace(orig, LABEL_ZH[orig] || orig);
+    } else {
+      node.textContent = lbl.dataset.origLbl;
+    }
+  });
+}
+
+function _applySectionDividers(lang) {
+  document.querySelectorAll('.section-divider h4').forEach(h4 => {
+    if (!h4.dataset.orig) h4.dataset.orig = h4.textContent;
+    h4.textContent = lang === 'zh' ? (SDIV_H4_ZH[h4.dataset.orig] || h4.dataset.orig) : h4.dataset.orig;
+  });
+  document.querySelectorAll('.section-divider p').forEach(p => {
+    if (!p.dataset.orig) p.dataset.orig = p.textContent;
+    p.textContent = lang === 'zh' ? (SDIV_P_ZH[p.dataset.orig] || p.dataset.orig) : p.dataset.orig;
+  });
+}
+
+function _applyButtons(lang) {
+  document.querySelectorAll('.industry-btn').forEach(btn => {
+    if (!btn.dataset.orig) btn.dataset.orig = btn.textContent.trim();
+    btn.textContent = lang === 'zh' ? (BTN_ZH[btn.dataset.orig] || btn.dataset.orig) : btn.dataset.orig;
+  });
+  // Check-item labels (text node after the checkbox input)
+  document.querySelectorAll('label.check-item').forEach(lbl => {
+    const node = Array.from(lbl.childNodes).find(n => n.nodeType === 3 && n.textContent.trim());
+    if (!node) return;
+    if (!lbl.dataset.origChk) lbl.dataset.origChk = node.textContent.trim();
+    const orig = lbl.dataset.origChk;
+    node.textContent = lang === 'zh' ? ' ' + (BTN_ZH[orig] || orig) : ' ' + orig;
+  });
+}
+
+function _applyPlaceholders(lang) {
+  document.querySelectorAll('[placeholder]').forEach(el => {
+    if (!el.dataset.origPh) el.dataset.origPh = el.placeholder;
+    el.placeholder = lang === 'zh' ? (PH_ZH[el.dataset.origPh] || el.dataset.origPh) : el.dataset.origPh;
+  });
+}
+
+function _applyStepCounters(lang) {
+  document.querySelectorAll('.step-counter').forEach(el => {
+    const span = el.querySelector('span');
+    if (!span) return;
+    const n = span.textContent;
+    const textNodes = Array.from(el.childNodes).filter(nd => nd.nodeType === 3);
+    if (textNodes.length >= 2) {
+      textNodes[0].textContent = lang === 'zh' ? '第 ' : 'Step ';
+      textNodes[1].textContent = lang === 'zh' ? ' 步，共 9 步' : ' of 9';
+    }
+  });
+}
+
+function _applyHints(lang) {
+  // Hint text for territory / brand sections
+  const HINT_ZH = {
+    'Click to select / deselect. Multiple regions allowed.': '点击选择/取消。可多选地区。',
+    'Selected countries:': '已选国家：',
+    'Select all that apply.': '请选择所有适用项。',
+    'Describe what draws you to our brand(s), your alignment with our values, and what you bring as a franchise partner. Minimum 100 words.': '请描述您对我们品牌的吸引力、与我们价值观的契合度以及您作为加盟伙伴能带来什么。最少 100 字。',
+    "Describe your 3–5 year plan: growth strategy, number of units, target market, community impact, etc.": '请描述您的 3–5 年计划：增长策略、门店数量、目标市场、社区影响等。',
+    "Anything else you'd like us to know about your application?": '还有什么您希望我们了解的申请相关信息？',
+    'PDF or Word document. Max 5MB.': 'PDF 或 Word 文档，最大 5MB。',
+    'PDF only. Max 10MB.': '仅 PDF，最大 10MB。',
+    'Bank statement, account summary, or net worth statement. PDF. Max 5MB.': '银行对账单、账户摘要或净资产证明，PDF，最大 5MB。',
+    'Company registration certificate, profile, or business license. PDF. Max 5MB.': '公司注册证书、公司简介或营业执照，PDF，最大 5MB。',
+  };
+  document.querySelectorAll('.hint').forEach(h => {
+    if (!h.dataset.origHint) h.dataset.origHint = h.textContent;
+    h.textContent = lang === 'zh' ? (HINT_ZH[h.dataset.origHint] || h.dataset.origHint) : h.dataset.origHint;
+  });
+}
+
+function applyLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('ggLang', lang);
+  document.getElementById('btnLangEn').classList.toggle('lang-active', lang === 'en');
+  document.getElementById('btnLangZh').classList.toggle('lang-active', lang === 'zh');
+  _applySelectors(lang);
+  _applyLabels(lang);
+  _applySectionDividers(lang);
+  _applyButtons(lang);
+  _applyPlaceholders(lang);
+  _applyStepCounters(lang);
+  _applyHints(lang);
+  // Rebuild progress with translated labels, then re-apply active state
+  buildProgress();
+  updateProgress(state.currentStep);
+}
+
+function setLang(lang) { applyLanguage(lang); }
+
+// Apply saved language preference on load
+document.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('ggLang');
+  if (saved === 'zh') applyLanguage('zh');
+});
 </script>
 </body>
 </html>
