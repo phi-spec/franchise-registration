@@ -360,80 +360,26 @@
     trải nghiệm học tập và in tên bạn lên chứng chỉ.
   </p>
 
+  <div class="tip-box">
+    <div class="tip-title">⚠ LƯU Ý QUAN TRỌNG</div>
+    <strong>Tên bạn nhập dưới đây sẽ là tên hiển thị chính thức trên chứng chỉ</strong>
+    (<span class="eng">certificate</span> — chứng chỉ hoàn thành khoá học) khi bạn vượt qua khoá học.
+    Vui lòng nhập đúng họ tên đầy đủ, đúng chính tả và có dấu tiếng Việt.
+  </div>
+
   <form id="regForm" onsubmit="submitReg(event)">
-    <div class="form-grid">
-      <div class="field">
-        <label>Họ và tên đầy đủ <span class="req">*</span></label>
-        <input type="text" name="fullName" required placeholder="Ví dụ: Nguyễn Văn An">
-        <div class="err">Vui lòng nhập họ tên đầy đủ.</div>
-      </div>
-      <div class="field">
-        <label>Năm sinh <span class="req">*</span></label>
-        <input type="number" name="birthYear" required min="1960" max="2015" placeholder="Ví dụ: 1998">
-        <div class="err">Năm sinh không hợp lệ.</div>
-      </div>
-    </div>
-
-    <div class="form-grid">
-      <div class="field">
-        <label>Email <span class="req">*</span></label>
-        <input type="email" name="email" required placeholder="ban@email.com">
-        <div class="hint">Email (<span class="eng">electronic mail</span> — thư điện tử) dùng để gửi bản sao chứng chỉ.</div>
-        <div class="err">Định dạng email không hợp lệ.</div>
-      </div>
-      <div class="field">
-        <label>Số điện thoại</label>
-        <input type="tel" name="phone" placeholder="Ví dụ: 0901234567">
-        <div class="hint">Tuỳ chọn (<span class="eng">optional</span> — không bắt buộc).</div>
-      </div>
-    </div>
-
-    <div class="form-grid">
-      <div class="field">
-        <label>Nghề nghiệp hiện tại <span class="req">*</span></label>
-        <select name="occupation" required>
-          <option value="">— Chọn nghề nghiệp —</option>
-          <option>Sinh viên</option>
-          <option>Nhân viên văn phòng</option>
-          <option>Quản lý / Trưởng nhóm</option>
-          <option>Kỹ sư / Lập trình viên</option>
-          <option>Kinh doanh / Bán hàng</option>
-          <option>Marketing / Truyền thông</option>
-          <option>Tự kinh doanh / Khởi nghiệp (Startup — doanh nghiệp khởi nghiệp)</option>
-          <option>Freelancer (Người làm việc tự do)</option>
-          <option>Khác</option>
-        </select>
-        <div class="err">Vui lòng chọn nghề nghiệp.</div>
-      </div>
-      <div class="field">
-        <label>Thành phố đang sống <span class="req">*</span></label>
-        <select name="city" required>
-          <option value="">— Chọn thành phố —</option>
-          <option>Hà Nội</option>
-          <option>TP. Hồ Chí Minh</option>
-          <option>Đà Nẵng</option>
-          <option>Cần Thơ</option>
-          <option>Hải Phòng</option>
-          <option>Nha Trang</option>
-          <option>Huế</option>
-          <option>Khác</option>
-        </select>
-        <div class="err">Vui lòng chọn thành phố.</div>
-      </div>
+    <div class="field">
+      <label>Họ và tên đầy đủ <span class="req">*</span></label>
+      <input type="text" name="fullName" required placeholder="Ví dụ: Nguyễn Văn An">
+      <div class="hint">Đây chính là tên sẽ xuất hiện trên chứng chỉ của bạn.</div>
+      <div class="err">Vui lòng nhập họ tên đầy đủ.</div>
     </div>
 
     <div class="field">
-      <label>Mục tiêu của bạn khi học khoá này?</label>
-      <textarea name="goal" rows="3" placeholder="Ví dụ: Tôi muốn vượt qua áp lực khi công ty tái cấu trúc..."></textarea>
-      <div class="hint">Tuỳ chọn — giúp chúng tôi hiểu bạn hơn.</div>
-    </div>
-
-    <div class="field">
-      <label>
-        <input type="checkbox" name="consent" required style="width:auto;margin-right:8px">
-        Tôi đồng ý cho phép khoá học lưu thông tin của tôi để cá nhân hoá nội dung và xuất chứng chỉ. <span class="req">*</span>
-      </label>
-      <div class="err">Bạn cần đồng ý để tiếp tục.</div>
+      <label>Email <span class="req">*</span></label>
+      <input type="email" name="email" required placeholder="ban@email.com">
+      <div class="hint">Email (<span class="eng">electronic mail</span> — thư điện tử) dùng để gửi bản sao chứng chỉ.</div>
+      <div class="err">Định dạng email không hợp lệ.</div>
     </div>
 
     <div class="btn-row">
@@ -1159,29 +1105,32 @@ function submitReg(e){
   e.preventDefault();
   const form = e.target;
   let valid = true;
-  ['fullName','birthYear','email','occupation','city'].forEach(n=>{
-    const el = form.querySelector('[name="'+n+'"]');
-    const field = el.closest('.field');
-    if(!el.value.trim() || (el.type==='email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value))){
-      field.classList.add('invalid'); valid = false;
-    } else { field.classList.remove('invalid'); }
-  });
-  const consent = form.querySelector('[name="consent"]');
-  if(!consent.checked){
-    consent.closest('.field').classList.add('invalid'); valid = false;
-  }
+
+  const nameEl = form.fullName;
+  const nameField = nameEl.closest('.field');
+  if(nameEl.value.trim().length < 2){
+    nameField.classList.add('invalid'); valid = false;
+  } else { nameField.classList.remove('invalid'); }
+
+  const emailEl = form.email;
+  const emailField = emailEl.closest('.field');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())){
+    emailField.classList.add('invalid'); valid = false;
+  } else { emailField.classList.remove('invalid'); }
+
   if(!valid){
-    alert('Vui lòng kiểm tra lại các trường còn thiếu hoặc chưa đúng định dạng.');
+    alert('Vui lòng kiểm tra lại họ tên và email.');
     return;
   }
+
+  const fullName = nameEl.value.trim();
+  if(!confirm('Tên "' + fullName + '" sẽ được in trên chứng chỉ của bạn. Bạn xác nhận đây là tên chính xác?')){
+    return;
+  }
+
   state.user = {
-    fullName: form.fullName.value.trim(),
-    birthYear: form.birthYear.value,
-    email: form.email.value.trim(),
-    phone: form.phone.value.trim(),
-    occupation: form.occupation.value,
-    city: form.city.value,
-    goal: form.goal.value.trim(),
+    fullName: fullName,
+    email: emailEl.value.trim(),
     registeredAt: new Date().toISOString()
   };
   saveState();
