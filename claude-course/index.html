@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Claude AI Essentials — A Beginner's Course</title>
+<meta name="description" content="A friendly, hands-on course that teaches anyone how to use Claude AI — no tech background needed." />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ============ TOP NAV ============ -->
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">✦</span>
+    <span class="brand-name">Claude Essentials</span>
+  </div>
+  <nav class="topnav">
+    <a href="#home" data-route="home">Home</a>
+    <a href="#modules" data-route="modules">Modules</a>
+    <a href="#certificate" data-route="certificate">Certificate</a>
+    <a href="#about" data-route="about">About</a>
+  </nav>
+  <div class="learner-chip" id="learnerChip" hidden>
+    <span id="learnerName">Friend</span>
+    <button class="link-btn" id="changeNameBtn" title="Change name">change</button>
+  </div>
+</header>
+
+<main id="app"><!-- views injected here --></main>
+
+<footer class="footer">
+  <p>Made with care for curious humans. Not affiliated with Anthropic. <a href="#about" data-route="about">About</a></p>
+</footer>
+
+<!-- ============ TEMPLATES ============ -->
+
+<!-- HOME -->
+<template id="tpl-home">
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">A course for absolute beginners</p>
+      <h1>Learn Claude AI — even if you've never used AI before.</h1>
+      <p class="lede">Seven short modules. Seven real projects. Plain English, no jargon, no coding. Finish in a weekend and earn your certificate.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" id="startBtn">Start learning →</button>
+        <button class="btn btn-ghost" id="resumeBtn" hidden>Resume where I left off</button>
+      </div>
+      <div class="hero-meta">
+        <span>⏱ ~6 hours total</span>
+        <span>📚 7 modules</span>
+        <span>🛠 7 hands-on projects</span>
+        <span>🏅 Certificate</span>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-inner">
+        <div class="card-pill">What you'll be able to do</div>
+        <ul class="checklist">
+          <li>Have useful conversations with Claude</li>
+          <li>Write prompts that actually get good answers</li>
+          <li>Use files, Artifacts and Projects confidently</li>
+          <li>Build a "study buddy," meal planner and more</li>
+          <li>Know what's safe — and what's not — to share</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Why this course is different</h2>
+    <div class="three-up">
+      <div class="feature">
+        <div class="feature-emoji">🧭</div>
+        <h3>One idea at a time</h3>
+        <p>Every screen teaches one thing. No firehose, no information overload.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-emoji">🧪</div>
+        <h3>Try as you learn</h3>
+        <p>Interactive prompt boxes let you copy a prompt straight into Claude and see it work.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-emoji">🎯</div>
+        <h3>Real projects</h3>
+        <p>Each module ends with a project you'd actually use — not a toy exercise.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>The 7 modules</h2>
+    <ol class="module-list" id="homeModuleList"></ol>
+  </section>
+</template>
+
+<!-- ONBOARDING -->
+<template id="tpl-onboard">
+  <section class="card center-card">
+    <h2>Welcome 👋</h2>
+    <p class="muted">First, what should we call you? Your name will appear on your certificate.</p>
+    <input type="text" id="nameInput" placeholder="e.g. Maria Tan" maxlength="60" />
+    <p class="hint">Stored only on this device. Nothing is sent anywhere.</p>
+    <div class="row-end">
+      <button class="btn btn-primary" id="saveNameBtn">Let's begin →</button>
+    </div>
+  </section>
+</template>
+
+<!-- MODULES LIST -->
+<template id="tpl-modules">
+  <section class="section">
+    <h1>All modules</h1>
+    <p class="muted">Complete each module's quiz and project to unlock the next.</p>
+    <div class="progress-overall">
+      <div class="progress-bar"><div class="progress-fill" id="overallFill"></div></div>
+      <span id="overallText">0 of 7 complete</span>
+    </div>
+    <ol class="module-list" id="modulesList"></ol>
+  </section>
+</template>
+
+<!-- MODULE DETAIL -->
+<template id="tpl-module">
+  <section class="module-page">
+    <a href="#modules" data-route="modules" class="back-link">← All modules</a>
+    <header class="module-header">
+      <span class="module-num" id="modNum"></span>
+      <h1 id="modTitle"></h1>
+      <p class="module-intro" id="modIntro"></p>
+      <div class="module-meta">
+        <span id="modDuration"></span>
+        <span id="modIcon"></span>
+      </div>
+    </header>
+
+    <nav class="lesson-tabs" id="lessonTabs"></nav>
+
+    <article class="lesson-body" id="lessonBody"></article>
+
+    <section class="card quiz-card" id="quizCard">
+      <h2>📝 Module quiz</h2>
+      <p class="muted">Get 4 out of 5 to pass. You can retry any time.</p>
+      <div id="quizContainer"></div>
+      <div class="row-end">
+        <button class="btn btn-primary" id="submitQuizBtn">Submit answers</button>
+      </div>
+      <div id="quizResult" class="quiz-result" hidden></div>
+    </section>
+
+    <section class="card project-card" id="projectCard">
+      <h2>🛠 Your project</h2>
+      <h3 id="projTitle"></h3>
+      <p id="projDesc"></p>
+      <div class="prompt-box">
+        <div class="prompt-box-header">
+          <span>Starter prompt</span>
+          <button class="btn btn-tiny" data-copy-target="projPrompt">Copy</button>
+          <a class="btn btn-tiny" id="projOpenClaude" href="https://claude.ai/new" target="_blank" rel="noopener">Open Claude →</a>
+        </div>
+        <pre id="projPrompt"></pre>
+      </div>
+      <h4>Steps to complete</h4>
+      <ul class="checklist editable" id="projChecklist"></ul>
+      <label class="done-line">
+        <input type="checkbox" id="projDone" />
+        I completed this project
+      </label>
+    </section>
+
+    <div class="module-footer">
+      <button class="btn btn-ghost" id="prevModBtn">← Previous</button>
+      <button class="btn btn-primary" id="nextModBtn">Next module →</button>
+    </div>
+  </section>
+</template>
+
+<!-- CERTIFICATE -->
+<template id="tpl-certificate">
+  <section class="section">
+    <h1>Your certificate</h1>
+    <p class="muted" id="certStatus"></p>
+
+    <div class="cert-wrap">
+      <div class="certificate" id="certificate">
+        <div class="cert-border">
+          <div class="cert-inner">
+            <div class="cert-seal">✦</div>
+            <p class="cert-eyebrow">Certificate of Completion</p>
+            <h2 class="cert-title">Claude AI Essentials</h2>
+            <p class="cert-presented">This certifies that</p>
+            <p class="cert-name" id="certName">Your Name</p>
+            <p class="cert-presented">has successfully completed all seven modules,<br/>quizzes and hands-on projects of the<br/><strong>Claude AI Essentials — Beginner's Course</strong>.</p>
+            <div class="cert-meta">
+              <div>
+                <p class="cert-label">Completed</p>
+                <p class="cert-value" id="certDate">—</p>
+              </div>
+              <div>
+                <p class="cert-label">Duration</p>
+                <p class="cert-value">Approx. 6 hours</p>
+              </div>
+              <div>
+                <p class="cert-label">Verification ID</p>
+                <p class="cert-value mono" id="certId">—</p>
+              </div>
+            </div>
+            <div class="cert-sig">
+              <div class="cert-sig-line"></div>
+              <p class="cert-sig-label">Claude Essentials Course</p>
+            </div>
+            <p class="cert-foot">An independent learning project. Not affiliated with Anthropic.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row-end no-print">
+      <button class="btn btn-ghost" id="printCertBtn">🖨 Print / Save as PDF</button>
+    </div>
+  </section>
+</template>
+
+<!-- ABOUT -->
+<template id="tpl-about">
+  <section class="section narrow">
+    <h1>About this course</h1>
+    <p>Claude Essentials is a free, open, hands-on course that teaches non-technical people how to get the most out of Claude — the AI assistant by Anthropic.</p>
+    <h3>Who it's for</h3>
+    <ul>
+      <li>Someone who's never used AI and wants a gentle start.</li>
+      <li>A professional who wants real productivity wins, not abstract theory.</li>
+      <li>A student, parent, or hobbyist exploring what AI can do for daily life.</li>
+    </ul>
+    <h3>How it works</h3>
+    <ul>
+      <li>Read short, plain-English lessons.</li>
+      <li>Try interactive prompts that open directly in Claude.</li>
+      <li>Pass a 5-question quiz at the end of each module.</li>
+      <li>Complete a real project (you'll keep what you build).</li>
+      <li>Earn a printable certificate at the end.</li>
+    </ul>
+    <h3>Your privacy</h3>
+    <p>Your name and progress are saved only in your browser (localStorage). Nothing is uploaded anywhere. Clear your browser data and it's gone.</p>
+    <h3>Reset</h3>
+    <p>If you'd like a clean start, you can erase all progress.</p>
+    <button class="btn btn-danger" id="resetBtn">Reset all progress</button>
+  </section>
+</template>
+
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
